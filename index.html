@@ -1,354 +1,334 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Synonym Safari - Grade 1 Quiz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Variables & Data Types: from zero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#fff6e0; --card:#ffffff; --ink:#2b2a4c; --muted:#6b6a8a;
-  --c0:#d6336c; --c1:#1c7ed6; --c2:#087f5b; --c3:#c25e00;
-  --good:#2f9e44; --goodbg:#d3f9d8; --bad:#e03131; --badbg:#ffe3e3;
-  --brand:#7048e8; --shadow:0 6px 0 rgba(43,42,76,.15);
-}
+:root{--bg:#EEF3F0;--ink:#16221F;--muted:#55645F;--card:#FFFFFF;--line:#CBD8D2;--accent:#0F5C57;--on-accent:#fff;--hi:#F2C14E;--bad:#B93A1B;--good:#1D7A4A;--code:#12201D;--code-ink:#DDEBE5;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1816;--ink:#E5EFEA;--muted:#9DB0A8;--card:#16231F;--line:#2A3B36;--accent:#5CC8BE;--on-accent:#0E1816;--bad:#FF8A66;--good:#6FD39B;--code:#0A1210}}
+:root[data-theme="dark"]{--bg:#0E1816;--ink:#E5EFEA;--muted:#9DB0A8;--card:#16231F;--line:#2A3B36;--accent:#5CC8BE;--on-accent:#0E1816;--bad:#FF8A66;--good:#6FD39B;--code:#0A1210}
 *{box-sizing:border-box}
-html,body{margin:0}
-body{
-  background:linear-gradient(160deg,#fff6e0 0%,#e7f5ff 100%) fixed;
-  color:var(--ink);
-  font-family:"Trebuchet MS","Comic Sans MS","Segoe UI",system-ui,sans-serif;
-  min-height:100vh; line-height:1.4;
-}
-#app{max-width:720px;margin:0 auto;padding:16px}
-h1,h2,h3{margin:0}
-.card{background:var(--card);border-radius:24px;padding:24px;box-shadow:var(--shadow);border:3px solid #fff}
-.center{text-align:center}
-.top{display:flex;gap:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:10px}
-.pill{background:#fff;border-radius:999px;padding:6px 14px;font-weight:700;box-shadow:0 3px 0 rgba(43,42,76,.12);font-size:.95rem}
-.bar{height:14px;background:#fff;border-radius:999px;overflow:hidden;margin-bottom:16px;box-shadow:inset 0 2px 3px rgba(0,0,0,.1)}
-.bar>div{height:100%;background:linear-gradient(90deg,var(--c1),var(--c2));border-radius:999px;transition:width .35s}
-.ask{margin:0 0 6px;color:var(--muted);font-weight:700;font-size:1.05rem}
-.word{font-size:clamp(2.8rem,13vw,4.6rem);color:var(--brand);margin-bottom:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;text-transform:uppercase;letter-spacing:1px}
-#say{font-size:1.8rem;border:0;background:#f3f0ff;border-radius:50%;width:60px;height:60px;cursor:pointer}
-.opts{display:grid;grid-template-columns:1fr;gap:14px}
-
-.opt{
-  display:flex;align-items:center;gap:10px;text-align:left;
-  font:inherit;font-size:1.9rem;font-weight:800;color:#fff;border:0;border-radius:20px;
-  padding:20px 18px;cursor:pointer;box-shadow:var(--shadow);min-height:88px;transition:transform .1s;
-}
-.opt:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(43,42,76,.15)}
-.opt .key{background:rgba(255,255,255,.35);border-radius:10px;width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;font-size:1.2rem;flex:none}
-.c0{background:var(--c0)}.c1{background:var(--c1)}.c2{background:var(--c2)}.c3{background:var(--c3)}
-.opt.right{background:var(--good);animation:pop .4s}
-.opt.wrong{background:var(--bad);animation:shake .4s}
-.opt.dim{opacity:.45}
-.opt:disabled{cursor:default}
-@keyframes pop{50%{transform:scale(1.06)}}
-@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.fb{margin-top:16px;border-radius:16px;padding:14px 18px;font-size:1.35rem;font-weight:700;min-height:0}
-.fb.ok{background:var(--goodbg);color:#1b6b2f}
-.fb.no{background:var(--badbg);color:#a61e1e}
-.btn{
-  font:inherit;font-size:1.2rem;font-weight:800;border:0;border-radius:16px;padding:14px 26px;cursor:pointer;
-  background:var(--brand);color:#fff;box-shadow:var(--shadow)
-}
-.btn.alt{background:#fff;color:var(--brand);border:3px solid var(--brand)}
-.btn:active{transform:translateY(3px)}
-.next{margin-top:16px;width:100%}
-input[type=text]{font:inherit;font-size:1.3rem;padding:12px 16px;border-radius:14px;border:3px solid #d0bfff;width:100%;max-width:340px;text-align:center;color:var(--ink);background:#fff}
-.hero{font-size:4rem;margin-bottom:6px}
-.stack{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:18px}
-.row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
-.score{font-size:3.4rem;font-weight:900;color:var(--brand)}
-.stars{font-size:2.6rem;letter-spacing:6px}
-.missed{margin-top:18px;text-align:left;max-height:320px;overflow:auto;border-radius:16px;background:#f8f9ff;padding:8px 14px}
-.missed div{padding:8px 0;border-bottom:2px dashed #e0e0f0;font-size:1.05rem}
-.missed div:last-child{border:0}
-.missed b{color:var(--brand)}
-.small{font-size:.95rem;color:var(--muted)}
-.mute{border:0;background:#fff;border-radius:999px;padding:6px 12px;cursor:pointer;font-size:1rem;box-shadow:0 3px 0 rgba(43,42,76,.12)}
-:focus-visible{outline:4px solid #ffd43b;outline-offset:2px}
+html{scroll-padding-top:calc(64px + env(safe-area-inset-top,0px));scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 "Source Serif 4",Georgia,serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;line-height:1.1;margin:0}
+code,pre,input{font-family:"IBM Plex Mono",Menlo,Consolas,monospace}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;align-items:center;padding:10px 16px;overflow-x:auto;white-space:nowrap}
+nav a{color:var(--muted);text-decoration:none;font:500 14px "Bricolage Grotesque",sans-serif;padding:6px 10px;border-radius:6px}
+nav a:hover,nav a:focus-visible{background:var(--card);color:var(--ink);outline:2px solid var(--accent)}
+.seg{margin-left:auto;display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
+.seg button{border:0;background:var(--card);color:var(--ink);padding:6px 12px;font:500 13px "IBM Plex Mono",monospace;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--on-accent)}
+.seg button:focus-visible{outline:2px solid var(--hi);outline-offset:-2px}
+main{max-width:860px;margin:0 auto;padding:0 20px 80px}
+.hero{padding:56px 0 36px}
+.hero h1{font-size:clamp(40px,8vw,76px);font-weight:800;letter-spacing:-.03em}
+.hero p{max-width:34em;color:var(--muted);font-size:20px;margin:18px 0 0}
+section{padding:44px 0 8px;border-top:1px solid var(--line);margin-top:36px}
+h2{font-size:clamp(28px,4.5vw,40px);font-weight:700;letter-spacing:-.02em;margin-bottom:14px}
+h3{font-size:21px;font-weight:700;margin:28px 0 8px}
+p{margin:0 0 14px;max-width:38em}
+pre{background:var(--code);color:var(--code-ink);padding:16px 18px;border-radius:10px;overflow-x:auto;font-size:14.5px;line-height:1.65;margin:12px 0 18px;tab-size:2}
+:not(pre)>code{background:var(--card);border:1px solid var(--line);padding:1px 6px;border-radius:5px;font-size:.86em}
+body[data-lang=py] .js,body[data-lang=js] .py{display:none}
+.box{display:inline-flex;flex-direction:column;border:2px solid var(--ink);border-radius:6px;min-width:110px;background:var(--card);margin:4px 8px 4px 0;vertical-align:top}
+.box b{font:700 13px "IBM Plex Mono",monospace;background:var(--hi);color:#16221F;padding:3px 10px;border-bottom:2px solid var(--ink)}
+.box span{font:500 18px "IBM Plex Mono",monospace;padding:10px;text-align:center}
+.box i{font:400 12px "IBM Plex Mono",monospace;color:var(--muted);padding:0 10px 6px;text-align:center;font-style:normal}
+.callout{border-left:5px solid var(--hi);background:var(--card);padding:14px 18px;border-radius:0 8px 8px 0;margin:18px 0;max-width:42em}
+.callout.warn{border-color:var(--bad)}
+.callout p:last-child{margin:0}
+table{border-collapse:collapse;width:100%;font-size:16px;background:var(--card);border-radius:8px;overflow:hidden;margin:14px 0}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:700 14px "Bricolage Grotesque",sans-serif;background:var(--line)}
+.scroll{overflow-x:auto}
+.lab{background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:20px;margin-top:28px}
+.lab label{font:700 15px "Bricolage Grotesque",sans-serif;display:block;margin-bottom:8px}
+.lab input{width:100%;font-size:20px;padding:10px 12px;border:2px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.lab input:focus{outline:3px solid var(--accent);border-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.chips button,.q button.o,.next{font:500 14px "IBM Plex Mono",monospace;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:6px 10px;border-radius:999px;cursor:pointer}
+.chips button:hover,.chips button:focus-visible{border-color:var(--accent);outline:2px solid var(--accent)}
+#out{display:flex;flex-wrap:wrap;gap:18px;align-items:center;min-height:110px}
+#out p{margin:0;max-width:20em;font-size:16px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0}
+.q p{font-weight:600;margin-bottom:10px}
+.q button.o{display:block;width:100%;text-align:left;border-radius:8px;margin:6px 0;padding:10px 12px;font-size:15px}
+.q button.o:hover:not(:disabled){border-color:var(--accent)}
+.q button.o.right{background:var(--good);color:#fff;border-color:var(--good)}
+.q button.o.wrong{background:var(--bad);color:#fff;border-color:var(--bad)}
+.q .why{display:none;margin:10px 0 0;font-size:16px}
+#score{font:700 20px "Bricolage Grotesque",sans-serif;margin:16px 0}
+ol.ex li{margin-bottom:12px}
+footer{color:var(--muted);font-size:15px;padding-top:40px}
+@media (max-width:560px){body{font-size:17px}.hero{padding-top:36px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
-<body>
-<div id="app"></div>
+<body data-lang="py">
+<nav aria-label="Lessons">
+<a href="#variables">Variables</a><a href="#names">Names</a><a href="#types">Types</a><a href="#numbers">Numbers</a><a href="#strings">Strings</a><a href="#booleans">Booleans</a><a href="#none">Null</a><a href="#collections">Collections</a><a href="#convert">Converting</a><a href="#quiz">Quiz</a>
+<div class="seg" role="group" aria-label="Language"><button id="bp" aria-pressed="true">Python</button><button id="bj" aria-pressed="false">JavaScript</button></div>
+</nav>
+<main>
+<header class="hero">
+<h1>Variables and data types, from zero.</h1>
+<p>Every program stores information and does something with it. This page teaches how that storage works, what kinds of information exist, and the mistakes beginners make. Pick Python or JavaScript above; the ideas are the same in both.</p>
+<div class="lab" aria-live="polite">
+<label for="val">Try it: type any value and see what type a program would give it</label>
+<input id="val" value="42" autocomplete="off" spellcheck="false">
+<div class="chips" id="chips"></div>
+<div id="out"></div>
+</div>
+</header>
 
+<section id="variables">
+<h2>1. What is a variable?</h2>
+<p>A variable is a <strong>named place in memory that holds a value</strong>. Picture a storeroom of boxes. Each box has a label (the name) and something inside (the value). When you need the value, you ask for it by its label.</p>
+<span class="box"><b>age</b><span>25</span></span><span class="box"><b>name</b><span>"Ada"</span></span><span class="box"><b>is_member</b><span>true</span></span>
+<p>You create a variable with <strong>assignment</strong>: the name on the left, an equals sign, the value on the right. Read <code>=</code> as "put this value into that box", not as the maths "is equal to".</p>
+<pre class="py">age = 25
+name = "Ada"
+print(name, "is", age)   # Ada is 25</pre>
+<pre class="js">let age = 25;
+const name = "Ada";
+console.log(name, "is", age);   // Ada is 25</pre>
+<h3>Changing a value</h3>
+<p>The whole point is that the contents can change. The right side is worked out first, then stored.</p>
+<pre class="py">score = 10
+score = score + 5      # right side: 10 + 5 = 15, then stored
+print(score)           # 15
+score += 1             # shortcut for score = score + 1
+print(score)           # 16</pre>
+<pre class="js">let score = 10;
+score = score + 5;     // right side: 10 + 5 = 15, then stored
+console.log(score);    // 15
+score += 1;            // shortcut for score = score + 1
+console.log(score);    // 16</pre>
+<div class="callout js"><p><strong>JavaScript has three keywords.</strong> <code>let</code> makes a variable you can change. <code>const</code> makes one you cannot reassign. <code>var</code> is the old way; avoid it. Default to <code>const</code>, and switch to <code>let</code> when you need to change it.</p></div>
+<div class="callout py"><p><strong>Python has no keyword for this.</strong> Writing <code>name = value</code> creates the variable. By convention, constants are written in capitals, such as <code>MAX_USERS = 100</code>, but Python will not stop you from changing them.</p></div>
+<h3>Why not just use the raw value?</h3>
+<p>Variables give values meaning (<code>tax_rate</code> says more than <code>0.075</code>), let you reuse a value in many places, and let you change it in one place only.</p>
+</section>
+
+<section id="names">
+<h2>2. Naming variables</h2>
+<p>Names are for humans. The computer only needs them to be legal; your teammates need them to be clear.</p>
+<div class="scroll"><table>
+<tr><th>Rule</th><th>Good</th><th>Bad</th></tr>
+<tr><td>Letters, digits, underscore only</td><td><code>user_name</code></td><td><code>user-name</code>, <code>user name</code></td></tr>
+<tr><td>Cannot start with a digit</td><td><code>item2</code></td><td><code>2item</code></td></tr>
+<tr><td>Cannot be a reserved word</td><td><code>class_name</code></td><td><code>class</code>, <code>if</code>, <code>for</code></td></tr>
+<tr><td>Case matters</td><td><code>Total</code> and <code>total</code> are different variables</td><td>Mixing them up by accident</td></tr>
+<tr><td>Describe the content</td><td><code>total_price</code></td><td><code>x</code>, <code>data1</code>, <code>thing</code></td></tr>
+</table></div>
+<p class="py">Python style is <code>snake_case</code>: <code>first_name</code>, <code>order_total</code>.</p>
+<p class="js">JavaScript style is <code>camelCase</code>: <code>firstName</code>, <code>orderTotal</code>.</p>
+</section>
+
+<section id="types">
+<h2>3. What is a data type?</h2>
+<p>A value is more than its content. <code>5</code> and <code>"5"</code> look alike, but the first is a number you can do maths with and the second is text. The <strong>data type</strong> tells the computer what kind of thing a value is, and therefore what you are allowed to do with it. You can multiply numbers; you can convert text to uppercase; you cannot do the reverse.</p>
+<div class="scroll"><table>
+<tr><th>Kind of data</th><th>Python</th><th>JavaScript</th><th>Example</th></tr>
+<tr><td>Whole numbers</td><td><code>int</code></td><td><code>number</code></td><td><code>42</code>, <code>-7</code></td></tr>
+<tr><td>Decimal numbers</td><td><code>float</code></td><td><code>number</code></td><td><code>3.14</code></td></tr>
+<tr><td>Text</td><td><code>str</code></td><td><code>string</code></td><td><code>"hello"</code></td></tr>
+<tr><td>True or false</td><td><code>bool</code></td><td><code>boolean</code></td><td><code>True</code> / <code>true</code></td></tr>
+<tr><td>Nothing</td><td><code>None</code></td><td><code>null</code>, <code>undefined</code></td><td>no value yet</td></tr>
+<tr><td>Ordered list</td><td><code>list</code></td><td><code>Array</code></td><td><code>[1, 2, 3]</code></td></tr>
+<tr><td>Labelled data</td><td><code>dict</code></td><td><code>Object</code></td><td><code>{"name": "Ada"}</code></td></tr>
+</table></div>
+<p>Ask the language what type something is:</p>
+<pre class="py">print(type(42))        # &lt;class 'int'&gt;
+print(type("42"))      # &lt;class 'str'&gt;
+print(type(3.14))      # &lt;class 'float'&gt;</pre>
+<pre class="js">console.log(typeof 42);      // "number"
+console.log(typeof "42");    // "string"
+console.log(typeof 3.14);    // "number"</pre>
+<p>Both languages are <strong>dynamically typed</strong>: you do not declare a type, and the variable takes the type of whatever it currently holds. Languages like Java and C# are <strong>statically typed</strong>, where you write the type up front (<code>int age = 25;</code>).</p>
+</section>
+
+<section id="numbers">
+<h2>4. Numbers</h2>
+<pre class="py">price = 1200          # int
+rate = 0.075          # float
+print(price * rate)   # 90.0
+print(7 / 2)          # 3.5   normal division
+print(7 // 2)         # 3     whole-number division
+print(7 % 2)          # 1     remainder
+print(2 ** 10)        # 1024  power</pre>
+<pre class="js">const price = 1200;
+const rate = 0.075;
+console.log(price * rate);        // 90
+console.log(7 / 2);               // 3.5
+console.log(Math.floor(7 / 2));   // 3   whole-number division
+console.log(7 % 2);               // 1   remainder
+console.log(2 ** 10);             // 1024</pre>
+<div class="callout warn"><p><strong>The famous surprise.</strong> Computers store decimals in binary, and some decimals cannot be stored exactly. <code>0.1 + 0.2</code> gives <code>0.30000000000000004</code> in both languages. For money, work in the smallest unit (kobo or cents, as integers) or use a decimal library, and round only when displaying.</p></div>
+</section>
+
+<section id="strings">
+<h2>5. Strings (text)</h2>
+<p>A string is a sequence of characters inside quotes. Single and double quotes both work; just close with the same kind you opened with.</p>
+<pre class="py">first = "Ada"
+last = 'Lovelace'
+full = first + " " + last          # joining: "Ada Lovelace"
+print(f"Hello, {full}!")           # f-string inserts variables
+print(len(full))                   # 12
+print(full[0], full[-1])           # A e   (index starts at 0)
+print(full.upper())                # ADA LOVELACE
+print(full[0:3])                   # Ada   (slice)</pre>
+<pre class="js">const first = "Ada";
+const last = 'Lovelace';
+const full = first + " " + last;       // joining: "Ada Lovelace"
+console.log(`Hello, ${full}!`);        // template literal
+console.log(full.length);              // 12
+console.log(full[0], full.at(-1));     // A e   (index starts at 0)
+console.log(full.toUpperCase());       // ADA LOVELACE
+console.log(full.slice(0, 3));         // Ada</pre>
+<p>Two things to remember. <strong>Counting starts at 0</strong>, so the first character is at position 0. And <strong>strings are immutable</strong>: methods like <code>upper()</code> give you a new string and leave the original untouched.</p>
+</section>
+
+<section id="booleans">
+<h2>6. Booleans</h2>
+<p>A boolean has exactly two possible values, true or false. They come from comparisons and decide which code runs.</p>
+<pre class="py">age = 17
+can_vote = age >= 18          # False
+print(can_vote)
+print(age > 10 and age < 20)  # True   both must be true
+print(age < 10 or age > 60)   # False  one is enough
+print(not can_vote)           # True   flips it
+print(5 == 5, 5 != 5)         # True False</pre>
+<pre class="js">const age = 17;
+const canVote = age >= 18;           // false
+console.log(canVote);
+console.log(age > 10 && age < 20);   // true   both must be true
+console.log(age < 10 || age > 60);   // false  one is enough
+console.log(!canVote);               // true   flips it
+console.log(5 === 5, 5 !== 5);       // true false</pre>
+<p><strong>Truthy and falsy.</strong> Conditions also accept non-boolean values. Falsy values count as false: zero, an empty string, an empty collection, and nothing. Almost everything else is truthy.</p>
+<div class="callout"><p class="py"><code>=</code> assigns, <code>==</code> compares. Mixing them up is a classic first bug.</p><p class="js"><code>=</code> assigns, <code>===</code> compares strictly. Use <code>===</code>, not <code>==</code>, because <code>==</code> converts types quietly (<code>"5" == 5</code> is true).</p></div>
+</section>
+
+<section id="none">
+<h2>7. Nothing at all</h2>
+<p>Sometimes a variable exists but has no value yet, such as a user's middle name or a search that found no results. That is its own type.</p>
+<pre class="py">middle_name = None
+if middle_name is None:
+    print("No middle name")</pre>
+<pre class="js">let middleName = null;      // you chose "nothing"
+let city;                   // undefined: never given a value
+if (middleName === null) console.log("No middle name");
+console.log(city);          // undefined</pre>
+<p>Using nothing as if it were something is behind a huge share of real-world crashes, so check for it before you use a value.</p>
+</section>
+
+<section id="collections">
+<h2>8. Collections: many values in one variable</h2>
+<h3>Lists (arrays): ordered items</h3>
+<pre class="py">fruits = ["mango", "pawpaw", "orange"]
+print(fruits[0])            # mango
+fruits.append("banana")     # add to the end
+fruits[1] = "guava"         # change an item
+print(len(fruits))          # 4</pre>
+<pre class="js">const fruits = ["mango", "pawpaw", "orange"];
+console.log(fruits[0]);     // mango
+fruits.push("banana");      // add to the end
+fruits[1] = "guava";        // change an item
+console.log(fruits.length); // 4</pre>
+<h3>Dictionaries (objects): labelled items</h3>
+<p>When items have meaning by name rather than position, use key and value pairs.</p>
+<pre class="py">user = {"name": "Ada", "age": 25, "active": True}
+print(user["name"])         # Ada
+user["email"] = "ada@example.com"   # add a key</pre>
+<pre class="js">const user = { name: "Ada", age: 25, active: true };
+console.log(user.name);     // Ada
+user.email = "ada@example.com";     // add a key</pre>
+<p>Collections can hold any type, including other collections. A list of user dictionaries is how most real data looks. A <code>const</code> object or array can still have its contents changed; <code>const</code> only stops you pointing the name at something else.</p>
+</section>
+
+<section id="convert">
+<h2>9. Converting between types</h2>
+<p>Data from forms, files and the web usually arrives as text, even when it looks like a number. Convert it before doing maths.</p>
+<pre class="py">typed = "25"
+print(typed + typed)        # "2525"  text joined, not added
+age = int(typed)
+print(age + 1)              # 26
+print(float("3.5"), str(99), bool(0))   # 3.5 99 False
+int("hello")                # ValueError: cannot convert</pre>
+<pre class="js">const typed = "25";
+console.log(typed + typed);       // "2525"  text joined, not added
+const age = Number(typed);
+console.log(age + 1);             // 26
+console.log(Number("3.5"), String(99), Boolean(0));  // 3.5 "99" false
+console.log(Number("hello"));     // NaN (not a number)</pre>
+<div class="callout warn"><p>Mixing types can fail loudly or silently. Python raises an error for <code>"age: " + 25</code>. JavaScript quietly gives <code>"age: 25"</code> and also <code>"5" * 2 = 10</code> but <code>"5" + 2 = "52"</code>. Convert on purpose so you never rely on guesses.</p></div>
+<h3>Common mistakes</h3>
+<p>Using a variable before creating it. Misspelling a name or changing its case. Forgetting quotes around text (<code>name = Ada</code> looks for a variable called Ada). Doing maths on text that came from input. Starting counts at 1 instead of 0. Choosing vague names like <code>x</code> that you cannot understand next week.</p>
+</section>
+
+<section id="quiz">
+<h2>Check yourself</h2>
+<div id="quizbox"></div>
+<div id="score"></div>
+<h3>Practice</h3>
+<ol class="ex">
+<li>Create variables for your name, age, height in metres and whether you are a student. Print a sentence using all four, then print the type of each.</li>
+<li>Store a price of 4500 and a discount of 15%. Compute the final price and name every variable clearly.</li>
+<li>Take the text <code>"12"</code> and <code>"8"</code>, add them as numbers, then join them as text. Explain why the results differ.</li>
+<li>Build a list of five items and a dictionary describing one of them (name, price, in stock). Print the second item and the price.</li>
+</ol>
+<p>Next topics: conditions (<code>if</code>), loops, and functions. They all depend on what you just learned.</p>
+</section>
+<footer>Tip: run the examples in a Python or JavaScript playground and change the values.</footer>
+</main>
 <script>
-// [word, synonym, [two words that do NOT mean the same]]
-const Q=[
-["big","large",["small","red"]],
-["small","little",["tall","cold"]],
-["happy","glad",["sad","mad"]],
-["sad","unhappy",["glad","funny"]],
-["fast","quick",["slow","soft"]],
-["start","begin",["stop","sit"]],
-["end","finish",["begin","wash"]],
-["pick","choose",["drop","hide"]],
-["shut","close",["open","jump"]],
-["look","see",["hear","eat"]],
-["loud","noisy",["quiet","soft"]],
-["quiet","silent",["loud","fast"]],
-["smart","clever",["silly","sleepy"]],
-["pretty","lovely",["ugly","slow"]],
-["tiny","small",["giant","loud"]],
-["huge","giant",["tiny","thin"]],
-["jump","hop",["sit","nap"]],
-["run","dash",["sit","stop"]],
-["talk","speak",["listen","sleep"]],
-["yell","shout",["whisper","hum"]],
-["laugh","giggle",["cry","frown"]],
-["grin","smile",["frown","cry"]],
-["hug","cuddle",["kick","push"]],
-["sleepy","tired",["awake","hungry"]],
-["cold","chilly",["hot","dry"]],
-["wet","damp",["dry","hard"]],
-["sick","ill",["well","fast"]],
-["mad","angry",["glad","tired"]],
-["scared","afraid",["brave","happy"]],
-["nice","kind",["mean","loud"]],
-["mean","unkind",["nice","funny"]],
-["easy","simple",["hard","tall"]],
-["hard","difficult",["easy","soft"]],
-["shiny","bright",["dull","wet"]],
-["sofa","couch",["table","door"]],
-["road","street",["river","roof"]],
-["home","house",["school","shop"]],
-["gift","present",["bag","chair"]],
-["rock","stone",["leaf","cloud"]],
-["bucket","pail",["spoon","plate"]],
-["dad","father",["mother","sister"]],
-["mom","mother",["father","brother"]],
-["kid","child",["adult","pilot"]],
-["bunny","rabbit",["puppy","duck"]],
-["story","tale",["song","map"]],
-["fix","repair",["break","lose"]],
-["make","build",["break","drop"]],
-["toss","throw",["catch","keep"]],
-["pull","tug",["push","kick"]],
-["hurry","rush",["wait","rest"]],
-["stop","quit",["go","jump"]],
-["go","leave",["stay","sit"]],
-["keep","hold",["lose","drop"]],
-["find","spot",["lose","hide"]],
-["mix","stir",["drop","freeze"]],
-["answer","reply",["ask","hide"]],
-["say","tell",["ask","hide"]],
-["correct","right",["wrong","silly"]],
-["near","close",["far","high"]],
-["also","too",["not","only"]],
-["very","really",["never","little"]],
-["almost","nearly",["never","always"]],
-["shop","store",["house","farm"]],
-["enjoy","like",["hate","drop"]],
-["tall","high",["short","wide"]],
-["thin","skinny",["fat","tall"]],
-["gentle","soft",["rough","loud"]],
-["rough","bumpy",["smooth","soft"]],
-["true","real",["fake","false"]],
-["fake","pretend",["real","true"]],
-["yummy","tasty",["yucky","hot"]],
-["yucky","gross",["yummy","nice"]],
-["cap","hat",["shoe","sock"]],
-["tummy","stomach",["head","hand"]],
-["sack","bag",["box","cup"]],
-["pal","friend",["enemy","teacher"]],
-["boat","ship",["car","bus"]],
-["mug","cup",["fork","plate"]],
-["jacket","coat",["hat","sock"]],
-["dinner","supper",["breakfast","snack"]],
-["rug","carpet",["bed","wall"]],
-["kitty","cat",["dog","cow"]],
-["grab","take",["give","drop"]],
-["last","final",["first","next"]],
-["same","alike",["different","new"]],
-["neat","tidy",["messy","loud"]],
-["messy","untidy",["neat","clean"]],
-["dirty","filthy",["clean","shiny"]],
-["bad","awful",["good","nice"]],
-["good","fine",["bad","sad"]],
-["great","super",["bad","small"]],
-["hungry","starving",["full","sleepy"]],
-["silly","funny",["serious","sad"]],
-["noise","sound",["quiet","color"]],
-["joy","happiness",["sadness","fear"]],
-["drop","fall",["rise","jump"]],
-["munch","eat",["drink","sleep"]],
-["meal","food",["toy","bed"]],
-["listen","hear",["see","taste"]],
-["lady","woman",["man","boy"]]
-];
-
-const $=s=>document.querySelector(s);
-const app=$("#app");
-const KEY="synonymSafariG1";
-let S={name:"",order:[],i:0,answers:[],score:0,streak:0,practice:false};
-let muted=false, locked=false, curOpts=[];
-
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
-function load(){try{const r=localStorage.getItem(KEY);return r?JSON.parse(r):null;}catch(e){return null;}}
-function clearSave(){try{localStorage.removeItem(KEY);}catch(e){}}
-function best(){try{return +localStorage.getItem(KEY+"Best")||0;}catch(e){return 0;}}
-function setBest(n){try{if(n>best())localStorage.setItem(KEY+"Best",n);}catch(e){}}
-
-function beep(ok){
-  if(muted)return;
-  try{
-    const C=window.AudioContext||window.webkitAudioContext; if(!C)return;
-    const ctx=new C(), o=ctx.createOscillator(), g=ctx.createGain();
-    o.connect(g);g.connect(ctx.destination);
-    o.type="sine";
-    const t=ctx.currentTime;
-    if(ok){o.frequency.setValueAtTime(660,t);o.frequency.setValueAtTime(880,t+.12);}
-    else{o.frequency.setValueAtTime(220,t);o.frequency.setValueAtTime(180,t+.15);}
-    g.gain.setValueAtTime(.15,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);
-    o.start(t);o.stop(t+.35);
-  }catch(e){}
-}
-function speak(t){
-  try{
-    if(!("speechSynthesis" in window))return;
-    speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.8;
-    speechSynthesis.speak(u);
-  }catch(e){}
-}
-
-function speakAll(word,opts){
-  try{
-    if(!("speechSynthesis" in window))return;
-    speechSynthesis.cancel();
-    const say=(t,r)=>{const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=r||.8;speechSynthesis.speak(u);};
-    say(word,.7);
-    say("Which word means the same?",.8);
-    opts.forEach(o=>say(o,.7));
-  }catch(e){}
-}
-
-/* ---------- Start screen ---------- */
-function home(){
-  const saved=load();
-  const canResume=saved&&saved.order&&saved.i<saved.order.length&&saved.i>0;
-  app.innerHTML=`
-  <div class="card center">
-    <div class="hero">🦁🌿</div>
-    <h1>Synonym Safari</h1>
-    <p class="ask" style="margin-top:8px">Synonyms are words that mean the <b>same</b> thing.<br>Example: <b>big</b> and <b>large</b>.</p>
-    <p class="small">100 questions &middot; Grade 1</p>
-    <div class="stack">
-      <input type="text" id="nm" placeholder="Type your name" maxlength="20" value="${(S.name||(saved&&saved.name)||"").replace(/"/g,"")}" aria-label="Your name">
-      <button class="btn" id="go">Start the quiz &#10132;</button>
-      ${canResume?`<button class="btn alt" id="resume">Continue (question ${saved.i+1})</button>`:""}
-      <label class="small"><input type="checkbox" id="shuf" checked> Mix up the question order</label>
-      ${best()?`<div class="pill">🏆 Best score: ${best()}</div>`:""}
-    </div>
-  </div>`;
-  $("#go").onclick=()=>{
-    S={name:$("#nm").value.trim(),order:[],i:0,answers:[],score:0,streak:0,practice:false};
-    const idx=Q.map((_,k)=>k);
-    S.order=$("#shuf").checked?shuffle(idx):idx;
-    save();showQuestion();
-  };
-  if(canResume)$("#resume").onclick=()=>{S=saved;S.name=$("#nm").value.trim()||S.name;showQuestion();};
-}
-
-/* ---------- Question screen ---------- */
-function showQuestion(){
-  const q=Q[S.order[S.i]];
-  curOpts=shuffle([q[1],...q[2]]);
-  locked=false;
-  const total=S.order.length;
-  app.innerHTML=`
-  <div class="top">
-    <div class="pill">${S.practice?"Practice &middot; ":""}Question ${S.i+1} of ${total}</div>
-    <div class="pill">⭐ ${S.score}</div>
-    <div class="pill">🔥 ${S.streak}</div>
-    <button class="mute" id="mute" aria-label="Sound on or off">${muted?"🔇":"🔊"}</button>
-    <button class="mute" id="home" aria-label="Back to start">🏠</button>
-  </div>
-  <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${S.i}"><div style="width:${S.i/total*100}%"></div></div>
-  <main class="card">
-    <p class="ask">Which word means the same as&hellip;</p>
-    <h2 class="word"><span>${q[0]}</span><button id="say" aria-label="Read the word and the choices aloud">🔊</button></h2>
-    <p class="small">Tap 🔊 to hear the word and the choices.</p>
-    <div class="opts">
-      ${curOpts.map((o,k)=>`<button class="opt c${k}" data-o="${o}"><span class="key">${k+1}</span>${o}</button>`).join("")}
-    </div>
-    <div id="fb" class="fb" aria-live="polite" hidden></div>
-    <button id="next" class="btn next" hidden></button>
-  </main>`;
-  $("#say").onclick=()=>speakAll(q[0],curOpts);
-  $("#mute").onclick=e=>{muted=!muted;e.target.textContent=muted?"🔇":"🔊";};
-  $("#home").onclick=()=>{save();home();};
-  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>choose(b.dataset.o));
-}
-
-function choose(o){
-  if(locked)return; locked=true;
-  const q=Q[S.order[S.i]], ok=(o===q[1]);
-  S.answers.push({w:q[0],c:q[1],g:o,ok,id:S.order[S.i]});
-  if(ok){S.score++;S.streak++;}else S.streak=0;
-  beep(ok);
-  document.querySelectorAll(".opt").forEach(b=>{
-    b.disabled=true;
-    if(b.dataset.o===q[1])b.classList.add("right");
-    else if(b.dataset.o===o)b.classList.add("wrong");
-    else b.classList.add("dim");
-  });
-  const fb=$("#fb");fb.hidden=false;
-  fb.className="fb "+(ok?"ok":"no");
-  const praise=["Great job!","Super!","You got it!","Awesome!","Brilliant!"][Math.floor(Math.random()*5)];
-  fb.innerHTML=ok
-    ?`${praise} <b>${q[0]}</b> and <b>${q[1]}</b> mean the same!${S.streak>=5?" 🔥 "+S.streak+" in a row!":""}`
-    :`Good try! <b>${q[0]}</b> means the same as <b>${q[1]}</b>.`;
-  const last=S.i===S.order.length-1;
-  const nx=$("#next");nx.hidden=false;nx.textContent=last?"See my results 🎉":"Next question ➜";
-  nx.onclick=()=>{S.i++;save();S.i>=S.order.length?results():showQuestion();};
-  nx.focus();
-  save();
-}
-
-/* ---------- Results ---------- */
-function results(){
-  const total=S.order.length, pct=Math.round(S.score/total*100);
-  const missed=S.answers.filter(a=>!a.ok);
-  if(!S.practice)setBest(S.score);
-  clearSave();
-  const stars=pct>=90?3:pct>=70?2:pct>=40?1:0;
-  const msg=pct===100?"Perfect! You are a Synonym Superstar!":
-            pct>=90?"Amazing work!":pct>=70?"Great job! Keep practising!":
-            pct>=40?"Good try! Practise the missed words.":"Keep going. Practice makes you stronger!";
-  const who=S.name?`, ${S.name}`:"";
-  app.innerHTML=`
-  <div class="card center">
-    <div class="hero">${pct>=70?"🏆":"🌟"}</div>
-    <h1>${S.practice?"Practice done":"All done"}${who}!</h1>
-    <div class="stars" aria-label="${stars} out of 3 stars">${"⭐".repeat(stars)}${"☆".repeat(3-stars)}</div>
-    <div class="score">${S.score} / ${total}</div>
-    <p class="ask">${msg}</p>
-    <div class="row">
-      ${missed.length?`<button class="btn" id="prac">Practice ${missed.length} missed word${missed.length>1?"s":""}</button>`:""}
-      <button class="btn alt" id="again">Play again</button>
-    </div>
-    ${missed.length?`<h3 style="margin-top:22px">Words to remember</h3>
-    <div class="missed">${missed.map(a=>`<div><b>${a.w}</b> = ${a.c} <span class="small">(you picked ${a.g})</span></div>`).join("")}</div>`:""}
-  </div>`;
-  if(missed.length)$("#prac").onclick=()=>{
-    S={name:S.name,order:shuffle(missed.map(a=>a.id)),i:0,answers:[],score:0,streak:0,practice:true};
-    save();showQuestion();
-  };
-  $("#again").onclick=()=>{S.practice=false;home();};
-}
-
-/* ---------- Keyboard: 1-4 to answer, Enter for next ---------- */
-document.addEventListener("keydown",e=>{
-  if(e.target.tagName==="INPUT")return;
-  const n=+e.key;
-  if(!locked&&n>=1&&n<=4&&curOpts[n-1]&&$(".opt"))choose(curOpts[n-1]);
-});
-
-home();
+(function(){
+var body=document.body,bp=document.getElementById('bp'),bj=document.getElementById('bj');
+function setLang(l){body.dataset.lang=l;bp.setAttribute('aria-pressed',l==='py');bj.setAttribute('aria-pressed',l==='js');update();
+document.querySelectorAll('.callout.py,.callout.js').forEach(function(){});}
+bp.onclick=function(){setLang('py')};bj.onclick=function(){setLang('js')};
+// callouts/paragraph classes py/js hide via body rules above
+var inp=document.getElementById('val'),out=document.getElementById('out'),chips=document.getElementById('chips');
+['42','3.14','"hello"','true','null','-7','"42"','[1, 2]'].forEach(function(s){var b=document.createElement('button');b.textContent=s;b.onclick=function(){inp.value=s;update()};chips.appendChild(b)});
+function classify(v){v=v.trim();
+if(v==='')return{t:['nothing yet','nothing yet'],d:'Type something above.',s:'?'};
+if(/^[-+]?\d+$/.test(v))return{t:['int','number'],d:'A whole number. You can add, subtract and multiply it.',s:v};
+if(/^[-+]?(\d+\.\d*|\.\d+)$/.test(v))return{t:['float','number'],d:'A decimal number.',s:v};
+if(/^(true|false)$/i.test(v))return{t:['bool','boolean'],d:'A boolean: only true or false. Python writes True and False with capitals.',s:v.toLowerCase()};
+if(/^(null|none)$/i.test(v))return{t:['NoneType','null'],d:'Nothing. The variable exists but holds no value.',s:v.toLowerCase()==='none'?'None':'null'};
+if(/^\[.*\]$/.test(v))return{t:['list','Array'],d:'A collection of ordered items, counted from 0.',s:v};
+if(/^\{.*\}$/.test(v))return{t:['dict','Object'],d:'A collection of labelled items (key and value pairs).',s:v};
+if(/^(".*"|'.*')$/.test(v))return{t:['str','string'],d:'Text. Anything inside quotes is a string, even digits.',s:v};
+return{t:['str','string'],d:'Unquoted words are treated as names of variables. To store this as text, wrap it in quotes.',s:'"'+v+'"',w:1}}
+function update(){var c=classify(inp.value),i=body.dataset.lang==='py'?0:1,n=document.createElement('div');
+out.innerHTML='';var b=document.createElement('span');b.className='box';
+var l=document.createElement('b');l.textContent='my_value';var s=document.createElement('span');s.textContent=c.s;var t=document.createElement('i');t.textContent=c.t[i];
+b.appendChild(l);b.appendChild(s);b.appendChild(t);var p=document.createElement('p');p.innerHTML='<strong></strong> ';p.firstChild.textContent=c.t[i]+': ';p.appendChild(document.createTextNode(c.d));
+out.appendChild(b);out.appendChild(p)}
+inp.addEventListener('input',update);update();
+// hide language-specific paragraphs/callouts too
+var st=document.createElement('style');st.textContent='body[data-lang=py] p.js,body[data-lang=js] p.py,body[data-lang=py] .callout.js,body[data-lang=js] .callout.py,body[data-lang=py] .callout p.js,body[data-lang=js] .callout p.py{display:none}';document.head.appendChild(st);
+// quiz
+var Q=[
+['What does the line  age = 25  do?',['Compares age to 25','Stores 25 in a variable named age','Prints 25','Deletes age'],1,'Assignment puts the value on the right into the named box on the left.'],
+['Which is a legal variable name?',['2nd_place','user-name','user_name','class'],2,'Names use letters, digits and underscores, cannot start with a digit, and cannot be reserved words.'],
+['What type is "42" (with quotes)?',['A number','A string','A boolean','A list'],1,'Anything inside quotes is text, even if it looks like a number.'],
+['What is the result of  "5" + "5"  in both languages?',['10','"55"','An error in both','5'],1,'With text, + joins instead of adding, so you get "55".'],
+['Why can 0.1 + 0.2 differ from 0.3?',['The language has a bug','Some decimals cannot be stored exactly in binary','Decimals are strings','Python rounds down'],1,'Binary cannot represent 0.1 exactly, so tiny errors appear. Use whole units for money.'],
+['If fruits = ["a","b","c"], which gives "a"?',['fruits[1]','fruits[0]','fruits[-0.5]','fruits.first'],1,'Counting starts at 0, so the first item is at index 0.']];
+var box=document.getElementById('quizbox'),sc=document.getElementById('score'),done=0,right=0;
+Q.forEach(function(q){var d=document.createElement('div');d.className='q';var p=document.createElement('p');p.textContent=q[0];d.appendChild(p);var why=document.createElement('p');why.className='why';why.textContent=q[3];
+var btns=[];q[1].forEach(function(o,i){var b=document.createElement('button');b.className='o';b.textContent=o;b.onclick=function(){btns.forEach(function(x){x.disabled=true});
+if(i===q[2]){b.classList.add('right');right++}else{b.classList.add('wrong');btns[q[2]].classList.add('right')}
+why.style.display='block';done++;sc.textContent='Score: '+right+' of '+done+(done===Q.length?(right===Q.length?'. Perfect. Move on to conditions.':'. Re-read the sections you missed and retry.'):'')};btns.push(b);d.appendChild(b)});
+d.appendChild(why);box.appendChild(d)});
+})();
 </script>
 </body>
 </html>
