@@ -1,333 +1,652 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Variables & Data Types: from zero</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C# Fundamentals: Random, Two's Complement, Loops, Switch</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#EEF3F0;--ink:#16221F;--muted:#55645F;--card:#FFFFFF;--line:#CBD8D2;--accent:#0F5C57;--on-accent:#fff;--hi:#F2C14E;--bad:#B93A1B;--good:#1D7A4A;--code:#12201D;--code-ink:#DDEBE5;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1816;--ink:#E5EFEA;--muted:#9DB0A8;--card:#16231F;--line:#2A3B36;--accent:#5CC8BE;--on-accent:#0E1816;--bad:#FF8A66;--good:#6FD39B;--code:#0A1210}}
-:root[data-theme="dark"]{--bg:#0E1816;--ink:#E5EFEA;--muted:#9DB0A8;--card:#16231F;--line:#2A3B36;--accent:#5CC8BE;--on-accent:#0E1816;--bad:#FF8A66;--good:#6FD39B;--code:#0A1210}
+:root{
+  --paper:#EEF2F7; --card:#FFFFFF; --ink:#14213D; --muted:#51607A;
+  --violet:#6B3FA0; --violet-soft:#E9E0F5; --amber:#F2A900; --amber-soft:#FFF1CC;
+  --code:#1B1F2E; --codefg:#E6E9F5; --good:#1E7F4F; --bad:#B3261E; --line:#CBD5E3;
+  --head:'Bricolage Grotesque',system-ui,sans-serif; --body:'Source Sans 3',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+}
 *{box-sizing:border-box}
-html{scroll-padding-top:calc(64px + env(safe-area-inset-top,0px));scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 "Source Serif 4",Georgia,serif}
-h1,h2,h3{font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;line-height:1.1;margin:0}
-code,pre,input{font-family:"IBM Plex Mono",Menlo,Consolas,monospace}
-nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:6px;align-items:center;padding:10px 16px;overflow-x:auto;white-space:nowrap}
-nav a{color:var(--muted);text-decoration:none;font:500 14px "Bricolage Grotesque",sans-serif;padding:6px 10px;border-radius:6px}
-nav a:hover,nav a:focus-visible{background:var(--card);color:var(--ink);outline:2px solid var(--accent)}
-.seg{margin-left:auto;display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
-.seg button{border:0;background:var(--card);color:var(--ink);padding:6px 12px;font:500 13px "IBM Plex Mono",monospace;cursor:pointer}
-.seg button[aria-pressed=true]{background:var(--accent);color:var(--on-accent)}
-.seg button:focus-visible{outline:2px solid var(--hi);outline-offset:-2px}
-main{max-width:860px;margin:0 auto;padding:0 20px 80px}
-.hero{padding:56px 0 36px}
-.hero h1{font-size:clamp(40px,8vw,76px);font-weight:800;letter-spacing:-.03em}
-.hero p{max-width:34em;color:var(--muted);font-size:20px;margin:18px 0 0}
-section{padding:44px 0 8px;border-top:1px solid var(--line);margin-top:36px}
-h2{font-size:clamp(28px,4.5vw,40px);font-weight:700;letter-spacing:-.02em;margin-bottom:14px}
-h3{font-size:21px;font-weight:700;margin:28px 0 8px}
-p{margin:0 0 14px;max-width:38em}
-pre{background:var(--code);color:var(--code-ink);padding:16px 18px;border-radius:10px;overflow-x:auto;font-size:14.5px;line-height:1.65;margin:12px 0 18px;tab-size:2}
-:not(pre)>code{background:var(--card);border:1px solid var(--line);padding:1px 6px;border-radius:5px;font-size:.86em}
-body[data-lang=py] .js,body[data-lang=js] .py{display:none}
-.box{display:inline-flex;flex-direction:column;border:2px solid var(--ink);border-radius:6px;min-width:110px;background:var(--card);margin:4px 8px 4px 0;vertical-align:top}
-.box b{font:700 13px "IBM Plex Mono",monospace;background:var(--hi);color:#16221F;padding:3px 10px;border-bottom:2px solid var(--ink)}
-.box span{font:500 18px "IBM Plex Mono",monospace;padding:10px;text-align:center}
-.box i{font:400 12px "IBM Plex Mono",monospace;color:var(--muted);padding:0 10px 6px;text-align:center;font-style:normal}
-.callout{border-left:5px solid var(--hi);background:var(--card);padding:14px 18px;border-radius:0 8px 8px 0;margin:18px 0;max-width:42em}
-.callout.warn{border-color:var(--bad)}
-.callout p:last-child{margin:0}
-table{border-collapse:collapse;width:100%;font-size:16px;background:var(--card);border-radius:8px;overflow:hidden;margin:14px 0}
-th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font:700 14px "Bricolage Grotesque",sans-serif;background:var(--line)}
-.scroll{overflow-x:auto}
-.lab{background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:20px;margin-top:28px}
-.lab label{font:700 15px "Bricolage Grotesque",sans-serif;display:block;margin-bottom:8px}
-.lab input{width:100%;font-size:20px;padding:10px 12px;border:2px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
-.lab input:focus{outline:3px solid var(--accent);border-color:var(--accent)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-.chips button,.q button.o,.next{font:500 14px "IBM Plex Mono",monospace;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:6px 10px;border-radius:999px;cursor:pointer}
-.chips button:hover,.chips button:focus-visible{border-color:var(--accent);outline:2px solid var(--accent)}
-#out{display:flex;flex-wrap:wrap;gap:18px;align-items:center;min-height:110px}
-#out p{margin:0;max-width:20em;font-size:16px}
-.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0}
-.q p{font-weight:600;margin-bottom:10px}
-.q button.o{display:block;width:100%;text-align:left;border-radius:8px;margin:6px 0;padding:10px 12px;font-size:15px}
-.q button.o:hover:not(:disabled){border-color:var(--accent)}
-.q button.o.right{background:var(--good);color:#fff;border-color:var(--good)}
-.q button.o.wrong{background:var(--bad);color:#fff;border-color:var(--bad)}
-.q .why{display:none;margin:10px 0 0;font-size:16px}
-#score{font:700 20px "Bricolage Grotesque",sans-serif;margin:16px 0}
-ol.ex li{margin-bottom:12px}
-footer{color:var(--muted);font-size:15px;padding-top:40px}
-@media (max-width:560px){body{font-size:17px}.hero{padding-top:36px}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.6}
+body{background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:32px 32px;background-attachment:fixed;background-blend-mode:soft-light}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:10;background:rgba(238,242,247,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:6px;flex-wrap:wrap;padding:10px 20px}
+nav a{font-family:var(--head);font-weight:700;font-size:15px;color:var(--ink);text-decoration:none;padding:6px 12px;border-radius:8px}
+nav a:hover,nav a:focus-visible{background:var(--violet);color:#fff;outline:none}
+header.hero{padding:56px 0 28px}
+h1{font-family:var(--head);font-weight:800;font-size:clamp(34px,6vw,58px);line-height:1.05;margin:0 0 14px;letter-spacing:-.02em}
+.lede{max-width:60ch;color:var(--muted);font-size:20px;margin:0 0 26px}
+.bits{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 6px}
+.bit{width:46px;height:58px;border-radius:8px;border:2px solid var(--ink);background:var(--card);font-family:var(--mono);font-weight:600;font-size:24px;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;padding:0}
+.bit small{font-size:10px;color:var(--muted);font-weight:400}
+.bit.on{background:var(--ink);color:#fff}.bit.on small{color:#B9C4DA}
+.bit.sign{border-color:var(--amber);box-shadow:0 0 0 2px var(--amber)}
+.bit:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.readout{font-family:var(--mono);font-size:20px;margin:8px 0}
+.readout b{color:var(--violet)}
+section{padding:34px 0}
+h2{font-family:var(--head);font-weight:800;font-size:clamp(28px,4.5vw,40px);margin:0 0 6px;letter-spacing:-.01em}
+h3{font-family:var(--head);font-weight:700;font-size:22px;margin:26px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:16px 0}
+.card.key{border-left:6px solid var(--violet)}
+.card.warn{border-left:6px solid var(--amber);background:var(--amber-soft)}
+p{margin:.5em 0 .9em;max-width:70ch}
+ul{padding-left:22px;max-width:70ch}li{margin:.3em 0}
+pre{background:var(--code);color:var(--codefg);border-radius:10px;padding:16px 18px;overflow-x:auto;font-family:var(--mono);font-size:14.5px;line-height:1.55;margin:12px 0}
+pre .out{display:block;margin-top:10px;padding-top:10px;border-top:1px dashed #3B4262;color:#9BE7B5}
+code{font-family:var(--mono);font-size:.88em;background:var(--violet-soft);padding:1px 6px;border-radius:5px}
+pre code{background:none;padding:0;font-size:inherit}
+.k{color:#C7A0FF}.s{color:#F5C77E}.c{color:#7F8BB3}.n{color:#7FD6FF}
+table{border-collapse:collapse;margin:10px 0;font-family:var(--mono);font-size:15px;background:var(--card)}
+th,td{border:1px solid var(--line);padding:6px 12px;text-align:center}
+th{background:var(--violet-soft)}
+label{font-weight:600;margin-right:6px}
+input[type=number],input[type=text],select{font-family:var(--mono);font-size:16px;padding:6px 8px;border:2px solid var(--ink);border-radius:8px;background:#fff;width:90px}
+button.btn{font-family:var(--head);font-weight:700;font-size:16px;background:var(--violet);color:#fff;border:0;border-radius:9px;padding:10px 18px;cursor:pointer}
+button.btn:hover{filter:brightness(1.1)}button.btn:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+button.btn.alt{background:var(--ink)}
+.row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:10px 0}
+.seqs{font-family:var(--mono);font-size:17px}
+.seqs div{margin:4px 0}
+/* quiz */
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:14px 0}
+.q h4{margin:0 0 4px;font-family:var(--head);font-size:18px}
+.q .tag{font-size:13px;color:var(--muted)}
+.opt{display:block;width:100%;text-align:left;background:#F6F8FC;border:2px solid var(--line);border-radius:10px;padding:9px 12px;margin:7px 0;font-family:var(--body);font-size:17px;cursor:pointer;color:var(--ink)}
+.opt code{background:#E3E8F2}
+.opt:hover{border-color:var(--violet)}.opt:focus-visible{outline:3px solid var(--violet)}
+.opt.right{background:#DDF3E7;border-color:var(--good)}
+.opt.wrong{background:#FADEDB;border-color:var(--bad)}
+.expl{display:none;margin-top:8px;padding:10px 12px;background:var(--violet-soft);border-radius:8px;font-size:16px}
+.q.done .expl{display:block}.q.done .opt{cursor:default}
+.score{position:sticky;bottom:0;background:var(--ink);color:#fff;padding:12px 20px;font-family:var(--head);font-weight:700;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;z-index:9}
+footer{padding:40px 0 100px;color:var(--muted);font-size:15px}
+@media(max-width:560px){.bit{width:38px;height:52px;font-size:20px}body{font-size:17px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
-<body data-lang="py">
-<nav aria-label="Lessons">
-<a href="#variables">Variables</a><a href="#names">Names</a><a href="#types">Types</a><a href="#numbers">Numbers</a><a href="#strings">Strings</a><a href="#booleans">Booleans</a><a href="#none">Null</a><a href="#collections">Collections</a><a href="#convert">Converting</a><a href="#quiz">Quiz</a>
-<div class="seg" role="group" aria-label="Language"><button id="bp" aria-pressed="true">Python</button><button id="bj" aria-pressed="false">JavaScript</button></div>
-</nav>
-<main>
-<header class="hero">
-<h1>Variables and data types, from zero.</h1>
-<p>Every program stores information and does something with it. This page teaches how that storage works, what kinds of information exist, and the mistakes beginners make. Pick Python or JavaScript above; the ideas are the same in both.</p>
-<div class="lab" aria-live="polite">
-<label for="val">Try it: type any value and see what type a program would give it</label>
-<input id="val" value="42" autocomplete="off" spellcheck="false">
-<div class="chips" id="chips"></div>
-<div id="out"></div>
+<body>
+<nav aria-label="Sections"><div class="wrap">
+<a href="#random">Random &amp; seeds</a><a href="#twos">Two's complement</a><a href="#for">for loops</a><a href="#switch">switch</a><a href="#project">Mini project</a><a href="#quiz">Quiz (40)</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+<h1>C# fundamentals,<br>one level deeper</h1>
+<p class="lede">Random number generators and seeds, two's complement binary, for loops and switch statements. Every example is complete and its output is shown. Flip the bits below to see how a signed byte works.</p>
+<div class="card">
+  <p style="margin-top:0"><b>Try it:</b> tap bits to build an 8-bit two's complement number (the amber bit is the sign bit).</p>
+  <div class="bits" id="heroBits" role="group" aria-label="8 bits"></div>
+  <div class="readout">Unsigned: <b id="hU">0</b> &nbsp; Signed (sbyte): <b id="hS">0</b></div>
 </div>
-</header>
+</div></header>
 
-<section id="variables">
-<h2>1. What is a variable?</h2>
-<p>A variable is a <strong>named place in memory that holds a value</strong>. Picture a storeroom of boxes. Each box has a label (the name) and something inside (the value). When you need the value, you ask for it by its label.</p>
-<span class="box"><b>age</b><span>25</span></span><span class="box"><b>name</b><span>"Ada"</span></span><span class="box"><b>is_member</b><span>true</span></span>
-<p>You create a variable with <strong>assignment</strong>: the name on the left, an equals sign, the value on the right. Read <code>=</code> as "put this value into that box", not as the maths "is equal to".</p>
-<pre class="py">age = 25
-name = "Ada"
-print(name, "is", age)   # Ada is 25</pre>
-<pre class="js">let age = 25;
-const name = "Ada";
-console.log(name, "is", age);   // Ada is 25</pre>
-<h3>Changing a value</h3>
-<p>The whole point is that the contents can change. The right side is worked out first, then stored.</p>
-<pre class="py">score = 10
-score = score + 5      # right side: 10 + 5 = 15, then stored
-print(score)           # 15
-score += 1             # shortcut for score = score + 1
-print(score)           # 16</pre>
-<pre class="js">let score = 10;
-score = score + 5;     // right side: 10 + 5 = 15, then stored
-console.log(score);    // 15
-score += 1;            // shortcut for score = score + 1
-console.log(score);    // 16</pre>
-<div class="callout js"><p><strong>JavaScript has three keywords.</strong> <code>let</code> makes a variable you can change. <code>const</code> makes one you cannot reassign. <code>var</code> is the old way; avoid it. Default to <code>const</code>, and switch to <code>let</code> when you need to change it.</p></div>
-<div class="callout py"><p><strong>Python has no keyword for this.</strong> Writing <code>name = value</code> creates the variable. By convention, constants are written in capitals, such as <code>MAX_USERS = 100</code>, but Python will not stop you from changing them.</p></div>
-<h3>Why not just use the raw value?</h3>
-<p>Variables give values meaning (<code>tax_rate</code> says more than <code>0.075</code>), let you reuse a value in many places, and let you change it in one place only.</p>
+<main class="wrap">
+
+<!-- ================= RANDOM ================= -->
+<section id="random">
+<h2>1. Random number generators and seeds</h2>
+<p>A computer cannot produce truly random numbers from arithmetic alone. <code>System.Random</code> is a <b>pseudo-random number generator (PRNG)</b>: a deterministic algorithm that starts from an internal state and produces a sequence that <em>looks</em> random. The starting value that sets that state is the <b>seed</b>.</p>
+
+<div class="card key">
+<b>Key idea:</b> same seed, same runtime, same sequence of calls gives the same numbers every time. That is a feature for testing and replays, and a weakness for security.
+</div>
+
+<h3>The Next methods</h3>
+<table>
+<tr><th>Call</th><th>Returns</th><th>Range</th></tr>
+<tr><td>Next()</td><td>int</td><td>0 to int.MaxValue − 1</td></tr>
+<tr><td>Next(10)</td><td>int</td><td>0 to 9 (max is exclusive)</td></tr>
+<tr><td>Next(1, 7)</td><td>int</td><td>1 to 6 (a die)</td></tr>
+<tr><td>NextDouble()</td><td>double</td><td>0.0 up to but not including 1.0</td></tr>
+<tr><td>NextInt64(), NextBytes(b)</td><td>long / fills byte[]</td><td>.NET 6+ for NextInt64</td></tr>
+</table>
+
+<h3>Example: seeded vs unseeded</h3>
+<pre><code><span class="k">using</span> System;
+
+<span class="k">var</span> a = <span class="k">new</span> Random(<span class="n">42</span>);
+<span class="k">var</span> b = <span class="k">new</span> Random(<span class="n">42</span>);   <span class="c">// same seed as a</span>
+<span class="k">var</span> c = <span class="k">new</span> Random();      <span class="c">// runtime picks the seed</span>
+
+<span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; <span class="n">3</span>; i++)
+    Console.WriteLine($<span class="s">"a={a.Next(1, 7)}  b={b.Next(1, 7)}  c={c.Next(1, 7)}"</span>);
+<span class="out">a and b print identical columns every run.
+c changes from run to run.
+(Example shape: a=6 b=6 c=2 / a=3 b=3 c=5 / a=1 b=1 c=1)</span></code></pre>
+<p>The exact numbers produced by a seeded <code>Random</code> are not guaranteed to stay the same across different .NET versions, so do not store them as expected values in long-lived tests. Within one runtime they are repeatable.</p>
+
+<h3>Live demo: why a seed repeats</h3>
+<div class="card">
+<p style="margin-top:0">This uses a simple linear congruential generator, <code>state = (state × 1103515245 + 12345) mod 2³¹</code>, to show the idea. It is an illustration, not the algorithm inside .NET.</p>
+<div class="row">
+ <label for="seedIn">Seed</label><input type="number" id="seedIn" value="42">
+ <button class="btn" id="seedRun">Generate 3 dice sequences</button>
+</div>
+<div class="seqs" id="seqOut"></div>
+</div>
+
+<h3>Good habits</h3>
+<ul>
+<li>Create <b>one</b> <code>Random</code> and reuse it. In older .NET Framework, creating several in quick succession could give the same time-based seed and identical numbers.</li>
+<li>In .NET 6+, <code>Random.Shared</code> is a ready-made, thread-safe instance.</li>
+<li>Use a fixed seed when you need a replayable run (debugging, unit tests, simulations).</li>
+<li>For passwords, tokens and keys use <code>System.Security.Cryptography.RandomNumberGenerator</code>, which is cryptographically secure. <code>Random</code> is predictable if someone learns its state.</li>
+<li>Off-by-one trap: the upper bound of <code>Next(min, max)</code> is exclusive. A 20-sided die is <code>Next(1, 21)</code>.</li>
+</ul>
+
+<h3>Example: secure random vs Random</h3>
+<pre><code><span class="k">using</span> System;
+<span class="k">using</span> System.Security.Cryptography;
+
+<span class="k">int</span> pin = RandomNumberGenerator.GetInt32(<span class="n">1000</span>, <span class="n">10000</span>);  <span class="c">// 1000..9999, secure</span>
+<span class="k">int</span> die = Random.Shared.Next(<span class="n">1</span>, <span class="n">7</span>);                    <span class="c">// 1..6, fine for games</span>
+Console.WriteLine($<span class="s">"PIN {pin}, die {die}"</span>);
+<span class="out">PIN 5821, die 4   (values vary)</span></code></pre>
+
+<h3>Worked practice (answers filled in)</h3>
+<div class="card">
+<p><b>Q:</b> Write the call for a random even number from 0 to 98.<br>
+<b>A:</b> <code>rnd.Next(0, 50) * 2</code>. Next(0, 50) gives 0..49, doubled gives 0, 2, ... 98.</p>
+<p><b>Q:</b> Write the call for a random double from 5.0 up to (not including) 10.0.<br>
+<b>A:</b> <code>5.0 + rnd.NextDouble() * 5.0</code>. Scale the 0..1 range by the width, then shift by the minimum.</p>
+<p><b>Q:</b> Two <code>new Random(100)</code> objects each call <code>Next(1, 7)</code> five times. How do the results compare?<br>
+<b>A:</b> Identical, in the same order, because both start from the same state.</p>
+</div>
 </section>
 
-<section id="names">
-<h2>2. Naming variables</h2>
-<p>Names are for humans. The computer only needs them to be legal; your teammates need them to be clear.</p>
-<div class="scroll"><table>
-<tr><th>Rule</th><th>Good</th><th>Bad</th></tr>
-<tr><td>Letters, digits, underscore only</td><td><code>user_name</code></td><td><code>user-name</code>, <code>user name</code></td></tr>
-<tr><td>Cannot start with a digit</td><td><code>item2</code></td><td><code>2item</code></td></tr>
-<tr><td>Cannot be a reserved word</td><td><code>class_name</code></td><td><code>class</code>, <code>if</code>, <code>for</code></td></tr>
-<tr><td>Case matters</td><td><code>Total</code> and <code>total</code> are different variables</td><td>Mixing them up by accident</td></tr>
-<tr><td>Describe the content</td><td><code>total_price</code></td><td><code>x</code>, <code>data1</code>, <code>thing</code></td></tr>
-</table></div>
-<p class="py">Python style is <code>snake_case</code>: <code>first_name</code>, <code>order_total</code>.</p>
-<p class="js">JavaScript style is <code>camelCase</code>: <code>firstName</code>, <code>orderTotal</code>.</p>
+<!-- ================= TWO'S COMPLEMENT ================= -->
+<section id="twos">
+<h2>2. Two's complement binary</h2>
+<p>Two's complement is how nearly every CPU stores signed integers. In an <i>n</i>-bit number the leftmost bit has weight <b>−2<sup>n−1</sup></b> instead of +2<sup>n−1</sup>. All other bits keep their normal positive weights.</p>
+
+<div class="card key">
+<b>Range for n bits:</b> −2<sup>n−1</sup> to 2<sup>n−1</sup> − 1. For 8 bits that is −128 to 127. There is one more negative number than positive, and only one zero.
+</div>
+
+<h3>Negating a number: invert, then add 1</h3>
+<p>Example: write −5 in 8 bits.</p>
+<pre><code>  5      = 0000 0101
+  invert = 1111 1010
+  add 1  = 1111 1011   &larr; this is -5
+
+  check with weights: -128 + 64 + 32 + 16 + 8 + 2 + 1 = -5</code></pre>
+
+<h3>Reading a negative pattern</h3>
+<p>Example: what is 1111 0000 as a signed byte?</p>
+<pre><code>  1111 0000
+  invert = 0000 1111
+  add 1  = 0001 0000 = 16
+  so 1111 0000 = -16
+  check: -128 + 64 + 32 + 16 = -16</code></pre>
+
+<h3>Why hardware uses it</h3>
+<ul>
+<li>Subtraction is addition: <code>a − b</code> is <code>a + (−b)</code>, so one adder circuit does both.</li>
+<li>No negative zero (sign-magnitude has +0 and −0).</li>
+<li>Sign extension is simple: to widen a number, copy the sign bit leftwards. <code>1111 1011</code> (−5) becomes <code>1111 1111 1111 1011</code> in 16 bits.</li>
+</ul>
+
+<h3>Add it up: 5 + (−5) in 8 bits</h3>
+<pre><code>    0000 0101   (5)
+  + 1111 1011   (-5)
+  -----------
+  1 0000 0000   the carry out of bit 7 is discarded
+    0000 0000   = 0</code></pre>
+
+<h3>In C#</h3>
+<pre><code><span class="k">using</span> System;
+
+<span class="k">sbyte</span> x = -<span class="n">5</span>;
+Console.WriteLine(Convert.ToString((<span class="k">byte</span>)x, <span class="n">2</span>).PadLeft(<span class="n">8</span>, <span class="s">'0'</span>));   <span class="c">// bit pattern of the byte</span>
+Console.WriteLine(Convert.ToString(-<span class="n">5</span>, <span class="n">2</span>));                          <span class="c">// int: all 32 bits</span>
+Console.WriteLine(<span class="k">sbyte</span>.MinValue + <span class="s">" to "</span> + <span class="k">sbyte</span>.MaxValue);
+Console.WriteLine(~<span class="n">5</span> + <span class="n">1</span>);                                           <span class="c">// invert + 1 = negate</span>
+
+<span class="k">sbyte</span> big = <span class="n">127</span>;
+<span class="k">unchecked</span> { big++; }                                       <span class="c">// wraps around</span>
+Console.WriteLine(big);
+<span class="k">try</span> { <span class="k">int</span> m = <span class="k">int</span>.MaxValue; <span class="k">checked</span> { m++; } }
+<span class="k">catch</span> (OverflowException) { Console.WriteLine(<span class="s">"checked caught overflow"</span>); }
+<span class="out">11111011
+11111111111111111111111111111011
+-128 to 127
+-5
+-128
+checked caught overflow</span></code></pre>
+<p>C# arithmetic on integers is <b>unchecked</b> by default for non-constant expressions, so <code>int.MaxValue + 1</code> silently wraps to <code>int.MinValue</code> (−2,147,483,648). Use <code>checked</code> when overflow must be an error.</p>
+
+<div class="card warn"><b>Common slip:</b> two's complement of 0 is 0 (invert gives 1111 1111, add 1 gives 1 0000 0000, the carry is dropped). And the most negative value, 1000 0000 (−128), is its own negation, which is why <code>Math.Abs(int.MinValue)</code> throws.</div>
+
+<h3>Interactive converter</h3>
+<div class="card">
+<div class="row">
+ <label for="tcBits">Bits</label>
+ <select id="tcBits"><option>4</option><option selected>8</option><option>16</option></select>
+ <label for="tcDec">Decimal</label><input type="number" id="tcDec" value="-5">
+</div>
+<div class="readout">Binary: <b id="tcBin"></b></div>
+<div class="readout" id="tcSteps"></div>
+</div>
+
+<h3>Worked practice (answers filled in)</h3>
+<table>
+<tr><th>Decimal</th><th>8-bit two's complement</th><th>Working</th></tr>
+<tr><td>25</td><td>0001 1001</td><td>16 + 8 + 1</td></tr>
+<tr><td>−25</td><td>1110 0111</td><td>invert 0001 1001 → 1110 0110, +1</td></tr>
+<tr><td>−1</td><td>1111 1111</td><td>invert 0000 0001 → 1111 1110, +1</td></tr>
+<tr><td>−128</td><td>1000 0000</td><td>sign bit only</td></tr>
+<tr><td>127</td><td>0111 1111</td><td>largest positive</td></tr>
+<tr><td>−100</td><td>1001 1100</td><td>invert 0110 0100 → 1001 1011, +1</td></tr>
+</table>
+<div class="card">
+<p><b>Q:</b> 100 + 50 in an 8-bit signed byte?<br>
+<b>A:</b> 0110 0100 + 0011 0010 = 1001 0110, which reads as −106. Overflow: the true answer 150 is above 127. Overflow occurs when two numbers of the same sign give a result of the opposite sign.</p>
+</div>
 </section>
 
-<section id="types">
-<h2>3. What is a data type?</h2>
-<p>A value is more than its content. <code>5</code> and <code>"5"</code> look alike, but the first is a number you can do maths with and the second is text. The <strong>data type</strong> tells the computer what kind of thing a value is, and therefore what you are allowed to do with it. You can multiply numbers; you can convert text to uppercase; you cannot do the reverse.</p>
-<div class="scroll"><table>
-<tr><th>Kind of data</th><th>Python</th><th>JavaScript</th><th>Example</th></tr>
-<tr><td>Whole numbers</td><td><code>int</code></td><td><code>number</code></td><td><code>42</code>, <code>-7</code></td></tr>
-<tr><td>Decimal numbers</td><td><code>float</code></td><td><code>number</code></td><td><code>3.14</code></td></tr>
-<tr><td>Text</td><td><code>str</code></td><td><code>string</code></td><td><code>"hello"</code></td></tr>
-<tr><td>True or false</td><td><code>bool</code></td><td><code>boolean</code></td><td><code>True</code> / <code>true</code></td></tr>
-<tr><td>Nothing</td><td><code>None</code></td><td><code>null</code>, <code>undefined</code></td><td>no value yet</td></tr>
-<tr><td>Ordered list</td><td><code>list</code></td><td><code>Array</code></td><td><code>[1, 2, 3]</code></td></tr>
-<tr><td>Labelled data</td><td><code>dict</code></td><td><code>Object</code></td><td><code>{"name": "Ada"}</code></td></tr>
-</table></div>
-<p>Ask the language what type something is:</p>
-<pre class="py">print(type(42))        # &lt;class 'int'&gt;
-print(type("42"))      # &lt;class 'str'&gt;
-print(type(3.14))      # &lt;class 'float'&gt;</pre>
-<pre class="js">console.log(typeof 42);      // "number"
-console.log(typeof "42");    // "string"
-console.log(typeof 3.14);    // "number"</pre>
-<p>Both languages are <strong>dynamically typed</strong>: you do not declare a type, and the variable takes the type of whatever it currently holds. Languages like Java and C# are <strong>statically typed</strong>, where you write the type up front (<code>int age = 25;</code>).</p>
+<!-- ================= FOR LOOPS ================= -->
+<section id="for">
+<h2>3. for loops</h2>
+<p>A <code>for</code> loop packs the three parts of a counted loop into one header:</p>
+<pre><code><span class="k">for</span> (<span class="c">initializer</span>; <span class="c">condition</span>; <span class="c">iterator</span>)
+{
+    <span class="c">body</span>
+}</code></pre>
+<p><b>Execution order:</b> initializer runs once. Then repeat: test the condition; if true run the body, then the iterator; if false stop. The condition is tested <em>before</em> every pass, so a loop may run zero times.</p>
+
+<h3>Example: counting up, down and by steps</h3>
+<pre><code><span class="k">using</span> System;
+
+<span class="k">for</span> (<span class="k">int</span> i = <span class="n">1</span>; i &lt;= <span class="n">5</span>; i++)  Console.Write(i + <span class="s">" "</span>);
+Console.WriteLine();
+<span class="k">for</span> (<span class="k">int</span> i = <span class="n">3</span>; i &gt; <span class="n">0</span>; i--)   Console.Write(i + <span class="s">" "</span>);
+Console.WriteLine();
+<span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt;= <span class="n">20</span>; i += <span class="n">5</span>) Console.Write(i + <span class="s">" "</span>);
+Console.WriteLine();
+<span class="out">1 2 3 4 5
+3 2 1
+0 5 10 15 20</span></code></pre>
+
+<h3>Trace table</h3>
+<p>Trace this: <code>int sum = 0; for (int i = 1; i &lt;= 4; i++) sum += i * i;</code></p>
+<table>
+<tr><th>i</th><th>i &lt;= 4?</th><th>sum before</th><th>sum after</th></tr>
+<tr><td>1</td><td>true</td><td>0</td><td>1</td></tr>
+<tr><td>2</td><td>true</td><td>1</td><td>5</td></tr>
+<tr><td>3</td><td>true</td><td>5</td><td>14</td></tr>
+<tr><td>4</td><td>true</td><td>14</td><td>30</td></tr>
+<tr><td>5</td><td>false</td><td colspan="2">loop ends, sum = 30</td></tr>
+</table>
+
+<h3>Interactive trace</h3>
+<div class="card">
+<div class="row">
+ <label for="fStart">Start</label><input type="number" id="fStart" value="1">
+ <label for="fOp">Test</label><select id="fOp"><option>&lt;</option><option selected>&lt;=</option><option>&gt;</option><option>&gt;=</option></select>
+ <label for="fEnd">Limit</label><input type="number" id="fEnd" value="10">
+ <label for="fStep">Step</label><input type="number" id="fStep" value="3">
+</div>
+<div class="readout" id="fHead"></div>
+<div class="readout" id="fOut"></div>
+</div>
+
+<h3>Nested loops, break and continue</h3>
+<pre><code><span class="k">using</span> System;
+
+<span class="c">// multiplication grid 3 x 3</span>
+<span class="k">for</span> (<span class="k">int</span> r = <span class="n">1</span>; r &lt;= <span class="n">3</span>; r++)
+{
+    <span class="k">for</span> (<span class="k">int</span> c = <span class="n">1</span>; c &lt;= <span class="n">3</span>; c++)
+        Console.Write((r * c).ToString().PadLeft(<span class="n">3</span>));
+    Console.WriteLine();
+}
+
+<span class="c">// continue skips the rest of this pass; break leaves the loop</span>
+<span class="k">for</span> (<span class="k">int</span> i = <span class="n">1</span>; i &lt;= <span class="n">10</span>; i++)
+{
+    <span class="k">if</span> (i % <span class="n">2</span> == <span class="n">0</span>) <span class="k">continue</span>;
+    <span class="k">if</span> (i &gt; <span class="n">7</span>)      <span class="k">break</span>;
+    Console.Write(i + <span class="s">" "</span>);
+}
+<span class="out">  1  2  3
+  2  4  6
+  3  6  9
+1 3 5 7</span></code></pre>
+
+<div class="card warn">
+<b>Pitfalls</b>
+<ul>
+<li><b>Off-by-one:</b> for an array of length 5 the valid indexes are 0..4. <code>i &lt;= arr.Length</code> throws <code>IndexOutOfRangeException</code> on the last pass.</li>
+<li><b>Infinite loops:</b> <code>for (;;)</code> has no condition, so it never ends unless something inside breaks out. Counting down with <code>i++</code> against <code>i &gt; 0</code> never ends either.</li>
+<li><b>Scope:</b> a variable declared in the initializer (<code>int i</code>) does not exist after the loop. Declare it before the loop if you need its final value.</li>
+<li><b>Modifying the counter inside the body</b> makes loops hard to read. Prefer <code>foreach</code> when you do not need the index.</li>
+<li><b>break in a nested loop</b> only leaves the innermost loop.</li>
+</ul>
+</div>
+
+<h3>Worked practice (answers filled in)</h3>
+<div class="card">
+<p><b>Q:</b> How many times does <code>for (int i = 2; i &lt; 20; i += 4)</code> run its body, and what are the values?<br>
+<b>A:</b> 5 times: 2, 6, 10, 14, 18. The next value, 22, fails the test.</p>
+<p><b>Q:</b> Write a loop that prints the even numbers from 10 down to 0.<br>
+<b>A:</b> <code>for (int i = 10; i &gt;= 0; i -= 2) Console.Write(i + " ");</code> prints <code>10 8 6 4 2 0</code>.</p>
+<p><b>Q:</b> What does <code>for (int i = 0; i &lt; 3; i++) for (int j = 0; j &lt; 2; j++) count++;</code> add to <code>count</code>?<br>
+<b>A:</b> 3 × 2 = 6.</p>
+</div>
 </section>
 
-<section id="numbers">
-<h2>4. Numbers</h2>
-<pre class="py">price = 1200          # int
-rate = 0.075          # float
-print(price * rate)   # 90.0
-print(7 / 2)          # 3.5   normal division
-print(7 // 2)         # 3     whole-number division
-print(7 % 2)          # 1     remainder
-print(2 ** 10)        # 1024  power</pre>
-<pre class="js">const price = 1200;
-const rate = 0.075;
-console.log(price * rate);        // 90
-console.log(7 / 2);               // 3.5
-console.log(Math.floor(7 / 2));   // 3   whole-number division
-console.log(7 % 2);               // 1   remainder
-console.log(2 ** 10);             // 1024</pre>
-<div class="callout warn"><p><strong>The famous surprise.</strong> Computers store decimals in binary, and some decimals cannot be stored exactly. <code>0.1 + 0.2</code> gives <code>0.30000000000000004</code> in both languages. For money, work in the smallest unit (kobo or cents, as integers) or use a decimal library, and round only when displaying.</p></div>
+<!-- ================= SWITCH ================= -->
+<section id="switch">
+<h2>4. switch</h2>
+<p>A <code>switch</code> chooses one branch by comparing a single value against several constants. It is tidier than a long <code>if / else if</code> chain when you test one value for many exact matches.</p>
+
+<h3>Classic switch statement</h3>
+<pre><code><span class="k">using</span> System;
+
+<span class="k">int</span> day = <span class="n">6</span>;
+<span class="k">switch</span> (day)
+{
+    <span class="k">case</span> <span class="n">1</span>:
+        Console.WriteLine(<span class="s">"Monday"</span>);
+        <span class="k">break</span>;
+    <span class="k">case</span> <span class="n">6</span>:
+    <span class="k">case</span> <span class="n">7</span>:                          <span class="c">// stacked labels share one body</span>
+        Console.WriteLine(<span class="s">"Weekend"</span>);
+        <span class="k">break</span>;
+    <span class="k">default</span>:
+        Console.WriteLine(<span class="s">"Another weekday"</span>);
+        <span class="k">break</span>;
+}
+<span class="out">Weekend</span></code></pre>
+
+<div class="card key"><b>No implicit fall-through.</b> Unlike C, C++ or Java, a C# case section that contains statements must end with <code>break</code>, <code>return</code>, <code>throw</code>, <code>continue</code> or <code>goto</code>. Forgetting it is compile error CS0163. Only <em>empty</em> stacked labels such as <code>case 6: case 7:</code> may share a body. To jump deliberately use <code>goto case 1;</code>.</div>
+
+<h3>goto case and default</h3>
+<pre><code><span class="k">int</span> n = <span class="n">2</span>;
+<span class="k">switch</span> (n)
+{
+    <span class="k">case</span> <span class="n">1</span>: Console.Write(<span class="s">"A"</span>); <span class="k">break</span>;
+    <span class="k">case</span> <span class="n">2</span>: Console.Write(<span class="s">"B"</span>); <span class="k">goto case</span> <span class="n">1</span>;
+    <span class="k">default</span>: Console.Write(<span class="s">"?"</span>); <span class="k">break</span>;
+}
+<span class="out">BA</span></code></pre>
+
+<h3>Switch expression (C# 8) and patterns (C# 7 to 9)</h3>
+<pre><code><span class="k">using</span> System;
+
+<span class="k">int</span> score = <span class="n">83</span>;
+<span class="k">string</span> grade = score <span class="k">switch</span>
+{
+    &gt;= <span class="n">90</span> =&gt; <span class="s">"A"</span>,            <span class="c">// relational pattern (C# 9)</span>
+    &gt;= <span class="n">80</span> =&gt; <span class="s">"B"</span>,
+    &gt;= <span class="n">70</span> =&gt; <span class="s">"C"</span>,
+    _     =&gt; <span class="s">"F"</span>            <span class="c">// discard = the default arm</span>
+};
+Console.WriteLine(grade);
+
+<span class="k">object</span> thing = <span class="n">42</span>;
+<span class="k">string</span> desc = thing <span class="k">switch</span>
+{
+    <span class="k">int</span> i <span class="k">when</span> i &lt; <span class="n">0</span> =&gt; <span class="s">"negative int"</span>,   <span class="c">// when = guard</span>
+    <span class="k">int</span> i              =&gt; <span class="s">$"int {i}"</span>,
+    <span class="k">string</span> s           =&gt; <span class="s">$"text '{s}'"</span>,
+    <span class="k">null</span>               =&gt; <span class="s">"nothing"</span>,
+    _                  =&gt; <span class="s">"something else"</span>
+};
+Console.WriteLine(desc);
+<span class="out">B
+int 42</span></code></pre>
+<ul>
+<li>Arms are tested top to bottom, and the first match wins, so put specific patterns before general ones.</li>
+<li>If no arm matches and there is no <code>_</code>, the compiler warns and the runtime throws <code>SwitchExpressionException</code>.</li>
+<li>A switch <em>expression</em> produces a value; a switch <em>statement</em> runs statements.</li>
+</ul>
+
+<h3>Switch inside a for loop</h3>
+<pre><code><span class="k">for</span> (<span class="k">int</span> i = <span class="n">1</span>; i &lt;= <span class="n">5</span>; i++)
+{
+    <span class="k">switch</span> (i)
+    {
+        <span class="k">case</span> <span class="n">3</span>: <span class="k">break</span>;                <span class="c">// leaves the switch only</span>
+        <span class="k">default</span>: Console.Write(i + <span class="s">" "</span>); <span class="k">break</span>;
+    }
+}
+<span class="out">1 2 4 5</span></code></pre>
+<p>Inside a switch, <code>break</code> ends the switch, not the surrounding loop. Use <code>continue</code> to move to the next loop pass, or <code>return</code> to leave the method.</p>
+
+<h3>Worked practice (answers filled in)</h3>
+<div class="card">
+<p><b>Q:</b> Does this compile? <code>case 1: Console.Write("x"); case 2: Console.Write("y"); break;</code><br>
+<b>A:</b> No. Case 1 has a statement and no <code>break</code>, which is error CS0163. Fix: add <code>break;</code> after the first statement, or <code>goto case 2;</code> if you want to continue.</p>
+<p><b>Q:</b> Rewrite <code>if (c == 'a' || c == 'e') v = true; else v = false;</code> as a switch expression.<br>
+<b>A:</b> <code>bool v = c switch { 'a' or 'e' =&gt; true, _ =&gt; false };</code> (<code>or</code> patterns need C# 9).</p>
+</div>
 </section>
 
-<section id="strings">
-<h2>5. Strings (text)</h2>
-<p>A string is a sequence of characters inside quotes. Single and double quotes both work; just close with the same kind you opened with.</p>
-<pre class="py">first = "Ada"
-last = 'Lovelace'
-full = first + " " + last          # joining: "Ada Lovelace"
-print(f"Hello, {full}!")           # f-string inserts variables
-print(len(full))                   # 12
-print(full[0], full[-1])           # A e   (index starts at 0)
-print(full.upper())                # ADA LOVELACE
-print(full[0:3])                   # Ada   (slice)</pre>
-<pre class="js">const first = "Ada";
-const last = 'Lovelace';
-const full = first + " " + last;       // joining: "Ada Lovelace"
-console.log(`Hello, ${full}!`);        // template literal
-console.log(full.length);              // 12
-console.log(full[0], full.at(-1));     // A e   (index starts at 0)
-console.log(full.toUpperCase());       // ADA LOVELACE
-console.log(full.slice(0, 3));         // Ada</pre>
-<p>Two things to remember. <strong>Counting starts at 0</strong>, so the first character is at position 0. And <strong>strings are immutable</strong>: methods like <code>upper()</code> give you a new string and leave the original untouched.</p>
+<!-- ================= PROJECT ================= -->
+<section id="project">
+<h2>Putting it together: seeded dice tally</h2>
+<p>This program uses all four topics: a seeded <code>Random</code>, a <code>for</code> loop, a <code>switch</code> expression, and a binary display of the result.</p>
+<pre><code><span class="k">using</span> System;
+
+<span class="k">var</span> rnd = <span class="k">new</span> Random(<span class="n">2026</span>);          <span class="c">// fixed seed: replayable</span>
+<span class="k">int</span>[] tally = <span class="k">new int</span>[<span class="n">7</span>];            <span class="c">// index 1..6 used</span>
+<span class="k">int</span> evens = <span class="n">0</span>;
+
+<span class="k">for</span> (<span class="k">int</span> roll = <span class="n">0</span>; roll &lt; <span class="n">60</span>; roll++)
+{
+    <span class="k">int</span> face = rnd.Next(<span class="n">1</span>, <span class="n">7</span>);
+    tally[face]++;
+    <span class="k">string</span> kind = face <span class="k">switch</span>
+    {
+        <span class="n">2</span> <span class="k">or</span> <span class="n">4</span> <span class="k">or</span> <span class="n">6</span> =&gt; <span class="s">"even"</span>,
+        _           =&gt; <span class="s">"odd"</span>
+    };
+    <span class="k">if</span> (kind == <span class="s">"even"</span>) evens++;
+}
+
+<span class="k">for</span> (<span class="k">int</span> f = <span class="n">1</span>; f &lt;= <span class="n">6</span>; f++)
+    Console.WriteLine($<span class="s">"{f} ({Convert.ToString(f, 2).PadLeft(3, '0')}): {tally[f]}"</span>);
+Console.WriteLine($<span class="s">"Even rolls: {evens} of 60"</span>);
+<span class="out">1 (001): ...
+2 (010): ...
+...
+6 (110): ...
+Even rolls: ... of 60
+(The six tallies always add up to 60, and the counts are the same on every run
+with this seed on the same runtime.)</span></code></pre>
 </section>
 
-<section id="booleans">
-<h2>6. Booleans</h2>
-<p>A boolean has exactly two possible values, true or false. They come from comparisons and decide which code runs.</p>
-<pre class="py">age = 17
-can_vote = age >= 18          # False
-print(can_vote)
-print(age > 10 and age < 20)  # True   both must be true
-print(age < 10 or age > 60)   # False  one is enough
-print(not can_vote)           # True   flips it
-print(5 == 5, 5 != 5)         # True False</pre>
-<pre class="js">const age = 17;
-const canVote = age >= 18;           // false
-console.log(canVote);
-console.log(age > 10 && age < 20);   // true   both must be true
-console.log(age < 10 || age > 60);   // false  one is enough
-console.log(!canVote);               // true   flips it
-console.log(5 === 5, 5 !== 5);       // true false</pre>
-<p><strong>Truthy and falsy.</strong> Conditions also accept non-boolean values. Falsy values count as false: zero, an empty string, an empty collection, and nothing. Almost everything else is truthy.</p>
-<div class="callout"><p class="py"><code>=</code> assigns, <code>==</code> compares. Mixing them up is a classic first bug.</p><p class="js"><code>=</code> assigns, <code>===</code> compares strictly. Use <code>===</code>, not <code>==</code>, because <code>==</code> converts types quietly (<code>"5" == 5</code> is true).</p></div>
-</section>
-
-<section id="none">
-<h2>7. Nothing at all</h2>
-<p>Sometimes a variable exists but has no value yet, such as a user's middle name or a search that found no results. That is its own type.</p>
-<pre class="py">middle_name = None
-if middle_name is None:
-    print("No middle name")</pre>
-<pre class="js">let middleName = null;      // you chose "nothing"
-let city;                   // undefined: never given a value
-if (middleName === null) console.log("No middle name");
-console.log(city);          // undefined</pre>
-<p>Using nothing as if it were something is behind a huge share of real-world crashes, so check for it before you use a value.</p>
-</section>
-
-<section id="collections">
-<h2>8. Collections: many values in one variable</h2>
-<h3>Lists (arrays): ordered items</h3>
-<pre class="py">fruits = ["mango", "pawpaw", "orange"]
-print(fruits[0])            # mango
-fruits.append("banana")     # add to the end
-fruits[1] = "guava"         # change an item
-print(len(fruits))          # 4</pre>
-<pre class="js">const fruits = ["mango", "pawpaw", "orange"];
-console.log(fruits[0]);     // mango
-fruits.push("banana");      // add to the end
-fruits[1] = "guava";        // change an item
-console.log(fruits.length); // 4</pre>
-<h3>Dictionaries (objects): labelled items</h3>
-<p>When items have meaning by name rather than position, use key and value pairs.</p>
-<pre class="py">user = {"name": "Ada", "age": 25, "active": True}
-print(user["name"])         # Ada
-user["email"] = "ada@example.com"   # add a key</pre>
-<pre class="js">const user = { name: "Ada", age: 25, active: true };
-console.log(user.name);     // Ada
-user.email = "ada@example.com";     // add a key</pre>
-<p>Collections can hold any type, including other collections. A list of user dictionaries is how most real data looks. A <code>const</code> object or array can still have its contents changed; <code>const</code> only stops you pointing the name at something else.</p>
-</section>
-
-<section id="convert">
-<h2>9. Converting between types</h2>
-<p>Data from forms, files and the web usually arrives as text, even when it looks like a number. Convert it before doing maths.</p>
-<pre class="py">typed = "25"
-print(typed + typed)        # "2525"  text joined, not added
-age = int(typed)
-print(age + 1)              # 26
-print(float("3.5"), str(99), bool(0))   # 3.5 99 False
-int("hello")                # ValueError: cannot convert</pre>
-<pre class="js">const typed = "25";
-console.log(typed + typed);       // "2525"  text joined, not added
-const age = Number(typed);
-console.log(age + 1);             // 26
-console.log(Number("3.5"), String(99), Boolean(0));  // 3.5 "99" false
-console.log(Number("hello"));     // NaN (not a number)</pre>
-<div class="callout warn"><p>Mixing types can fail loudly or silently. Python raises an error for <code>"age: " + 25</code>. JavaScript quietly gives <code>"age: 25"</code> and also <code>"5" * 2 = 10</code> but <code>"5" + 2 = "52"</code>. Convert on purpose so you never rely on guesses.</p></div>
-<h3>Common mistakes</h3>
-<p>Using a variable before creating it. Misspelling a name or changing its case. Forgetting quotes around text (<code>name = Ada</code> looks for a variable called Ada). Doing maths on text that came from input. Starting counts at 1 instead of 0. Choosing vague names like <code>x</code> that you cannot understand next week.</p>
-</section>
-
+<!-- ================= QUIZ ================= -->
 <section id="quiz">
-<h2>Check yourself</h2>
-<div id="quizbox"></div>
-<div id="score"></div>
-<h3>Practice</h3>
-<ol class="ex">
-<li>Create variables for your name, age, height in metres and whether you are a student. Print a sentence using all four, then print the type of each.</li>
-<li>Store a price of 4500 and a discount of 15%. Compute the final price and name every variable clearly.</li>
-<li>Take the text <code>"12"</code> and <code>"8"</code>, add them as numbers, then join them as text. Explain why the results differ.</li>
-<li>Build a list of five items and a dictionary describing one of them (name, price, in stock). Print the second item and the price.</li>
-</ol>
-<p>Next topics: conditions (<code>if</code>), loops, and functions. They all depend on what you just learned.</p>
+<h2>Quiz: 40 questions</h2>
+<p>Ten questions per topic. Tap an answer to see the explanation straight away.</p>
+<div id="quizBox"></div>
+<div class="card" id="finalCard" style="display:none"></div>
 </section>
-<footer>Tip: run the examples in a Python or JavaScript playground and change the values.</footer>
 </main>
+
+<div class="score" role="status" aria-live="polite">
+  <span>Score: <span id="sc">0</span> / <span id="tot">40</span></span>
+  <span>Answered: <span id="an">0</span></span>
+  <button class="btn alt" id="reset">Reset quiz</button>
+</div>
+
+<footer><div class="wrap">Examples target C# 9 or later (.NET 6+). The Random seed demo uses a simple generator for illustration only.</div></footer>
+
 <script>
+/* ---------- hero bit flipper ---------- */
 (function(){
-var body=document.body,bp=document.getElementById('bp'),bj=document.getElementById('bj');
-function setLang(l){body.dataset.lang=l;bp.setAttribute('aria-pressed',l==='py');bj.setAttribute('aria-pressed',l==='js');update();
-document.querySelectorAll('.callout.py,.callout.js').forEach(function(){});}
-bp.onclick=function(){setLang('py')};bj.onclick=function(){setLang('js')};
-// callouts/paragraph classes py/js hide via body rules above
-var inp=document.getElementById('val'),out=document.getElementById('out'),chips=document.getElementById('chips');
-['42','3.14','"hello"','true','null','-7','"42"','[1, 2]'].forEach(function(s){var b=document.createElement('button');b.textContent=s;b.onclick=function(){inp.value=s;update()};chips.appendChild(b)});
-function classify(v){v=v.trim();
-if(v==='')return{t:['nothing yet','nothing yet'],d:'Type something above.',s:'?'};
-if(/^[-+]?\d+$/.test(v))return{t:['int','number'],d:'A whole number. You can add, subtract and multiply it.',s:v};
-if(/^[-+]?(\d+\.\d*|\.\d+)$/.test(v))return{t:['float','number'],d:'A decimal number.',s:v};
-if(/^(true|false)$/i.test(v))return{t:['bool','boolean'],d:'A boolean: only true or false. Python writes True and False with capitals.',s:v.toLowerCase()};
-if(/^(null|none)$/i.test(v))return{t:['NoneType','null'],d:'Nothing. The variable exists but holds no value.',s:v.toLowerCase()==='none'?'None':'null'};
-if(/^\[.*\]$/.test(v))return{t:['list','Array'],d:'A collection of ordered items, counted from 0.',s:v};
-if(/^\{.*\}$/.test(v))return{t:['dict','Object'],d:'A collection of labelled items (key and value pairs).',s:v};
-if(/^(".*"|'.*')$/.test(v))return{t:['str','string'],d:'Text. Anything inside quotes is a string, even digits.',s:v};
-return{t:['str','string'],d:'Unquoted words are treated as names of variables. To store this as text, wrap it in quotes.',s:'"'+v+'"',w:1}}
-function update(){var c=classify(inp.value),i=body.dataset.lang==='py'?0:1,n=document.createElement('div');
-out.innerHTML='';var b=document.createElement('span');b.className='box';
-var l=document.createElement('b');l.textContent='my_value';var s=document.createElement('span');s.textContent=c.s;var t=document.createElement('i');t.textContent=c.t[i];
-b.appendChild(l);b.appendChild(s);b.appendChild(t);var p=document.createElement('p');p.innerHTML='<strong></strong> ';p.firstChild.textContent=c.t[i]+': ';p.appendChild(document.createTextNode(c.d));
-out.appendChild(b);out.appendChild(p)}
-inp.addEventListener('input',update);update();
-// hide language-specific paragraphs/callouts too
-var st=document.createElement('style');st.textContent='body[data-lang=py] p.js,body[data-lang=js] p.py,body[data-lang=py] .callout.js,body[data-lang=js] .callout.py,body[data-lang=py] .callout p.js,body[data-lang=js] .callout p.py{display:none}';document.head.appendChild(st);
-// quiz
+  var box=document.getElementById('heroBits'), bits=[0,0,0,0,0,0,0,0];
+  function draw(){
+    box.innerHTML='';
+    bits.forEach(function(b,i){
+      var w=7-i, btn=document.createElement('button');
+      btn.className='bit'+(b?' on':'')+(i===0?' sign':'');
+      btn.setAttribute('aria-label','bit '+w+' value '+b+(i===0?' sign bit':''));
+      btn.innerHTML=b+'<small>'+(i===0?'-128':(1<<w))+'</small>';
+      btn.onclick=function(){bits[i]=b?0:1;draw();};
+      box.appendChild(btn);
+    });
+    var u=parseInt(bits.join(''),2), s=bits[0]?u-256:u;
+    document.getElementById('hU').textContent=u;
+    document.getElementById('hS').textContent=s;
+  }
+  draw();
+})();
+
+/* ---------- seed demo (LCG, illustration) ---------- */
+(function(){
+  function lcg(seed){
+    var s=BigInt.asUintN(31,BigInt(seed));
+    return function(){ s=(s*1103515245n+12345n)&0x7FFFFFFFn; return Number(s>>16n); };
+  }
+  function line(label,gen){
+    var arr=[];for(var i=0;i<10;i++)arr.push((gen()%6)+1);
+    return '<div><b>'+label+'</b> '+arr.join(' ')+'</div>';
+  }
+  document.getElementById('seedRun').onclick=function(){
+    var seed=parseInt(document.getElementById('seedIn').value||'0',10);
+    var t=Date.now()%100000;
+    document.getElementById('seqOut').innerHTML=
+      line('seed '+seed+' (run 1):',lcg(seed))+
+      line('seed '+seed+' (run 2):',lcg(seed))+
+      line('seed '+(seed+1)+':      ',lcg(seed+1))+
+      line('clock seed '+t+':',lcg(t));
+  };
+  document.getElementById('seedRun').click();
+})();
+
+/* ---------- two's complement converter ---------- */
+(function(){
+  var nb=document.getElementById('tcBits'),dec=document.getElementById('tcDec'),
+      bin=document.getElementById('tcBin'),st=document.getElementById('tcSteps');
+  function group(s){return s.replace(/(.{4})(?=.)/g,'$1 ');}
+  function run(){
+    var n=parseInt(nb.value,10), lo=-(1<<(n-1)), hi=(1<<(n-1))-1, v=parseInt(dec.value,10);
+    if(isNaN(v)){bin.textContent='';st.textContent='';return;}
+    if(v<lo||v>hi){bin.textContent='out of range';st.textContent=n+'-bit range is '+lo+' to '+hi;return;}
+    var mask=(1<<n)-1, pat=(v&mask).toString(2).padStart(n,'0');
+    bin.textContent=group(pat);
+    if(v<0){
+      var pos=(-v).toString(2).padStart(n,'0'),
+          inv=pos.split('').map(function(c){return c==='1'?'0':'1';}).join('');
+      st.innerHTML='|'+v+'| = '+group(pos)+' &rarr; invert '+group(inv)+' &rarr; add 1 &rarr; <b>'+group(pat)+'</b>';
+    } else st.innerHTML='Non-negative: ordinary binary. Sign bit is 0.';
+  }
+  nb.onchange=run;dec.oninput=run;run();
+})();
+
+/* ---------- for loop tracer ---------- */
+(function(){
+  var ids=['fStart','fOp','fEnd','fStep'].map(function(i){return document.getElementById(i);});
+  var head=document.getElementById('fHead'),out=document.getElementById('fOut');
+  function run(){
+    var s=parseInt(ids[0].value,10),op=ids[1].value,e=parseInt(ids[2].value,10),st=parseInt(ids[3].value,10);
+    if([s,e,st].some(isNaN)){out.textContent='';return;}
+    var sign=st>=0?'+= '+st:'-= '+(-st);
+    head.textContent='for (int i = '+s+'; i '+op+' '+e+'; i '+sign+')';
+    var test={'<':function(a,b){return a<b;},'<=':function(a,b){return a<=b;},'>':function(a,b){return a>b;},'>=':function(a,b){return a>=b;}}[op];
+    var vals=[],i=s,guard=0;
+    while(test(i,e)&&guard<40){vals.push(i);i+=st;guard++;}
+    if(guard>=40) out.textContent='Runs 40+ times: probably an infinite loop. First values: '+vals.slice(0,8).join(', ')+' ...';
+    else if(!vals.length) out.textContent='Body runs 0 times (condition false at the start).';
+    else out.textContent='Body runs '+vals.length+' time'+(vals.length>1?'s':'')+': '+vals.join(', ')+'  (i ends at '+i+')';
+  }
+  ids.forEach(function(el){el.oninput=run;el.onchange=run;});run();
+})();
+
+/* ---------- quiz ---------- */
 var Q=[
-['What does the line  age = 25  do?',['Compares age to 25','Stores 25 in a variable named age','Prints 25','Deletes age'],1,'Assignment puts the value on the right into the named box on the left.'],
-['Which is a legal variable name?',['2nd_place','user-name','user_name','class'],2,'Names use letters, digits and underscores, cannot start with a digit, and cannot be reserved words.'],
-['What type is "42" (with quotes)?',['A number','A string','A boolean','A list'],1,'Anything inside quotes is text, even if it looks like a number.'],
-['What is the result of  "5" + "5"  in both languages?',['10','"55"','An error in both','5'],1,'With text, + joins instead of adding, so you get "55".'],
-['Why can 0.1 + 0.2 differ from 0.3?',['The language has a bug','Some decimals cannot be stored exactly in binary','Decimals are strings','Python rounds down'],1,'Binary cannot represent 0.1 exactly, so tiny errors appear. Use whole units for money.'],
-['If fruits = ["a","b","c"], which gives "a"?',['fruits[1]','fruits[0]','fruits[-0.5]','fruits.first'],1,'Counting starts at 0, so the first item is at index 0.']];
-var box=document.getElementById('quizbox'),sc=document.getElementById('score'),done=0,right=0;
-Q.forEach(function(q){var d=document.createElement('div');d.className='q';var p=document.createElement('p');p.textContent=q[0];d.appendChild(p);var why=document.createElement('p');why.className='why';why.textContent=q[3];
-var btns=[];q[1].forEach(function(o,i){var b=document.createElement('button');b.className='o';b.textContent=o;b.onclick=function(){btns.forEach(function(x){x.disabled=true});
-if(i===q[2]){b.classList.add('right');right++}else{b.classList.add('wrong');btns[q[2]].classList.add('right')}
-why.style.display='block';done++;sc.textContent='Score: '+right+' of '+done+(done===Q.length?(right===Q.length?'. Perfect. Move on to conditions.':'. Re-read the sections you missed and retry.'):'')};btns.push(b);d.appendChild(b)});
-d.appendChild(why);box.appendChild(d)});
+/* RANDOM */
+["Random","Two Random objects are created with new Random(7) in the same runtime and called in the same way. What do they produce?",["Different numbers every time","The same sequence of numbers","Only the number 7","An exception"],1,"A PRNG is deterministic: the same seed gives the same state, so the same sequence."],
+["Random","What values can rnd.Next(1, 7) return?",["1 to 7","0 to 6","1 to 6","0 to 7"],2,"The lower bound is inclusive and the upper bound is exclusive, so 1 to 6."],
+["Random","What is the range of rnd.Next(10)?",["1 to 10","0 to 10","0 to 9","1 to 9"],2,"Next(max) returns 0 up to max − 1."],
+["Random","NextDouble() returns a value that is...",["0.0 up to but not including 1.0","1.0 to 10.0","Between -1 and 1","Any double"],0,"The range is [0.0, 1.0)."],
+["Random","Why should System.Random not be used to generate passwords or tokens?",["It is too slow","It only produces integers","Its output is predictable from its seed or state","It cannot be seeded"],2,"Use RandomNumberGenerator for security: its output is cryptographically strong."],
+["Random","A tester wants a game simulation to replay exactly the same each run. What should they do?",["Call Next() twice","Use a fixed seed","Use Random.Shared","Use NextDouble()"],1,"A fixed seed makes the sequence repeatable (within one runtime version)."],
+["Random","Which call simulates a 20-sided die?",["Next(20)","Next(1, 20)","Next(0, 20)","Next(1, 21)"],3,"The maximum is exclusive, so Next(1, 21) gives 1 to 20."],
+["Random","What does \"pseudo-random\" mean?",["Truly unpredictable physical noise","Produced by an algorithm that only looks random","Always sorted","Random only once"],1,"The sequence comes from a deterministic algorithm, so it only appears random."],
+["Random","Which expression gives a random even number from 0 to 98?",["rnd.Next(0, 98) * 2","rnd.Next(0, 50) * 2","rnd.Next(2, 98)","rnd.Next(0, 49) * 2"],1,"Next(0, 50) is 0..49; doubling gives 0, 2, ... 98."],
+["Random","What is Random.Shared (.NET 6+)?",["A cryptographic generator","A thread-safe shared Random instance","A generator that always uses seed 0","A way to read the seed"],1,"It is a ready-made, thread-safe instance, handy for simple uses."],
+/* TWO'S COMPLEMENT */
+["Two's complement","What is the range of an 8-bit two's complement integer?",["0 to 255","-127 to 127","-128 to 127","-255 to 255"],2,"−2^7 to 2^7 − 1."],
+["Two's complement","What is -5 as 8-bit two's complement?",["1000 0101","1111 1010","1111 1011","0000 0101"],2,"5 = 0000 0101; invert = 1111 1010; add 1 = 1111 1011."],
+["Two's complement","What signed value is 1000 0000 in 8 bits?",["-128","0","-0","128"],0,"Only the sign bit set gives −128."],
+["Two's complement","How do you negate a two's complement number?",["Flip only the sign bit","Invert all bits then add 1","Add 1 then invert","Subtract 1 only"],1,"Invert and add 1."],
+["Two's complement","What signed value is 1111 0000 in 8 bits?",["-16","-15","-112","240"],0,"Invert = 0000 1111, +1 = 0001 0000 = 16, so −16."],
+["Two's complement","What is a main hardware advantage of two's complement?",["It uses fewer bits","Subtraction can use the same adder as addition","It stores decimals","It avoids all overflow"],1,"a − b = a + (−b), and there is only one zero."],
+["Two's complement","What happens with sbyte x = 127; unchecked { x++; }?",["x becomes 128","x becomes -128","An exception is thrown","x stays 127"],1,"The value wraps around to the most negative number."],
+["Two's complement","In an unchecked context, what is int.MaxValue + 1 for a non-constant int?",["int.MaxValue","0","int.MinValue","A compile error"],2,"It wraps to −2,147,483,648."],
+["Two's complement","What is the range of a 16-bit signed integer?",["-32,768 to 32,767","-65,535 to 65,535","-32,767 to 32,767","0 to 65,535"],0,"−2^15 to 2^15 − 1."],
+["Two's complement","What is -5 (1111 1011) sign-extended from 8 to 16 bits?",["0000 0000 1111 1011","1111 1111 1111 1011","1000 0000 1111 1011","1111 1011 0000 0000"],1,"Copy the sign bit into the new high bits."],
+/* FOR */
+["for loop","How many times does for (int i = 0; i < 5; i++) run its body?",["4","5","6","Infinite"],1,"i takes 0, 1, 2, 3, 4."],
+["for loop","How many iterations does for (int i = 1; i <= 10; i += 3) make?",["3","4","5","10"],1,"i = 1, 4, 7, 10."],
+["for loop","In what order do the parts of a for loop run?",["Condition, initializer, body, iterator","Initializer once, then condition, body, iterator repeated","Body, condition, initializer","Iterator, body, condition"],1,"Initializer once; then test, body, iterator until the test fails."],
+["for loop","After int i; for (i = 0; i < 3; i++) { } what is i?",["2","3","0","It is out of scope"],1,"The loop only stops when i is 3, and i was declared outside so it survives."],
+["for loop","What does for (;;) do?",["Does not compile","Never runs","Loops forever unless broken out of","Runs once"],2,"With no condition the test is always true."],
+["for loop","int[] a = new int[5]; for (int i = 0; i <= a.Length; i++) a[i] = i; What happens?",["Fills the array correctly","IndexOutOfRangeException on the last pass","Compile error","Fills 6 elements"],1,"Valid indexes are 0..4; i = 5 is out of range."],
+["for loop","What does continue do inside a loop?",["Ends the loop","Skips the rest of the current pass","Restarts the program","Exits the method"],1,"It jumps to the iterator and the next condition check."],
+["for loop","Which statement ends the innermost loop immediately?",["continue","skip","break","stop"],2,"break leaves the nearest enclosing loop or switch."],
+["for loop","for (int i = 0; i < 3; i++) for (int j = 0; j < 2; j++) count++; adds how much to count?",["2","3","5","6"],3,"3 outer passes × 2 inner passes = 6."],
+["for loop","What does int s = 0; for (int i = 1; i <= 4; i++) s += i; leave in s?",["6","10","15","4"],1,"1 + 2 + 3 + 4 = 10."],
+/* SWITCH */
+["switch","What happens if a case with statements ends without break, return, throw or goto?",["It falls through to the next case","Compile error CS0163","It repeats","The default runs"],1,"C# forbids implicit fall-through from a non-empty case."],
+["switch","Which is allowed in C#?",["case 1: case 2: body; break;","case 1: x++; case 2: y++; break;","Two default labels","case without a body at the end of switch"],0,"Empty stacked labels may share a body."],
+["switch","When does the default section run?",["Always first","When no case label matches","Only if the value is 0","Only for strings"],1,"default catches everything not matched."],
+["switch","In a switch expression, what does _ mean?",["A comment","A variable named underscore","The discard pattern, matching anything","A syntax error"],2,"_ matches any value, so it works as the default arm."],
+["switch","In case int i when i < 0, what is 'when'?",["A loop","A guard condition on the pattern","A type cast","A label"],1,"A when clause adds an extra boolean test to a pattern."],
+["switch","score switch { >= 90 => \"A\", >= 80 => \"B\", _ => \"F\" } for 85 gives...",["A","B","F","Compile error"],1,"Arms are tested top to bottom; 85 fails ≥ 90, matches ≥ 80."],
+["switch","A switch expression has no matching arm and no discard. What happens at runtime?",["Returns null","Returns 0","Throws SwitchExpressionException","Runs the first arm"],2,"The compiler warns about it and the runtime throws."],
+["switch","What does goto case 2; do?",["Jumps to the case 2 section","Exits the program","Declares a label","Restarts the switch"],0,"It is the explicit way to continue into another case."],
+["switch","int n = 2; switch(n){ case 1: Write(\"A\"); break; case 2: Write(\"B\"); goto case 1; default: Write(\"?\"); break; } prints...",["B","A","BA","B?"],2,"Case 2 prints B, jumps to case 1 which prints A then breaks."],
+["switch","A break inside a switch that is inside a for loop...",["Ends the whole for loop","Ends only the switch","Skips the next iteration","Does nothing"],1,"break leaves the switch; use continue or return for the loop."]
+];
+(function(){
+  var box=document.getElementById('quizBox'),scoreEl=document.getElementById('sc'),ansEl=document.getElementById('an'),
+      totEl=document.getElementById('tot'),fin=document.getElementById('finalCard');
+  var score=0,answered=0;totEl.textContent=Q.length;
+  function build(){
+    box.innerHTML='';score=0;answered=0;scoreEl.textContent=0;ansEl.textContent=0;fin.style.display='none';
+    Q.forEach(function(item,qi){
+      var d=document.createElement('div');d.className='q';
+      var h=document.createElement('h4');h.textContent=(qi+1)+'. '+item[1];
+      var t=document.createElement('div');t.className='tag';t.textContent=item[0];
+      d.appendChild(h);d.appendChild(t);
+      var btns=[];
+      item[2].forEach(function(txt,oi){
+        var b=document.createElement('button');b.className='opt';b.type='button';b.textContent=txt;
+        b.onclick=function(){
+          if(d.classList.contains('done'))return;
+          d.classList.add('done');answered++;
+          if(oi===item[3]){b.classList.add('right');score++;}
+          else{b.classList.add('wrong');btns[item[3]].classList.add('right');}
+          scoreEl.textContent=score;ansEl.textContent=answered;
+          if(answered===Q.length){
+            fin.style.display='block';
+            var pct=Math.round(score/Q.length*100);
+            fin.innerHTML='<h3 style="margin-top:0">Finished: '+score+' / '+Q.length+' ('+pct+'%)</h3><p>'+
+              (pct>=90?'Excellent. You are ready to build with these.':pct>=70?'Solid. Revisit the questions you missed.':'Reread the lessons above, then reset and try again.')+'</p>';
+          }
+        };
+        btns.push(b);d.appendChild(b);
+      });
+      var e=document.createElement('div');e.className='expl';e.textContent=item[4];d.appendChild(e);
+      box.appendChild(d);
+    });
+  }
+  document.getElementById('reset').onclick=function(){build();document.getElementById('quiz').scrollIntoView();};
+  build();
 })();
 </script>
 </body>
