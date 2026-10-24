@@ -1,69 +1,2091 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Color by Code: Adding Integers – Answer Key</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Algorithms and Flowcharts for David</title>
 <style>
-:root{--bg:#fbf7f0;--card:#fff;--text:#2a2430;--muted:#6b6475;--line:#e4dccf;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1822;--card:#27222f;--text:#f1ecf5;--muted:#a79fb2;--line:#3a3344}}
-:root[data-theme="dark"]{--bg:#1c1822;--card:#27222f;--text:#f1ecf5;--muted:#a79fb2;--line:#3a3344}
+:root{
+  --bg:#f6f8fb; --card:#ffffff; --ink:#1c2733; --muted:#5b6b7b; --line:#d9e0e8;
+  --brand:#2457d6; --brand-soft:#e6edfc; --good:#16794c; --good-soft:#e2f5ec;
+  --warn:#9a5b00; --warn-soft:#fff2d9; --bad:#b3261e; --bad-soft:#fde7e5;
+  --code-bg:#0f1b2d; --code-ink:#e6edf7;
+  --n-alt:#ece4fb; --n-start:#d7f0e2; --n-proc:#e6edfc; --n-io:#fff0cf; --n-dec:#fbe3ee; --stroke:#33445a;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0f1620; --card:#17212d; --ink:#e8eef5; --muted:#9db0c3; --line:#2a3a4d;
+    --brand:#7aa2ff; --brand-soft:#1d2c4d; --good:#5fd39b; --good-soft:#143428;
+    --warn:#ffc266; --warn-soft:#3a2d12; --bad:#ff8a80; --bad-soft:#401a18;
+    --code-bg:#0a121c; --code-ink:#e6edf7;
+    --n-alt:#33285a; --n-start:#14402e; --n-proc:#1d2c4d; --n-io:#4a3a14; --n-dec:#4a1c34; --stroke:#a9bbd0;
+  }
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.4}
-main{max-width:860px;margin:0 auto;padding:20px 16px 40px}
-h1{font-size:1.5rem;margin:0 0 4px}
-p.sub{margin:0 0 18px;color:var(--muted)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
-.chip{border:2px solid var(--line);background:var(--card);color:var(--text);border-radius:999px;padding:6px 12px;font-size:.9rem;cursor:pointer;display:flex;align-items:center;gap:8px}
-.chip.on{border-color:var(--text)}
-.dot{width:16px;height:16px;border-radius:50%;border:1px solid rgba(0,0,0,.3);display:inline-block}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px;cursor:pointer;position:relative}
-.card.done{opacity:.45}
-.sw{height:34px;border-radius:8px;border:1px solid rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:600}
-.expr{font-size:1.1rem;font-weight:600}
-.ans{color:var(--muted);font-size:.9rem}
-.note{margin-top:22px;color:var(--muted);font-size:.9rem}
-.prog{margin:0 0 14px;font-size:.9rem;color:var(--muted)}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.65;font-size:17px}
+header.top{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:10px 16px}
+header.top .logo{font-weight:800;color:var(--brand)}
+header.top .bar{flex:1;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+header.top .bar i{display:block;height:100%;width:0;background:var(--brand);transition:width .3s}
+header.top button{display:none;background:var(--brand-soft);color:var(--brand);border:0;border-radius:8px;padding:6px 12px;font-size:15px;cursor:pointer}
+.layout{display:flex;max-width:1200px;margin:0 auto}
+nav.side{width:260px;flex-shrink:0;position:sticky;top:58px;align-self:flex-start;max-height:calc(100vh - 58px);overflow:auto;padding:18px 12px 30px 16px}
+nav.side a{display:block;padding:7px 10px;border-radius:8px;color:var(--ink);text-decoration:none;font-size:15px}
+nav.side a:hover{background:var(--brand-soft)}
+nav.side a.on{background:var(--brand);color:#fff}
+nav.side .grp{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:14px 10px 4px}
+main{flex:1;min-width:0;padding:18px 20px 80px}
+section.lesson{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 28px;margin:0 0 22px}
+h1{font-size:2rem;line-height:1.2;margin:.2em 0}
+h2{font-size:1.55rem;margin:0 0 .3em;line-height:1.25}
+h3{font-size:1.15rem;margin:1.5em 0 .4em}
+.tag{display:inline-block;background:var(--brand-soft);color:var(--brand);font-weight:700;font-size:13px;border-radius:99px;padding:3px 12px;margin-bottom:6px}
+p{margin:.6em 0}
+.lead{font-size:1.1rem;color:var(--muted)}
+.box{border-radius:12px;padding:14px 18px;margin:16px 0;border-left:6px solid}
+.box b.t{display:block;margin-bottom:2px}
+.key{background:var(--brand-soft);border-color:var(--brand)}
+.ok{background:var(--good-soft);border-color:var(--good)}
+.warn{background:var(--warn-soft);border-color:var(--warn)}
+.bad{background:var(--bad-soft);border-color:var(--bad)}
+pre.code{background:var(--code-bg);color:var(--code-ink);border-radius:12px;padding:14px 18px;overflow:auto;font-family:ui-monospace,Consolas,Menlo,monospace;font-size:15px;line-height:1.55;margin:12px 0}
+code{font-family:ui-monospace,Consolas,Menlo,monospace;background:var(--brand-soft);color:var(--brand);padding:1px 6px;border-radius:6px;font-size:.92em}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:15.5px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--brand-soft)}
+td.c,th.c{text-align:center}
+.tbl-wrap{overflow-x:auto}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cardmini{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--bg)}
+.fc{text-align:center;margin:14px 0;overflow-x:auto}
+.fc svg{max-width:100%;height:auto}
+.fc .cap{font-size:14px;color:var(--muted);margin-top:4px}
+svg .shape{fill:var(--n-proc);stroke:var(--stroke);stroke-width:2}
+svg .shape.start,svg .shape.end{fill:var(--n-start)}
+svg .shape.io{fill:var(--n-io)}
+svg .shape.dec{fill:var(--n-dec)}
+svg .shape.proc{fill:var(--n-proc)}
+svg text{fill:var(--ink);font-size:13.5px;font-family:system-ui,sans-serif;text-anchor:middle}
+svg .lbl{font-weight:700;font-size:13px;fill:var(--brand)}
+svg .edge{fill:none;stroke:var(--stroke);stroke-width:2}
+svg .node.active .shape{stroke:#e0562b;stroke-width:4;fill:#ffd9c9}
+@media (prefers-color-scheme: dark){svg .node.active .shape{fill:#6b2d17}}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;position:relative;padding:8px 8px 8px 48px;margin:6px 0;background:var(--bg);border-radius:10px}
+.steps li::before{content:counter(s);position:absolute;left:10px;top:8px;width:28px;height:28px;border-radius:50%;background:var(--brand);color:#fff;text-align:center;line-height:28px;font-weight:700;font-size:14px}
+details{border:1px solid var(--line);border-radius:12px;padding:10px 16px;margin:12px 0;background:var(--bg)}
+details summary{cursor:pointer;font-weight:700}
+button.btn{background:var(--brand);color:#fff;border:0;border-radius:10px;padding:9px 18px;font-size:16px;cursor:pointer;margin:4px 6px 4px 0}
+button.btn.alt{background:var(--brand-soft);color:var(--brand)}
+button.btn:disabled{opacity:.45;cursor:default}
+input[type=number],select{font-size:16px;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.done{display:flex;align-items:center;gap:8px;margin-top:22px;padding-top:14px;border-top:1px dashed var(--line);font-weight:600}
+.done input{width:20px;height:20px}
+.tracer .vars{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.tracer .var{background:var(--brand-soft);border-radius:10px;padding:6px 14px;font-family:ui-monospace,Consolas,monospace}
+.tracer .say{background:var(--warn-soft);border-radius:10px;padding:12px 16px;min-height:60px}
+.tracer .out{background:var(--code-bg);color:var(--code-ink);border-radius:10px;padding:8px 14px;font-family:ui-monospace,Consolas,monospace;margin-top:10px;min-height:38px}
+.quiz .opt{display:block;width:100%;text-align:left;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:12px 16px;margin:8px 0;font-size:16px;color:var(--ink);cursor:pointer}
+.quiz .opt:hover:not(:disabled){border-color:var(--brand)}
+.quiz .opt.right{border-color:var(--good);background:var(--good-soft)}
+.quiz .opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.quiz .why{margin-top:10px}
+.quiz .prog{color:var(--muted);font-size:14px}
+.sym{display:grid;grid-template-columns:290px 1fr;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.sym:last-child{border-bottom:0}
+.sym svg{max-width:100%;height:auto}
+svg .shape.conn,svg .shape.offp,svg .shape.pre{fill:var(--n-alt)}
+svg .shape.prep{fill:var(--n-start)}
+svg .shape.man,svg .shape.disp{fill:var(--n-io)}
+svg .shape.doc,svg .shape.db{fill:var(--n-proc)}
+svg .shape.note{fill:none}
+svg .sl{stroke:var(--stroke);stroke-width:2}
+svg .edge.dash{stroke-dasharray:6 5}
+footer{text-align:center;color:var(--muted);padding:30px 10px 50px;font-size:14px}
+@media (max-width:860px){
+  nav.side{position:fixed;left:0;top:58px;bottom:0;background:var(--card);border-right:1px solid var(--line);z-index:30;transform:translateX(-100%);transition:transform .2s;max-height:none}
+  nav.side.open{transform:none}
+  header.top button{display:block}
+  .grid2{grid-template-columns:1fr}
+  section.lesson{padding:20px 16px}
+  main{padding:12px 10px 60px}
+  .sym{grid-template-columns:1fr}
+  body{font-size:16.5px}
+}
+@media print{
+  header.top,nav.side,footer,.noprint{display:none!important}
+  body.print-cheat main section.lesson:not(#cheat){display:none}
+  section.lesson{border:0;padding:0}
+}
 </style>
 </head>
 <body>
+<header class="top">
+  <button id="menuBtn" aria-label="Open menu">Menu</button>
+  <span class="logo">Algorithms and Flowcharts</span>
+  <div class="bar" title="Lessons completed"><i id="barFill"></i></div>
+  <span id="barText" style="font-size:14px;color:var(--muted)">0/13</span>
+</header>
+<div class="layout">
+<nav class="side" id="side">
+  <div class="grp">Start here</div>
+  <a href="#welcome">Welcome</a>
+  <div class="grp">Part 1 : Algorithms</div>
+  <a href="#l1">1. What is an algorithm?</a>
+  <a href="#l2">2. Three ways to write one</a>
+  <a href="#l3">3. The three building blocks</a>
+  <div class="grp">Part 2 : Pseudocode</div>
+  <a href="#lp1">4. Pseudocode basics</a>
+  <a href="#lp2">5. Choices and loops</a>
+  <a href="#lp3">6. Procedures and style</a>
+  <div class="grp">Part 3 : Flowcharts</div>
+  <a href="#l4">7. All 14 symbols</a>
+  <a href="#l5">8. Drawing rules</a>
+  <a href="#l6">9. Worked examples</a>
+  <a href="#lx">10. Extra-symbol examples</a>
+  <a href="#l7">11. Trace it step by step</a>
+  <div class="grp">Part 4 : Your turn</div>
+  <a href="#l8">12. Design your own</a>
+  <a href="#l9">13. Practice problems</a>
+  <a href="#quiz">Quiz</a>
+  <a href="#cheat">Cheat sheet</a>
+</nav>
 <main>
-<h1>🎃 Color by Code: Adding Integers</h1>
-<p class="sub">Answer key. Tap a color to filter, tap a problem to mark it colored.</p>
-<div class="chips" id="chips"></div>
-<p class="prog" id="prog"></p>
-<div class="grid" id="grid"></div>
-<p class="note">Some labels are small in the photo. The purple piece on the far left may read 9 + 6 (= 15, purple). Check it against the paper.</p>
+
+<section class="lesson" id="welcome">
+  <span class="tag">Welcome</span>
+  <h1>Algorithms and Flowcharts, explained slowly and clearly</h1>
+  <p class="lead">This course starts from zero. You do not need to know any programming. Every idea is explained in plain words first, then shown with a picture, then shown with an example you can follow step by step.</p>
+  <div class="grid2">
+    <div class="cardmini"><b>What you will learn</b>
+      <ul>
+        <li>What an algorithm is and why it matters</li>
+        <li>How to write proper pseudocode: variables, operators, IF, WHILE, FOR, REPEAT, procedures</li>
+        <li>All 14 flowchart symbols, what each means, and how to draw with them</li>
+        <li>How to follow (trace) an algorithm to find its answer</li>
+        <li>How to design your own from a problem</li>
+      </ul>
+    </div>
+    <div class="cardmini"><b>How to use this site</b>
+      <ul>
+        <li>Go in order, top to bottom.</li>
+        <li>Read each example, then look at the picture next to it.</li>
+        <li>Tick the box at the end of a lesson when you understand it.</li>
+        <li>Use the tracer in lesson 7 to watch flowcharts run.</li>
+        <li>Finish with the quiz.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="box key"><b class="t">The one sentence to remember</b>An algorithm is a clear list of steps that solves a problem. A flowchart is a picture of that list.</div>
+</section>
+
+<!-- LESSON 1 -->
+<section class="lesson" id="l1">
+  <span class="tag">Lesson 1</span>
+  <h2>What is an algorithm?</h2>
+  <p>An <b>algorithm</b> is a set of clear steps, written in the right order, that solves a problem or completes a task.</p>
+  <p>You already use algorithms every day. You just do not call them that.</p>
+
+  <h3>Example 1: brushing your teeth</h3>
+  <ol class="steps">
+    <li>Pick up the toothbrush.</li>
+    <li>Put toothpaste on the brush.</li>
+    <li>Brush your teeth for two minutes.</li>
+    <li>Rinse your mouth with water.</li>
+    <li>Rinse the brush and put it away.</li>
+  </ol>
+  <p>This is an algorithm. It has a start, a list of steps in order, and it ends with the job done.</p>
+
+  <h3>Example 2: the order matters</h3>
+  <p>Look at the same steps in the wrong order: put the brush away, rinse your mouth, brush your teeth, put toothpaste on, pick up the brush. Nothing works. <b>The order of the steps is part of the algorithm.</b></p>
+
+  <h3>Example 3: a computer algorithm</h3>
+  <p>Problem: add two numbers.</p>
+  <ol class="steps">
+    <li>Get the first number.</li>
+    <li>Get the second number.</li>
+    <li>Add them together.</li>
+    <li>Show the answer.</li>
+  </ol>
+
+  <h3>What makes a good algorithm? Six properties</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Property</th><th>What it means</th><th>Example</th></tr>
+    <tr><td><b>Input</b></td><td>It may take in data to work with.</td><td>The two numbers to add</td></tr>
+    <tr><td><b>Output</b></td><td>It must produce at least one result.</td><td>The sum</td></tr>
+    <tr><td><b>Clear (definite)</b></td><td>Each step has only one possible meaning.</td><td>"Add the numbers" is clear. "Do something with the numbers" is not.</td></tr>
+    <tr><td><b>Finite</b></td><td>It must finish after a limited number of steps. It cannot go on forever.</td><td>Five steps, then stop</td></tr>
+    <tr><td><b>Ordered</b></td><td>The steps are in the correct sequence.</td><td>Get the numbers before adding them</td></tr>
+    <tr><td><b>Effective</b></td><td>Every step is simple enough to actually be done.</td><td>"Add" is doable. "Find the biggest number in the universe" is not.</td></tr>
+  </table></div>
+
+  <h3>Clear versus unclear</h3>
+  <div class="grid2">
+    <div class="box bad"><b class="t">Unclear</b>1. Get some bread.<br>2. Put stuff on it.<br>3. Eat.<br><br>What stuff? How much? Which bread?</div>
+    <div class="box ok"><b class="t">Clear</b>1. Take two slices of bread.<br>2. Spread butter on one slice.<br>3. Place one slice of cheese on top.<br>4. Cover with the second slice.<br>5. Eat.</div>
+  </div>
+  <div class="box warn"><b class="t">Remember</b>A computer does exactly what you tell it, nothing more and nothing less. It cannot guess what you meant. That is why every step must be clear.</div>
+  <label class="done"><input type="checkbox" data-lesson="l1"> I understand this lesson</label>
+</section>
+
+<!-- LESSON 2 -->
+<section class="lesson" id="l2">
+  <span class="tag">Lesson 2</span>
+  <h2>Three ways to write an algorithm</h2>
+  <p>The same algorithm can be written in three ways. They all say the same thing. They just look different.</p>
+  <ol class="steps">
+    <li><b>Plain English steps</b>: normal sentences, numbered.</li>
+    <li><b>Pseudocode</b>: short, structured, code-like lines. It is not a real programming language, so nothing can "break". It is a bridge between English and real code.</li>
+    <li><b>Flowchart</b>: a picture made of shapes and arrows.</li>
+  </ol>
+
+  <h3>The same problem in all three ways</h3>
+  <p><b>Problem:</b> Ask for two numbers and show their sum.</p>
+  <div class="grid2">
+    <div class="cardmini"><b>1. Plain English</b>
+      <ol><li>Start.</li><li>Ask the user for the first number and the second number.</li><li>Add the two numbers and call the result sum.</li><li>Show sum.</li><li>Stop.</li></ol></div>
+    <div class="cardmini"><b>2. Pseudocode</b>
+<pre class="code">START
+INPUT num1, num2
+sum = num1 + num2
+OUTPUT sum
+END</pre></div>
+  </div>
+  <p><b>3. Flowchart</b></p>
+  <div class="fc" data-chart="add"><div class="cap">Add two numbers</div></div>
+
+  <h3>Pseudocode words you need to know</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Word</th><th>Meaning</th><th>Example</th></tr>
+    <tr><td><code>START</code> / <code>END</code></td><td>Where the algorithm begins and finishes</td><td>START</td></tr>
+    <tr><td><code>INPUT</code> (or READ)</td><td>Receive data from the user</td><td>INPUT age</td></tr>
+    <tr><td><code>OUTPUT</code> (or PRINT, DISPLAY)</td><td>Show something to the user</td><td>OUTPUT "Hello"</td></tr>
+    <tr><td><code>=</code></td><td>Store a value in a variable (put it in a labelled box)</td><td>total = 5 + 3</td></tr>
+    <tr><td><code>IF ... THEN ... ELSE</code></td><td>Make a decision</td><td>IF age &gt;= 18 THEN ...</td></tr>
+    <tr><td><code>WHILE ... DO</code></td><td>Repeat while a condition is true</td><td>WHILE i &lt;= 5 DO ...</td></tr>
+  </table></div>
+
+  <div class="box key"><b class="t">Want the full detail?</b>This table is only a first look. Lessons 4, 5 and 6 teach pseudocode properly, one piece at a time, with every line explained.</div>
+
+  <h3>What is a variable?</h3>
+  <p>A <b>variable</b> is a labelled box in the computer's memory that holds one value. The label is the variable's name. The value inside can change.</p>
+  <div class="box key"><b class="t">Picture it</b>The line <code>age = 12</code> means: "Take a box, label it <b>age</b>, and put 12 inside." Later, <code>age = 13</code> means: throw away the 12 and put 13 inside. The box is the same. The content changed.</div>
+
+  <h3>The line that confuses most beginners: <code>count = count + 1</code></h3>
+  <p>In maths, "count = count + 1" is impossible. In an algorithm, the <code>=</code> means "store". So read it from the right side first:</p>
+  <ol class="steps">
+    <li>Look at the current value in the box <b>count</b>. Say it is 4.</li>
+    <li>Add 1 to it. That makes 5.</li>
+    <li>Put 5 back into the box <b>count</b>. The old 4 is gone.</li>
+  </ol>
+  <div class="tbl-wrap"><table>
+    <tr><th>Before</th><th>Line</th><th>After</th></tr>
+    <tr><td>count = 4</td><td><code>count = count + 1</code></td><td>count = 5</td></tr>
+    <tr><td>total = 10</td><td><code>total = total + 7</code></td><td>total = 17</td></tr>
+    <tr><td>x = 6</td><td><code>x = x * 2</code></td><td>x = 12</td></tr>
+  </table></div>
+  <label class="done"><input type="checkbox" data-lesson="l2"> I understand this lesson</label>
+</section>
+
+<!-- LESSON 3 -->
+<section class="lesson" id="l3">
+  <span class="tag">Lesson 3</span>
+  <h2>The three building blocks of every algorithm</h2>
+  <p>Every algorithm ever written, from a simple calculator to a banking system, is built from only three ideas. Learn these and you can read any algorithm.</p>
+
+  <h3>1. Sequence: do things one after another</h3>
+  <p>Steps run in order, top to bottom, with no skipping.</p>
+<pre class="code">INPUT length, width
+area = length * width
+OUTPUT area</pre>
+  <p>Real life: put on socks, then put on shoes.</p>
+
+  <h3>2. Selection: make a choice</h3>
+  <p>The algorithm asks a yes/no question and follows a different path depending on the answer. Also called a <b>decision</b> or <b>branching</b>.</p>
+<pre class="code">INPUT age
+IF age &gt;= 18 THEN
+    OUTPUT "You can vote"
+ELSE
+    OUTPUT "You cannot vote yet"
+END IF</pre>
+  <p>Real life: if it is raining, take an umbrella. Otherwise, wear sunglasses.</p>
+
+  <h3>3. Iteration: repeat</h3>
+  <p>The algorithm repeats some steps again and again until a condition says stop. Also called a <b>loop</b>.</p>
+<pre class="code">i = 1
+WHILE i &lt;= 3 DO
+    OUTPUT "Hello"
+    i = i + 1
+END WHILE</pre>
+  <p>This prints Hello three times. Real life: keep stirring the soup until it boils.</p>
+
+  <div class="box warn"><b class="t">Important: every loop needs three things</b>
+  <ol style="margin:6px 0 0"><li>A <b>starting value</b> (<code>i = 1</code>)</li><li>A <b>condition</b> that decides whether to keep going (<code>i &lt;= 3</code>)</li><li>A <b>change</b> inside the loop that moves toward stopping (<code>i = i + 1</code>)</li></ol>
+  If you forget the change, the condition never becomes false and the loop runs forever. That is called an <b>infinite loop</b>, and it breaks the "finite" rule from lesson 1.</div>
+
+  <div class="tbl-wrap"><table>
+    <tr><th>Block</th><th>Question it answers</th><th>Pseudocode clue</th><th>Flowchart clue</th></tr>
+    <tr><td>Sequence</td><td>What happens next?</td><td>Lines one after another</td><td>Boxes in a straight line</td></tr>
+    <tr><td>Selection</td><td>Which path do I take?</td><td>IF / ELSE</td><td>Diamond with Yes and No exits</td></tr>
+    <tr><td>Iteration</td><td>Do I go around again?</td><td>WHILE / FOR</td><td>An arrow that goes back up</td></tr>
+  </table></div>
+  <label class="done"><input type="checkbox" data-lesson="l3"> I understand this lesson</label>
+</section>
+
+<!-- LESSON PSEUDO 1 -->
+<section class="lesson" id="lp1">
+  <span class="tag">Lesson 4</span>
+  <h2>Pseudocode, part 1: the basics</h2>
+
+  <h3>What is pseudocode?</h3>
+  <p><b>Pseudocode</b> (say it: SOO-doh-code) is a way of writing an algorithm using short, structured lines that look a little like a programming language but are really just careful English. The word "pseudo" means "pretend" or "not real". No computer runs pseudocode. <b>People</b> read it.</p>
+  <div class="box key"><b class="t">Think of it like this</b>An architect draws a plan before the builders start. Pseudocode is the plan. Real code (Python, Java, JavaScript) is the building. If the plan is wrong, the building will be wrong, so we get the plan right first.</div>
+  <p><b>Why do we use it?</b></p>
+  <ul>
+    <li><b>It lets you think about the logic only.</b> You do not need to worry about brackets, colons or spelling rules of a real language.</li>
+    <li><b>Anyone can read it.</b> A person who knows Python and a person who knows Java can both understand the same pseudocode.</li>
+    <li><b>It is easy to change.</b> Fixing a plan is quicker than fixing a finished program.</li>
+    <li><b>It translates into any language.</b> Once you have good pseudocode, writing real code is mostly a matter of changing the words.</li>
+  </ul>
+
+  <h3>The rules we follow in this course</h3>
+  <p>Pseudocode has no official rulebook, but good pseudocode follows habits that make it easy to read. These are the habits used on this website.</p>
+  <ol class="steps">
+    <li><b>One instruction per line.</b> Do not squeeze two actions into one line.</li>
+    <li><b>Keywords are in CAPITAL LETTERS</b> such as <code>INPUT</code>, <code>OUTPUT</code>, <code>IF</code>, <code>WHILE</code>. This makes the structure stand out from your variable names.</li>
+    <li><b>Indent the lines inside a block.</b> Everything inside an IF or a loop is pushed in by 4 spaces. The indent shows what belongs to what.</li>
+    <li><b>Close every block.</b> Every <code>IF</code> ends with <code>END IF</code>. Every <code>WHILE</code> ends with <code>END WHILE</code>. Every <code>FOR</code> ends with <code>END FOR</code>.</li>
+    <li><b>Use meaningful names.</b> <code>totalMarks</code> tells you what it is. <code>x</code> does not.</li>
+    <li><b>Put text in quotation marks.</b> <code>OUTPUT "Hello"</code>.</li>
+    <li><b>Explain tricky lines with a comment</b> that starts with <code>//</code>. The computer (and the reader) ignores comments as instructions. They are notes to the human.</li>
+  </ol>
+
+  <h3>Anatomy of a small pseudocode program</h3>
+<pre class="code">START
+// Ask for two marks and show the average
+INPUT mark1
+INPUT mark2
+total = mark1 + mark2
+average = total / 2
+OUTPUT "The average is " + average
+END</pre>
+  <div class="tbl-wrap"><table>
+    <tr><th>Line</th><th>What it does</th></tr>
+    <tr><td><code>START</code></td><td>Marks where the algorithm begins.</td></tr>
+    <tr><td><code>// Ask for two marks...</code></td><td>A comment. Nothing happens. It is a note for the reader.</td></tr>
+    <tr><td><code>INPUT mark1</code></td><td>Waits for the user to type a value and stores it in the variable <b>mark1</b>.</td></tr>
+    <tr><td><code>INPUT mark2</code></td><td>Same, for <b>mark2</b>.</td></tr>
+    <tr><td><code>total = mark1 + mark2</code></td><td>Adds the two stored values and stores the result in <b>total</b>.</td></tr>
+    <tr><td><code>average = total / 2</code></td><td>Divides total by 2 and stores the result in <b>average</b>.</td></tr>
+    <tr><td><code>OUTPUT "The average is " + average</code></td><td>Shows the sentence with the value of average joined on the end.</td></tr>
+    <tr><td><code>END</code></td><td>Marks where the algorithm finishes.</td></tr>
+  </table></div>
+  <p><b>Test with mark1 = 60 and mark2 = 80:</b> total = 140, average = 70, output: <b>The average is 70</b>.</p>
+
+  <h3>Data: the kinds of values we can store</h3>
+  <p>Every value has a <b>type</b>. The type tells the computer what it can do with the value.</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Type</th><th>What it holds</th><th>Examples</th><th>Notes</th></tr>
+    <tr><td><b>Integer</b></td><td>Whole numbers (no decimal point)</td><td><code>5</code>, <code>-3</code>, <code>0</code>, <code>2026</code></td><td>Use for counting: ages, number of items.</td></tr>
+    <tr><td><b>Real</b> (decimal)</td><td>Numbers that may have a decimal part</td><td><code>3.5</code>, <code>0.75</code>, <code>-12.4</code></td><td>Use for money, measurements, averages.</td></tr>
+    <tr><td><b>Text</b> (string)</td><td>Letters, words, symbols, even digits treated as text</td><td><code>"Hello"</code>, <code>"Lagos"</code>, <code>"2026"</code></td><td>Always inside quotation marks.</td></tr>
+    <tr><td><b>Boolean</b></td><td>Only two possible values</td><td><code>TRUE</code>, <code>FALSE</code></td><td>The result of a yes/no question.</td></tr>
+  </table></div>
+  <div class="box warn"><b class="t">Number or text? It matters</b><code>5 + 5</code> gives the number <b>10</b>. But <code>"5" + "5"</code> joins two pieces of text and gives <b>"55"</b>. The quotation marks change everything.</div>
+
+  <h3>Variables: labelled boxes</h3>
+  <p>A <b>variable</b> is a named place in the computer's memory that stores one value. You choose the name. You can look at the value, and you can replace it.</p>
+  <p>Giving a variable a value is called <b>assignment</b>. We write it with <code>=</code> and read it as "gets" or "becomes":</p>
+<pre class="code">age = 12          // the box called age now holds 12
+name = "Ada"      // the box called name now holds the text Ada
+age = age + 1     // read the old value, add 1, store 13 back</pre>
+  <div class="box key"><b class="t">Rule for assignment</b>The variable that receives the value is always on the <b>left</b> of the <code>=</code>. The calculation is on the <b>right</b>. The right side is worked out first, then the answer is stored on the left.</div>
+  <p>Some textbooks write assignment with an arrow, <code>age ← 12</code>, to show that the value flows into the box. It means exactly the same as <code>age = 12</code>. If your teacher or exam uses the arrow, use the arrow.</p>
+
+  <h3>Choosing good variable names</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Name</th><th>Good or bad?</th><th>Why</th></tr>
+    <tr><td><code>totalMarks</code></td><td class="c">Good</td><td>Describes what it holds. Words joined, second word starts with a capital.</td></tr>
+    <tr><td><code>price_per_item</code></td><td class="c">Good</td><td>Underscores are fine too.</td></tr>
+    <tr><td><code>age</code></td><td class="c">Good</td><td>Short and clear.</td></tr>
+    <tr><td><code>total marks</code></td><td class="c">Bad</td><td>A space would make it look like two different words.</td></tr>
+    <tr><td><code>2ndScore</code></td><td class="c">Bad</td><td>A name should not start with a digit.</td></tr>
+    <tr><td><code>total-marks</code></td><td class="c">Bad</td><td>The dash looks like a minus sign: total minus marks.</td></tr>
+    <tr><td><code>x</code></td><td class="c">Poor</td><td>It works, but nobody can tell what it stores.</td></tr>
+  </table></div>
+
+  <h3>A classic beginner puzzle: swapping two variables</h3>
+  <p>You have <code>a = 5</code> and <code>b = 9</code>. You want a to hold 9 and b to hold 5. If you write <code>a = b</code> first, the 5 is thrown away and lost. You need a third empty box, <code>temp</code>, to hold the 5 safely.</p>
+<pre class="code">a = 5
+b = 9
+temp = a      // save the 5
+a = b         // a becomes 9
+b = temp      // b becomes the saved 5</pre>
+  <div class="tbl-wrap"><table>
+    <tr><th>After this line</th><th class="c">a</th><th class="c">b</th><th class="c">temp</th></tr>
+    <tr><td><code>a = 5</code></td><td class="c">5</td><td class="c">-</td><td class="c">-</td></tr>
+    <tr><td><code>b = 9</code></td><td class="c">5</td><td class="c">9</td><td class="c">-</td></tr>
+    <tr><td><code>temp = a</code></td><td class="c">5</td><td class="c">9</td><td class="c">5</td></tr>
+    <tr><td><code>a = b</code></td><td class="c">9</td><td class="c">9</td><td class="c">5</td></tr>
+    <tr><td><code>b = temp</code></td><td class="c">9</td><td class="c">5</td><td class="c">5</td></tr>
+  </table></div>
+  <p>The values have swapped: a is 9 and b is 5.</p>
+
+  <h3>INPUT and OUTPUT</h3>
+  <p><code>INPUT</code> receives a value from the user and stores it in a variable. <code>OUTPUT</code> (some books say <code>PRINT</code> or <code>DISPLAY</code>) shows a value.</p>
+<pre class="code">INPUT name
+OUTPUT "Hello, " + name
+OUTPUT "Welcome to the course"</pre>
+  <p>If the user types <b>Ada</b>, the screen shows:</p>
+<pre class="code">Hello, Ada
+Welcome to the course</pre>
+  <p>The <code>+</code> between text pieces <b>joins</b> them. Joining text is called <b>concatenation</b>. Notice the space inside <code>"Hello, "</code>. Without it you would see "Hello,Ada".</p>
+
+  <h3>Arithmetic operators (calculations)</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Operator</th><th>Meaning</th><th>Example</th><th>Result</th></tr>
+    <tr><td><code>+</code></td><td>Add</td><td><code>7 + 3</code></td><td class="c">10</td></tr>
+    <tr><td><code>-</code></td><td>Subtract</td><td><code>7 - 3</code></td><td class="c">4</td></tr>
+    <tr><td><code>*</code></td><td>Multiply</td><td><code>7 * 3</code></td><td class="c">21</td></tr>
+    <tr><td><code>/</code></td><td>Divide (may give a decimal)</td><td><code>7 / 2</code></td><td class="c">3.5</td></tr>
+    <tr><td><code>DIV</code></td><td>Whole-number division: how many times it fits, ignoring the remainder</td><td><code>7 DIV 2</code></td><td class="c">3</td></tr>
+    <tr><td><code>MOD</code></td><td>The remainder left over after division</td><td><code>7 MOD 2</code></td><td class="c">1</td></tr>
+    <tr><td><code>^</code></td><td>Power</td><td><code>2 ^ 3</code></td><td class="c">8</td></tr>
+  </table></div>
+  <div class="box key"><b class="t">DIV and MOD together</b>17 divided by 5: five goes into 17 <b>3</b> times (that is <code>17 DIV 5 = 3</code>), and 3 × 5 = 15, leaving <b>2</b> over (that is <code>17 MOD 5 = 2</code>). Check: 3 × 5 + 2 = 17.</div>
+  <p><b>What is MOD useful for?</b></p>
+  <ul>
+    <li><b>Even or odd:</b> <code>n MOD 2 = 0</code> means even.</li>
+    <li><b>Multiples:</b> <code>n MOD 5 = 0</code> means n is a multiple of 5.</li>
+    <li><b>Last digit:</b> <code>1234 MOD 10 = 4</code>.</li>
+    <li><b>Going round in circles:</b> hours on a clock, days of the week.</li>
+  </ul>
+
+  <h3>The order of calculation</h3>
+  <p>When a line has several operators, they are not done simply left to right. The order is:</p>
+  <ol class="steps">
+    <li><b>Brackets</b> first.</li>
+    <li>Then <b>power</b> (<code>^</code>).</li>
+    <li>Then <b>*, /, DIV, MOD</b> (left to right).</li>
+    <li>Then <b>+ and -</b> (left to right).</li>
+  </ol>
+  <div class="tbl-wrap"><table>
+    <tr><th>Expression</th><th>How it is worked out</th><th class="c">Result</th></tr>
+    <tr><td><code>2 + 3 * 4</code></td><td>Multiply first: 3 * 4 = 12. Then 2 + 12.</td><td class="c">14</td></tr>
+    <tr><td><code>(2 + 3) * 4</code></td><td>Brackets first: 2 + 3 = 5. Then 5 * 4.</td><td class="c">20</td></tr>
+    <tr><td><code>10 - 4 - 3</code></td><td>Left to right: 10 - 4 = 6. Then 6 - 3.</td><td class="c">3</td></tr>
+    <tr><td><code>20 / 5 * 2</code></td><td>Left to right: 20 / 5 = 4. Then 4 * 2.</td><td class="c">8</td></tr>
+    <tr><td><code>10 MOD 3 + 1</code></td><td>MOD first: 10 MOD 3 = 1. Then 1 + 1.</td><td class="c">2</td></tr>
+    <tr><td><code>2 ^ 3 + 1</code></td><td>Power first: 8. Then 8 + 1.</td><td class="c">9</td></tr>
+  </table></div>
+  <div class="box ok"><b class="t">Good habit</b>When in doubt, add brackets. They cost nothing and remove all doubt. The average of three marks is <code>(m1 + m2 + m3) / 3</code>. Without the brackets, only m3 would be divided by 3.</div>
+
+  <h3>Comparison operators (asking a question)</h3>
+  <p>A comparison compares two values and gives a Boolean answer: <b>TRUE</b> or <b>FALSE</b>. These go inside IF and WHILE.</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Operator</th><th>Meaning</th><th>Example</th><th class="c">Result</th></tr>
+    <tr><td><code>=</code></td><td>is equal to</td><td><code>5 = 5</code></td><td class="c">TRUE</td></tr>
+    <tr><td><code>&lt;&gt;</code></td><td>is not equal to</td><td><code>5 &lt;&gt; 5</code></td><td class="c">FALSE</td></tr>
+    <tr><td><code>&gt;</code></td><td>is greater than</td><td><code>7 &gt; 3</code></td><td class="c">TRUE</td></tr>
+    <tr><td><code>&lt;</code></td><td>is less than</td><td><code>7 &lt; 3</code></td><td class="c">FALSE</td></tr>
+    <tr><td><code>&gt;=</code></td><td>is greater than or equal to</td><td><code>7 &gt;= 7</code></td><td class="c">TRUE</td></tr>
+    <tr><td><code>&lt;=</code></td><td>is less than or equal to</td><td><code>8 &lt;= 7</code></td><td class="c">FALSE</td></tr>
+  </table></div>
+  <div class="box warn"><b class="t">Two meanings of "="</b>Inside an <code>IF</code> or <code>WHILE</code>, <code>=</code> <b>asks</b>: "are these equal?". On a line by itself, <code>=</code> <b>stores</b>: "put this value in the box". Read the context to know which. (This is why some books use <code>←</code> for storing.)</div>
+
+  <h3>Logical operators: AND, OR, NOT</h3>
+  <p>Logical operators combine yes/no answers.</p>
+  <div class="grid2">
+    <div class="cardmini"><b>AND</b>: both must be TRUE
+      <table><tr><th>A</th><th>B</th><th>A AND B</th></tr>
+      <tr><td>TRUE</td><td>TRUE</td><td><b>TRUE</b></td></tr>
+      <tr><td>TRUE</td><td>FALSE</td><td>FALSE</td></tr>
+      <tr><td>FALSE</td><td>TRUE</td><td>FALSE</td></tr>
+      <tr><td>FALSE</td><td>FALSE</td><td>FALSE</td></tr></table>
+      <i>"You can ride if you are tall enough AND old enough."</i></div>
+    <div class="cardmini"><b>OR</b>: at least one must be TRUE
+      <table><tr><th>A</th><th>B</th><th>A OR B</th></tr>
+      <tr><td>TRUE</td><td>TRUE</td><td><b>TRUE</b></td></tr>
+      <tr><td>TRUE</td><td>FALSE</td><td><b>TRUE</b></td></tr>
+      <tr><td>FALSE</td><td>TRUE</td><td><b>TRUE</b></td></tr>
+      <tr><td>FALSE</td><td>FALSE</td><td>FALSE</td></tr></table>
+      <i>"The shop is closed on Saturday OR Sunday."</i></div>
+  </div>
+  <div class="cardmini" style="margin-top:14px"><b>NOT</b>: flips the answer
+    <table><tr><th>A</th><th>NOT A</th></tr>
+    <tr><td>TRUE</td><td>FALSE</td></tr>
+    <tr><td>FALSE</td><td>TRUE</td></tr></table></div>
+  <p><b>Worked example.</b> Let <code>age = 15</code> and <code>height = 150</code>.</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Condition</th><th>Part by part</th><th class="c">Result</th></tr>
+    <tr><td><code>age &gt;= 12 AND height &gt;= 140</code></td><td>15 &gt;= 12 is TRUE. 150 &gt;= 140 is TRUE. TRUE AND TRUE.</td><td class="c">TRUE</td></tr>
+    <tr><td><code>age &gt;= 18 AND height &gt;= 140</code></td><td>15 &gt;= 18 is FALSE. 150 &gt;= 140 is TRUE. FALSE AND TRUE.</td><td class="c">FALSE</td></tr>
+    <tr><td><code>age &gt;= 18 OR height &gt;= 140</code></td><td>FALSE OR TRUE.</td><td class="c">TRUE</td></tr>
+    <tr><td><code>NOT (age &gt;= 18)</code></td><td>15 &gt;= 18 is FALSE. NOT FALSE.</td><td class="c">TRUE</td></tr>
+  </table></div>
+  <div class="box warn"><b class="t">Write each side in full</b>Write <code>age &gt; 10 AND age &lt; 20</code>. Do <b>not</b> write <code>10 &lt; age &lt; 20</code> or <code>age &gt; 10 AND &lt; 20</code>. Each side of AND/OR must be a complete question on its own. Order: NOT first, then AND, then OR. Use brackets to be clear.</div>
+
+  <h3>Check point (already completed for you)</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Question</th><th>Answer</th><th>Why</th></tr>
+    <tr><td>After <code>x = 4</code> and <code>x = x * 5</code>, what is x?</td><td class="c">20</td><td>Old value 4, times 5, stored back.</td></tr>
+    <tr><td><code>25 MOD 7</code></td><td class="c">4</td><td>7 goes in 3 times (21). 25 - 21 = 4.</td></tr>
+    <tr><td><code>25 DIV 7</code></td><td class="c">3</td><td>7 fits 3 whole times.</td></tr>
+    <tr><td><code>"Hi, " + "Ada"</code></td><td class="c">"Hi, Ada"</td><td>Joining text.</td></tr>
+    <tr><td><code>(5 &gt; 3) AND (2 &gt; 9)</code></td><td class="c">FALSE</td><td>TRUE AND FALSE is FALSE.</td></tr>
+  </table></div>
+  <label class="done"><input type="checkbox" data-lesson="lp1"> I understand this lesson</label>
+</section>
+
+<!-- LESSON PSEUDO 2 -->
+<section class="lesson" id="lp2">
+  <span class="tag">Lesson 5</span>
+  <h2>Pseudocode, part 2: making choices and repeating</h2>
+
+  <h2 style="font-size:1.25rem;margin-top:1em">A. Selection: IF</h2>
+
+  <h3>1. IF ... THEN (one path)</h3>
+  <p>Do something only when a condition is TRUE. If it is FALSE, skip it and carry on.</p>
+<pre class="code">INPUT price
+IF price &gt; 5000 THEN
+    price = price - 500      // 500 discount on big purchases
+END IF
+OUTPUT price</pre>
+  <div class="tbl-wrap"><table>
+    <tr><th>price typed</th><th>price &gt; 5000 ?</th><th>What happens</th><th>Output</th></tr>
+    <tr><td class="c">8000</td><td class="c">TRUE</td><td>Discount applied</td><td class="c"><b>7500</b></td></tr>
+    <tr><td class="c">3000</td><td class="c">FALSE</td><td>Skipped</td><td class="c"><b>3000</b></td></tr>
+    <tr><td class="c">5000</td><td class="c">FALSE</td><td>5000 is not greater than 5000</td><td class="c"><b>5000</b></td></tr>
+  </table></div>
+
+  <h3>2. IF ... THEN ... ELSE (two paths)</h3>
+  <p>One thing happens if the condition is TRUE. A different thing happens if it is FALSE. Exactly one of the two always runs.</p>
+<pre class="code">INPUT age
+IF age &gt;= 18 THEN
+    OUTPUT "Adult"
+ELSE
+    OUTPUT "Child"
+END IF</pre>
+
+  <h3>3. ELSE IF (three or more paths)</h3>
+  <p>When there are more than two outcomes, chain the questions. The computer asks them from the top and <b>stops at the first TRUE one</b>.</p>
+<pre class="code">INPUT score
+IF score &gt;= 70 THEN
+    OUTPUT "A"
+ELSE IF score &gt;= 50 THEN
+    OUTPUT "B"
+ELSE IF score &gt;= 40 THEN
+    OUTPUT "C"
+ELSE
+    OUTPUT "F"
+END IF</pre>
+  <div class="tbl-wrap"><table>
+    <tr><th>score</th><th>&gt;= 70 ?</th><th>&gt;= 50 ?</th><th>&gt;= 40 ?</th><th>Output</th></tr>
+    <tr><td class="c">85</td><td class="c">TRUE</td><td class="c">not asked</td><td class="c">not asked</td><td class="c"><b>A</b></td></tr>
+    <tr><td class="c">55</td><td class="c">FALSE</td><td class="c">TRUE</td><td class="c">not asked</td><td class="c"><b>B</b></td></tr>
+    <tr><td class="c">40</td><td class="c">FALSE</td><td class="c">FALSE</td><td class="c">TRUE</td><td class="c"><b>C</b></td></tr>
+    <tr><td class="c">12</td><td class="c">FALSE</td><td class="c">FALSE</td><td class="c">FALSE</td><td class="c"><b>F</b> (ELSE)</td></tr>
+  </table></div>
+  <div class="box bad"><b class="t">The order matters. A bug to avoid</b>
+    If you ask the easiest question first:
+<pre class="code">IF score &gt;= 40 THEN
+    OUTPUT "C"
+ELSE IF score &gt;= 50 THEN
+    OUTPUT "B"
+...</pre>
+    then a score of 85 is &gt;= 40, so the answer is "C" and the later questions are never reached. <b>Always ask the strictest question first</b> (the highest threshold when going down).</div>
+
+  <h3>4. Nested IF (an IF inside an IF)</h3>
+  <p>Sometimes the second question only makes sense after the first is answered. Put the second IF inside the first, indented further.</p>
+<pre class="code">INPUT age
+IF age &gt;= 18 THEN
+    INPUT hasID
+    IF hasID = "yes" THEN
+        OUTPUT "Welcome in"
+    ELSE
+        OUTPUT "Please bring your ID"
+    END IF
+ELSE
+    OUTPUT "Too young"
+END IF</pre>
+  <div class="tbl-wrap"><table>
+    <tr><th>age</th><th>hasID</th><th>Path</th><th>Output</th></tr>
+    <tr><td class="c">20</td><td class="c">yes</td><td>18+ TRUE, then ID = "yes" TRUE</td><td><b>Welcome in</b></td></tr>
+    <tr><td class="c">20</td><td class="c">no</td><td>18+ TRUE, then ID = "yes" FALSE</td><td><b>Please bring your ID</b></td></tr>
+    <tr><td class="c">15</td><td class="c">(not asked)</td><td>18+ FALSE</td><td><b>Too young</b></td></tr>
+  </table></div>
+  <p>Notice that each <code>END IF</code> lines up with its own <code>IF</code>. The indentation makes this easy to check.</p>
+
+  <h2 style="font-size:1.25rem;margin-top:1.4em">B. Iteration: loops</h2>
+  <p>A loop repeats a group of lines. Writing the same line five times is silly. Writing it once inside a loop that runs five times is clever. There are three kinds of loop in pseudocode.</p>
+
+  <h3>1. WHILE ... DO ... END WHILE (check first, then repeat)</h3>
+  <p>The condition is checked <b>before</b> each round. If it is TRUE, run the body. If it is FALSE, skip the whole loop. Use WHILE when you do not know in advance how many rounds are needed.</p>
+<pre class="code">i = 1
+WHILE i &lt;= 3 DO
+    OUTPUT "Hello"
+    i = i + 1
+END WHILE
+OUTPUT "Done"</pre>
+  <div class="tbl-wrap"><table>
+    <tr><th>Check</th><th class="c">i</th><th>i &lt;= 3 ?</th><th>Action</th><th>Output so far</th></tr>
+    <tr><td>1st</td><td class="c">1</td><td class="c">TRUE</td><td>Output Hello, i becomes 2</td><td>Hello</td></tr>
+    <tr><td>2nd</td><td class="c">2</td><td class="c">TRUE</td><td>Output Hello, i becomes 3</td><td>Hello Hello</td></tr>
+    <tr><td>3rd</td><td class="c">3</td><td class="c">TRUE</td><td>Output Hello, i becomes 4</td><td>Hello Hello Hello</td></tr>
+    <tr><td>4th</td><td class="c">4</td><td class="c">FALSE</td><td>Leave the loop</td><td>then "Done"</td></tr>
+  </table></div>
+  <div class="box ok"><b class="t">A WHILE loop can run zero times</b>If the condition is FALSE the very first time, the body never runs at all. Try it with <code>i = 10</code>: <code>10 &lt;= 3</code> is FALSE at once, so "Hello" is never shown.</div>
+
+  <h3>2. FOR ... TO ... END FOR (a counted loop)</h3>
+  <p>Use FOR when you <b>know how many times</b> to repeat. The loop sets up the counter, checks it and adds to it for you. The three jobs (start value, condition, change) are all packed into one line.</p>
+<pre class="code">FOR i = 1 TO 5
+    OUTPUT i
+END FOR</pre>
+  <p>This outputs 1, 2, 3, 4, 5. The counter i starts at 1, runs the body, goes up by 1 automatically, and stops after 5.</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Round</th><th class="c">i</th><th>Output</th></tr>
+    <tr><td>1</td><td class="c">1</td><td>1</td></tr>
+    <tr><td>2</td><td class="c">2</td><td>2</td></tr>
+    <tr><td>3</td><td class="c">3</td><td>3</td></tr>
+    <tr><td>4</td><td class="c">4</td><td>4</td></tr>
+    <tr><td>5</td><td class="c">5</td><td>5</td></tr>
+  </table></div>
+  <p><b>STEP</b> changes how much the counter moves each time.</p>
+<pre class="code">FOR i = 2 TO 10 STEP 2
+    OUTPUT i             // 2, 4, 6, 8, 10
+END FOR
+
+FOR i = 5 TO 1 STEP -1
+    OUTPUT i             // 5, 4, 3, 2, 1
+END FOR</pre>
+  <p><b>The same loop written two ways.</b> They do exactly the same thing:</p>
+  <div class="grid2">
+    <div class="cardmini"><b>FOR</b>
+<pre class="code">FOR i = 1 TO 5
+    OUTPUT i
+END FOR</pre></div>
+    <div class="cardmini"><b>WHILE</b>
+<pre class="code">i = 1
+WHILE i &lt;= 5 DO
+    OUTPUT i
+    i = i + 1
+END WHILE</pre></div>
+  </div>
+
+  <h3>3. REPEAT ... UNTIL (repeat first, check after)</h3>
+  <p>The body runs <b>first</b>, then the condition is checked at the bottom. So the body always runs <b>at least once</b>. Use it when you must do something before you can test it, such as asking for a value.</p>
+<pre class="code">secret = 7
+REPEAT
+    INPUT guess
+UNTIL guess = secret
+OUTPUT "Correct!"</pre>
+  <p>The loop stops when the condition after <code>UNTIL</code> becomes TRUE. Trace with guesses 3, 9, 7:</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Round</th><th class="c">guess</th><th>guess = secret ?</th><th>Action</th></tr>
+    <tr><td>1</td><td class="c">3</td><td class="c">FALSE</td><td>Go round again</td></tr>
+    <tr><td>2</td><td class="c">9</td><td class="c">FALSE</td><td>Go round again</td></tr>
+    <tr><td>3</td><td class="c">7</td><td class="c">TRUE</td><td>Stop, then output "Correct!"</td></tr>
+  </table></div>
+  <div class="box warn"><b class="t">UNTIL is the opposite of WHILE</b>
+    <code>WHILE</code> keeps going while the condition is <b>TRUE</b>. <code>UNTIL</code> keeps going until the condition becomes <b>TRUE</b> (and stops then). The same guessing game with WHILE needs the opposite condition, and an extra INPUT before the loop:
+<pre class="code">INPUT guess
+WHILE guess &lt;&gt; secret DO
+    INPUT guess
+END WHILE</pre></div>
+
+  <h3>Which loop should I choose?</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Loop</th><th>Checks the condition</th><th>Runs at least once?</th><th>Best for</th></tr>
+    <tr><td><b>FOR</b></td><td>Before each round (built in)</td><td>No, if start is past the end</td><td>You know the number of rounds: "do this 10 times"</td></tr>
+    <tr><td><b>WHILE</b></td><td>Before each round</td><td>No, it may run zero times</td><td>Unknown number of rounds: "keep going while there is money left"</td></tr>
+    <tr><td><b>REPEAT UNTIL</b></td><td>After each round</td><td>Yes, always</td><td>Do first, then test: "ask until the password is correct"</td></tr>
+  </table></div>
+
+  <h3>Two patterns used in almost every program</h3>
+  <p><b>Pattern 1: the total (accumulator).</b> Start a variable at 0. Each round, add something to it.</p>
+  <p><b>Pattern 2: the counter.</b> Start a variable at 0. Each time something happens, add 1 to it.</p>
+
+  <p><b>Example: average of five numbers (total pattern).</b></p>
+<pre class="code">total = 0
+FOR i = 1 TO 5
+    INPUT number
+    total = total + number
+END FOR
+average = total / 5
+OUTPUT average</pre>
+  <p>Trace with the numbers 4, 8, 6, 2, 10:</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Round i</th><th class="c">number typed</th><th>total = total + number</th><th class="c">total after</th></tr>
+    <tr><td class="c">start</td><td class="c">-</td><td>total = 0</td><td class="c">0</td></tr>
+    <tr><td class="c">1</td><td class="c">4</td><td>0 + 4</td><td class="c">4</td></tr>
+    <tr><td class="c">2</td><td class="c">8</td><td>4 + 8</td><td class="c">12</td></tr>
+    <tr><td class="c">3</td><td class="c">6</td><td>12 + 6</td><td class="c">18</td></tr>
+    <tr><td class="c">4</td><td class="c">2</td><td>18 + 2</td><td class="c">20</td></tr>
+    <tr><td class="c">5</td><td class="c">10</td><td>20 + 10</td><td class="c">30</td></tr>
+  </table></div>
+  <p>After the loop: average = 30 / 5 = <b>6</b>. Output: 6.</p>
+
+  <p><b>Example: how many students passed? (counter pattern + IF inside a loop).</b></p>
+<pre class="code">passes = 0
+FOR i = 1 TO 5
+    INPUT score
+    IF score &gt;= 50 THEN
+        passes = passes + 1
+    END IF
+END FOR
+OUTPUT passes</pre>
+  <p>Trace with scores 60, 45, 70, 30, 50:</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Round i</th><th class="c">score</th><th>score &gt;= 50 ?</th><th class="c">passes after</th></tr>
+    <tr><td class="c">start</td><td class="c">-</td><td>-</td><td class="c">0</td></tr>
+    <tr><td class="c">1</td><td class="c">60</td><td class="c">TRUE</td><td class="c">1</td></tr>
+    <tr><td class="c">2</td><td class="c">45</td><td class="c">FALSE</td><td class="c">1</td></tr>
+    <tr><td class="c">3</td><td class="c">70</td><td class="c">TRUE</td><td class="c">2</td></tr>
+    <tr><td class="c">4</td><td class="c">30</td><td class="c">FALSE</td><td class="c">2</td></tr>
+    <tr><td class="c">5</td><td class="c">50</td><td class="c">TRUE</td><td class="c">3</td></tr>
+  </table></div>
+  <p>Output: <b>3</b>.</p>
+
+  <h3>Two mistakes every beginner makes with loops</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Mistake</th><th>Example</th><th>What goes wrong</th><th>Fix</th></tr>
+    <tr><td><b>Infinite loop</b></td><td><code>WHILE i &lt;= 5 DO OUTPUT i END WHILE</code> with no <code>i = i + 1</code></td><td>The condition never becomes FALSE, so it never stops.</td><td>Add the change inside the loop.</td></tr>
+    <tr><td><b>Off by one</b></td><td><code>i = 1</code>, <code>WHILE i &lt; 5</code></td><td>Runs for i = 1, 2, 3, 4 (only 4 times). It stops one short because 5 &lt; 5 is FALSE.</td><td>Use <code>&lt;=</code> to include 5.</td></tr>
+    <tr><td><b>Forgotten start value</b></td><td>Using <code>total</code> before <code>total = 0</code></td><td>The box has no known starting value.</td><td>Always set starting values before the loop.</td></tr>
+  </table></div>
+
+  <h3>Lists (a row of boxes under one name)</h3>
+  <p>A <b>list</b> (also called an <b>array</b>) stores several values under one name. Each item has a position number written in square brackets.</p>
+<pre class="code">marks = [60, 70, 80]
+OUTPUT marks[1]          // 60, the first item
+marks[2] = 75            // replace the second item
+total = 0
+FOR i = 1 TO 3
+    total = total + marks[i]
+END FOR
+OUTPUT total             // 60 + 75 + 80 = 215</pre>
+  <div class="tbl-wrap"><table>
+    <tr><th>Position</th><th class="c">1</th><th class="c">2</th><th class="c">3</th></tr>
+    <tr><td>marks at the start</td><td class="c">60</td><td class="c">70</td><td class="c">80</td></tr>
+    <tr><td>marks after <code>marks[2] = 75</code></td><td class="c">60</td><td class="c">75</td><td class="c">80</td></tr>
+  </table></div>
+  <div class="box warn"><b class="t">Note</b>In this course, positions start at <b>1</b>. In many real languages, such as Python, they start at <b>0</b>. Check which one your teacher or language uses.</div>
+
+  <h3>Check point (already completed for you)</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Question</th><th>Answer</th><th>Why</th></tr>
+    <tr><td>How many times does <code>FOR i = 3 TO 7</code> run?</td><td class="c">5</td><td>i = 3, 4, 5, 6, 7.</td></tr>
+    <tr><td>What does <code>FOR i = 10 TO 4 STEP -3</code> give?</td><td class="c">10, 7, 4</td><td>Down by 3 each time, and 4 is included.</td></tr>
+    <tr><td>Which loop always runs at least once?</td><td class="c">REPEAT UNTIL</td><td>It checks the condition at the bottom.</td></tr>
+    <tr><td><code>count = 0</code>, then <code>FOR i = 1 TO 4</code> with <code>count = count + 2</code> inside. count at the end?</td><td class="c">8</td><td>Four rounds, each adding 2.</td></tr>
+  </table></div>
+  <label class="done"><input type="checkbox" data-lesson="lp2"> I understand this lesson</label>
+</section>
+
+<!-- LESSON PSEUDO 3 -->
+<section class="lesson" id="lp3">
+  <span class="tag">Lesson 6</span>
+  <h2>Pseudocode, part 3: procedures, translating from English, and good style</h2>
+
+  <h3>Procedures and functions: reusable named blocks</h3>
+  <p>Sometimes you need the same group of lines in many places. Instead of copying them each time, give the group a <b>name</b> and use that name whenever you need it. There are two kinds:</p>
+  <ul>
+    <li>A <b>procedure</b> does a job (for example, shows a greeting). It does not hand back an answer.</li>
+    <li>A <b>function</b> works something out and hands back an answer using <code>RETURN</code>.</li>
+  </ul>
+<pre class="code">PROCEDURE greet(name)
+    OUTPUT "Hello, " + name
+END PROCEDURE
+
+FUNCTION circleArea(r)
+    area = 3.14 * r * r
+    RETURN area
+END FUNCTION
+
+START
+INPUT radius
+result = circleArea(radius)      // use the function, store its answer
+OUTPUT result
+CALL greet("Ada")                // run the procedure
+END</pre>
+  <div class="tbl-wrap"><table>
+    <tr><th>Word</th><th>Meaning</th></tr>
+    <tr><td><b>Parameter</b></td><td>A placeholder name inside the brackets of the definition. In <code>circleArea(r)</code>, <b>r</b> is a parameter. It stands for "whatever radius I am given".</td></tr>
+    <tr><td><b>Argument</b></td><td>The real value you pass in when you use it. In <code>circleArea(radius)</code>, the value stored in <b>radius</b> is the argument.</td></tr>
+    <tr><td><code>RETURN</code></td><td>Sends the answer back to the line that used the function, and ends the function.</td></tr>
+    <tr><td><code>CALL</code></td><td>Means "run this procedure now".</td></tr>
+  </table></div>
+  <p><b>Trace with radius = 2:</b> the function receives r = 2. It works out area = 3.14 × 2 × 2 = 12.56. It returns 12.56. That is stored in <b>result</b>, and the output is <b>12.56</b>.</p>
+
+  <h3>Turning English into pseudocode: a 5-step method</h3>
+  <ol class="steps">
+    <li><b>Read the problem and underline the verbs and conditions.</b></li>
+    <li><b>Find the inputs</b> (things you must ask for) and the <b>outputs</b> (things you must show).</li>
+    <li><b>Spot the structure words</b> using the table below.</li>
+    <li><b>Write the lines in order</b>, one action per line, with correct indentation.</li>
+    <li><b>Test it</b> with at least two different inputs.</li>
+  </ol>
+  <div class="tbl-wrap"><table>
+    <tr><th>If the English says...</th><th>Use...</th></tr>
+    <tr><td>ask, get, read, enter, type in</td><td><code>INPUT</code></td></tr>
+    <tr><td>show, display, print, tell the user</td><td><code>OUTPUT</code></td></tr>
+    <tr><td>calculate, work out, add, multiply, find the total</td><td>An assignment such as <code>total = a + b</code></td></tr>
+    <tr><td>if, when, in case, depending on</td><td><code>IF ... THEN</code></td></tr>
+    <tr><td>otherwise, else</td><td><code>ELSE</code></td></tr>
+    <tr><td>repeat n times, for each of the n items</td><td><code>FOR</code></td></tr>
+    <tr><td>keep doing while, as long as</td><td><code>WHILE</code></td></tr>
+    <tr><td>keep doing until</td><td><code>REPEAT ... UNTIL</code></td></tr>
+  </table></div>
+
+  <h3>Worked translation</h3>
+  <div class="box key"><b class="t">The problem</b>"A cinema charges 3000 for an adult ticket and 1500 for a child under 12. Ask for the person's age and the number of tickets. Work out the total cost and show it."</div>
+  <div class="tbl-wrap"><table>
+    <tr><th>Phrase in the problem</th><th>What it tells us</th></tr>
+    <tr><td>"Ask for the person's age and the number of tickets"</td><td>Two inputs: <code>age</code>, <code>tickets</code></td></tr>
+    <tr><td>"3000 for an adult... 1500 for a child under 12"</td><td>A choice: IF age &lt; 12 THEN 1500 ELSE 3000</td></tr>
+    <tr><td>"Work out the total cost"</td><td>total = price * tickets</td></tr>
+    <tr><td>"Show it"</td><td>An output</td></tr>
+  </table></div>
+<pre class="code">START
+INPUT age
+INPUT tickets
+IF age &lt; 12 THEN
+    price = 1500
+ELSE
+    price = 3000
+END IF
+total = price * tickets
+OUTPUT "Total cost: " + total
+END</pre>
+  <div class="tbl-wrap"><table>
+    <tr><th>age</th><th>tickets</th><th>age &lt; 12 ?</th><th>price</th><th>total</th><th>Output</th></tr>
+    <tr><td class="c">10</td><td class="c">4</td><td class="c">TRUE</td><td class="c">1500</td><td class="c">6000</td><td>Total cost: 6000</td></tr>
+    <tr><td class="c">30</td><td class="c">3</td><td class="c">FALSE</td><td class="c">3000</td><td class="c">9000</td><td>Total cost: 9000</td></tr>
+    <tr><td class="c">12</td><td class="c">1</td><td class="c">FALSE</td><td class="c">3000</td><td class="c">3000</td><td>Total cost: 3000</td></tr>
+  </table></div>
+  <p>The last row tests the boundary: a 12-year-old is not "under 12", so they pay the adult price.</p>
+
+  <h3>From pseudocode to real code</h3>
+  <p>Pseudocode is a stepping stone. Here is the same even-or-odd algorithm in pseudocode and in Python, a real language:</p>
+  <div class="grid2">
+    <div class="cardmini"><b>Pseudocode</b>
+<pre class="code">INPUT number
+IF number MOD 2 = 0 THEN
+    OUTPUT "Even"
+ELSE
+    OUTPUT "Odd"
+END IF</pre></div>
+    <div class="cardmini"><b>Python</b>
+<pre class="code">number = int(input("Number: "))
+if number % 2 == 0:
+    print("Even")
+else:
+    print("Odd")</pre></div>
+  </div>
+  <div class="tbl-wrap"><table>
+    <tr><th>Pseudocode</th><th>Python</th><th>Note</th></tr>
+    <tr><td><code>INPUT number</code></td><td><code>int(input(...))</code></td><td>Python input arrives as text, so <code>int()</code> turns it into a number.</td></tr>
+    <tr><td><code>MOD</code></td><td><code>%</code></td><td>Same idea, different symbol.</td></tr>
+    <tr><td><code>=</code> (asking)</td><td><code>==</code></td><td>Real languages separate "store" (<code>=</code>) from "compare" (<code>==</code>).</td></tr>
+    <tr><td><code>THEN</code>, <code>END IF</code></td><td><code>:</code> and indentation</td><td>Python uses a colon and indentation instead of end words.</td></tr>
+    <tr><td><code>OUTPUT</code></td><td><code>print</code></td><td>Same job.</td></tr>
+  </table></div>
+  <p>The thinking is identical. Only the spelling changes. That is exactly why we plan in pseudocode.</p>
+
+  <h3>Style checklist</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Check</th><th>Yes means</th></tr>
+    <tr><td>Does it start with START and finish with END?</td><td>Clear boundaries.</td></tr>
+    <tr><td>Is every IF closed with END IF, every loop with its END?</td><td>No dangling blocks.</td></tr>
+    <tr><td>Are lines inside blocks indented?</td><td>Structure is visible.</td></tr>
+    <tr><td>Are variable names meaningful?</td><td>The reader can follow it.</td></tr>
+    <tr><td>Is every variable given a value before it is used?</td><td>No empty-box surprises.</td></tr>
+    <tr><td>Does every loop have a change that eventually stops it?</td><td>The algorithm is finite.</td></tr>
+    <tr><td>Did you test it with at least two inputs, including a boundary?</td><td>You can trust it.</td></tr>
+  </table></div>
+
+  <h3>Find the bug (every answer is already filled in)</h3>
+  <p>Study each broken piece, the problem, and the fix.</p>
+  <details open><summary>Bug 1: a missing END IF</summary>
+<pre class="code">IF age &gt;= 18 THEN
+    OUTPUT "Adult"
+ELSE
+    OUTPUT "Child"
+OUTPUT "Done"</pre>
+    <b>Problem:</b> the IF is never closed, so "Done" looks like it belongs to the ELSE.<br><b>Fix:</b> add <code>END IF</code> after <code>OUTPUT "Child"</code>, lined up under the IF.</details>
+  <details open><summary>Bug 2: text without quotation marks</summary>
+<pre class="code">OUTPUT Hello</pre>
+    <b>Problem:</b> without quotes, <code>Hello</code> looks like a variable name, and no variable has been made.<br><b>Fix:</b> <code>OUTPUT "Hello"</code>.</details>
+  <details open><summary>Bug 3: a loop that never ends</summary>
+<pre class="code">WHILE i &lt;= 5 DO
+    OUTPUT i
+END WHILE</pre>
+    <b>Problems:</b> (1) i has no starting value, (2) nothing changes i, so the condition never becomes FALSE.<br><b>Fix:</b>
+<pre class="code">i = 1
+WHILE i &lt;= 5 DO
+    OUTPUT i
+    i = i + 1
+END WHILE</pre></details>
+  <details open><summary>Bug 4: steps in the wrong order</summary>
+<pre class="code">average = (m1 + m2 + m3) / 3
+INPUT m1, m2, m3
+OUTPUT average</pre>
+    <b>Problem:</b> the average is calculated before the marks have been typed.<br><b>Fix:</b> put <code>INPUT m1, m2, m3</code> first, then the calculation, then the output.</details>
+  <details open><summary>Bug 5: the wrong comparison</summary>
+<pre class="code">IF age =&gt; 18 THEN</pre>
+    <b>Problem:</b> <code>=&gt;</code> is not an operator. The correct one is <code>&gt;=</code> (greater than <b>or equal to</b>, with the greater-than sign first).<br><b>Fix:</b> <code>IF age &gt;= 18 THEN</code>.</details>
+  <label class="done"><input type="checkbox" data-lesson="lp3"> I understand this lesson</label>
+</section>
+
+<!-- LESSON 4 -->
+<section class="lesson" id="l4">
+  <span class="tag">Lesson 7</span>
+  <h2>Flowchart symbols: all 14 of them</h2>
+  <p>A <b>flowchart</b> is a diagram that shows an algorithm using shapes joined by arrows. Each shape has one job, and each job has its own shape. If you use the right shape, anyone in the world can read your flowchart without asking you a single question.</p>
+  <p>There are <b>14 symbols</b> in this lesson. The first five are the core ones that you will use in almost every flowchart. The other nine are extra symbols that you will meet in textbooks, exams and real projects. Learn all of them, one at a time.</p>
+
+  <h3>Part A: the 5 core symbols</h3>
+  <div id="symbols-core"></div>
+
+  <div class="box key"><b class="t">How to remember the core four shapes</b>
+  <b>Rounded</b> = the edges of the story (start and end). <b>Rectangle</b> = work being done. <b>Slanted (parallelogram)</b> = data moving in or out, like a ramp. <b>Diamond</b> = a crossroads where you must choose a road.</div>
+
+  <h3>Part B: the 9 extra symbols</h3>
+  <p>These do not appear in every flowchart, but each one solves a real problem: repeating a loop neatly, reusing a block, breaking up a big chart, and showing different kinds of input and output.</p>
+  <div id="symbols-extra"></div>
+
+  <h3>Which symbol? Reading pseudocode as shapes</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Pseudocode line</th><th>Symbol</th><th>Why</th></tr>
+    <tr><td><code>START</code></td><td>Terminator</td><td>Marks the beginning</td></tr>
+    <tr><td><code>INPUT age</code></td><td>Input/Output (parallelogram)</td><td>Data comes in</td></tr>
+    <tr><td><code>total = a + b</code></td><td>Process (rectangle)</td><td>A calculation is done</td></tr>
+    <tr><td><code>IF age &gt;= 18</code></td><td>Decision (diamond)</td><td>A yes/no question</td></tr>
+    <tr><td><code>OUTPUT total</code></td><td>Input/Output (parallelogram)</td><td>Data goes out</td></tr>
+    <tr><td><code>FOR i = 1 TO 5</code></td><td>Preparation (hexagon)</td><td>Sets up and controls a counted loop</td></tr>
+    <tr><td><code>CALL circleArea(r)</code></td><td>Predefined process</td><td>Runs a block that is defined elsewhere</td></tr>
+    <tr><td><code>// a comment</code></td><td>Annotation</td><td>A note that does not run</td></tr>
+    <tr><td><code>END</code></td><td>Terminator</td><td>Marks the finish</td></tr>
+  </table></div>
+
+  <h3>Quick summary table (already filled in)</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>#</th><th>Symbol name</th><th>Shape</th><th>One-line job</th></tr>
+    <tr><td class="c">1</td><td>Terminator</td><td>Rounded rectangle</td><td>Start and End</td></tr>
+    <tr><td class="c">2</td><td>Process</td><td>Rectangle</td><td>Calculate, assign, do something</td></tr>
+    <tr><td class="c">3</td><td>Input / Output</td><td>Parallelogram</td><td>Data in or data out</td></tr>
+    <tr><td class="c">4</td><td>Decision</td><td>Diamond</td><td>Ask a yes/no question</td></tr>
+    <tr><td class="c">5</td><td>Flow line</td><td>Arrow</td><td>Show which step is next</td></tr>
+    <tr><td class="c">6</td><td>Predefined process</td><td>Rectangle with double side bars</td><td>Use a procedure/function defined elsewhere</td></tr>
+    <tr><td class="c">7</td><td>Preparation</td><td>Hexagon</td><td>Set up a FOR loop</td></tr>
+    <tr><td class="c">8</td><td>On-page connector</td><td>Small circle with a letter</td><td>Jump to a matching circle on the same page</td></tr>
+    <tr><td class="c">9</td><td>Off-page connector</td><td>Downward-pointing pentagon</td><td>Continue on another page</td></tr>
+    <tr><td class="c">10</td><td>Manual input</td><td>Rectangle with a slanted top</td><td>Typed on a keyboard</td></tr>
+    <tr><td class="c">11</td><td>Display</td><td>Shape with a pointed left and curved right</td><td>Show on a screen</td></tr>
+    <tr><td class="c">12</td><td>Document</td><td>Rectangle with a wavy bottom</td><td>A printed page or report</td></tr>
+    <tr><td class="c">13</td><td>Stored data (database)</td><td>Cylinder</td><td>Data saved in a database or file</td></tr>
+    <tr><td class="c">14</td><td>Annotation</td><td>Open bracket with a dashed line</td><td>A note for the reader</td></tr>
+  </table></div>
+  <div class="box ok"><b class="t">What to use when you are unsure</b>In many school exams only the first five (plus sometimes the hexagon) are expected. Whichever symbols your exam or teacher uses, always use them consistently. If you can only remember four shapes, use: rounded, rectangle, parallelogram, diamond.</div>
+  <label class="done"><input type="checkbox" data-lesson="l4"> I understand this lesson</label>
+</section>
+
+<!-- LESSON 5 -->
+<section class="lesson" id="l5">
+  <span class="tag">Lesson 8</span>
+  <h2>Rules for drawing a good flowchart</h2>
+  <ol class="steps">
+    <li><b>One Start, at the top.</b> Every flowchart has exactly one Start symbol.</li>
+    <li><b>Flow goes top to bottom</b> (and left to right where needed). Do not make the reader hunt for the next step.</li>
+    <li><b>Every shape is joined by an arrow.</b> The arrowhead shows the direction. No loose boxes.</li>
+    <li><b>A rectangle or parallelogram has one arrow in and one arrow out.</b></li>
+    <li><b>A diamond has one arrow in and exactly two arrows out</b>, labelled <b>Yes</b> and <b>No</b>. The question must be answerable with yes or no.</li>
+    <li><b>Keep the text short.</b> Write <code>sum = a + b</code>, not a whole paragraph.</li>
+    <li><b>Paths must join up again</b> or reach an End. Do not leave a path hanging.</li>
+    <li><b>Loops go back with an arrow</b> that returns to the decision diamond (or to an earlier step).</li>
+    <li><b>Always finish with End.</b></li>
+    <li><b>Use a hexagon for a FOR loop</b> and label its two exits <b>Body</b> and <b>Done</b>.</li>
+    <li><b>Connectors come in matching pairs</b> (same letter or number). Use them only when the chart is too big to draw without long, crossing arrows.</li>
+    <li><b>Use each symbol for its own job everywhere.</b> Never use a rectangle for input or a diamond for a calculation.</li>
+  </ol>
+
+  <h3>Common mistakes and how to fix them</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Mistake</th><th>Why it is wrong</th><th>Fix</th></tr>
+    <tr><td>Diamond with no Yes/No labels</td><td>The reader cannot tell which road is which</td><td>Label both exits</td></tr>
+    <tr><td>Writing "Input age" in a rectangle</td><td>Input and output belong in parallelograms</td><td>Use the parallelogram</td></tr>
+    <tr><td>A question like "What is the age?" in a diamond</td><td>It cannot be answered with yes or no</td><td>Write "age &gt;= 18 ?"</td></tr>
+    <tr><td>A loop with no change inside</td><td>It never stops</td><td>Add a step like <code>i = i + 1</code></td></tr>
+    <tr><td>Missing arrowheads</td><td>Direction is unclear</td><td>Add arrowheads on every line</td></tr>
+    <tr><td>Two Start symbols or no End</td><td>The algorithm has no clear beginning or finish</td><td>One Start, one End</td></tr>
+    <tr><td>A connector with no matching partner</td><td>The reader does not know where to continue</td><td>Add the matching circle with the same letter</td></tr>
+    <tr><td>Arrows that cross each other</td><td>Hard to follow</td><td>Rearrange the boxes, or use a connector pair</td></tr>
+  </table></div>
+  <label class="done"><input type="checkbox" data-lesson="l5"> I understand this lesson</label>
+</section>
+
+<!-- LESSON 6 -->
+<section class="lesson" id="l6">
+  <span class="tag">Lesson 9</span>
+  <h2>Worked examples, from easy to harder</h2>
+  <p>For each example we do the same five things: understand the problem, list the steps, write pseudocode, draw the flowchart, and test it with real numbers.</p>
+
+  <h3>Example A: Sequence. Find the area of a rectangle</h3>
+  <p><b>Understand:</b> Input = length and width. Process = multiply them. Output = the area.</p>
+<pre class="code">START
+INPUT length, width
+area = length * width
+OUTPUT area
+END</pre>
+  <div class="fc" data-chart="area"></div>
+  <p><b>Test it:</b> length = 5, width = 4.</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Step</th><th>length</th><th>width</th><th>area</th><th>Output</th></tr>
+    <tr><td>INPUT length, width</td><td class="c">5</td><td class="c">4</td><td class="c">-</td><td></td></tr>
+    <tr><td>area = length * width</td><td class="c">5</td><td class="c">4</td><td class="c">20</td><td></td></tr>
+    <tr><td>OUTPUT area</td><td class="c">5</td><td class="c">4</td><td class="c">20</td><td><b>20</b></td></tr>
+  </table></div>
+
+  <h3>Example B: Selection with two paths. Even or odd?</h3>
+  <p><b>Understand:</b> An even number divides by 2 with nothing left over. <code>MOD</code> gives the remainder after division. So <code>7 MOD 2 = 1</code> (7 divided by 2 is 3 remainder 1) and <code>8 MOD 2 = 0</code>.</p>
+  <p>Idea: if <code>number MOD 2 = 0</code>, the number is even. Otherwise it is odd.</p>
+<pre class="code">START
+INPUT number
+IF number MOD 2 = 0 THEN
+    OUTPUT "Even"
+ELSE
+    OUTPUT "Odd"
+END IF
+END</pre>
+  <div class="fc" data-chart="evenodd"></div>
+  <div class="tbl-wrap"><table>
+    <tr><th>Test number</th><th>number MOD 2</th><th>= 0 ?</th><th>Output</th></tr>
+    <tr><td class="c">8</td><td class="c">0</td><td class="c">Yes</td><td><b>Even</b></td></tr>
+    <tr><td class="c">7</td><td class="c">1</td><td class="c">No</td><td><b>Odd</b></td></tr>
+    <tr><td class="c">0</td><td class="c">0</td><td class="c">Yes</td><td><b>Even</b></td></tr>
+  </table></div>
+  <div class="box ok"><b class="t">Good habit</b>Always test with more than one input, so that you travel down <b>every</b> path in the flowchart at least once. Here: one even number and one odd number.</div>
+
+  <h3>Example C: Selection with three paths. Grade a score</h3>
+  <p><b>Understand:</b> 70 or more gets A. 50 to 69 gets B. Below 50 gets F. Notice that we ask <b>two</b> questions, one after the other. Ask the strictest question first.</p>
+<pre class="code">START
+INPUT score
+IF score &gt;= 70 THEN
+    OUTPUT "A"
+ELSE IF score &gt;= 50 THEN
+    OUTPUT "B"
+ELSE
+    OUTPUT "F"
+END IF
+END</pre>
+  <div class="fc" data-chart="grade"></div>
+  <div class="tbl-wrap"><table>
+    <tr><th>score</th><th>score &gt;= 70 ?</th><th>score &gt;= 50 ?</th><th>Output</th></tr>
+    <tr><td class="c">85</td><td class="c">Yes</td><td class="c">not asked</td><td><b>A</b></td></tr>
+    <tr><td class="c">70</td><td class="c">Yes</td><td class="c">not asked</td><td><b>A</b> (70 counts, because of &gt;=)</td></tr>
+    <tr><td class="c">64</td><td class="c">No</td><td class="c">Yes</td><td><b>B</b></td></tr>
+    <tr><td class="c">50</td><td class="c">No</td><td class="c">Yes</td><td><b>B</b></td></tr>
+    <tr><td class="c">49</td><td class="c">No</td><td class="c">No</td><td><b>F</b></td></tr>
+  </table></div>
+  <div class="box warn"><b class="t">Watch the boundaries</b><code>&gt;</code> means "greater than". <code>&gt;=</code> means "greater than or equal to". For the score 70, <code>score &gt; 70</code> is No but <code>score &gt;= 70</code> is Yes. Always test the boundary numbers (70, 50, 49).</div>
+
+  <h3>Example D: Iteration. Add the numbers from 1 to N</h3>
+  <p><b>Understand:</b> If N = 4, we want 1 + 2 + 3 + 4 = 10. We use two variables: <code>sum</code> (the running total, starting at 0) and <code>i</code> (the counter, starting at 1). Each time round the loop we add <code>i</code> to <code>sum</code>, then move <code>i</code> up by one. We stop when <code>i</code> goes past N.</p>
+<pre class="code">START
+INPUT N
+sum = 0
+i = 1
+WHILE i &lt;= N DO
+    sum = sum + i
+    i = i + 1
+END WHILE
+OUTPUT sum
+END</pre>
+  <div class="fc" data-chart="sum"></div>
+  <p><b>Trace table for N = 4.</b> Read each row from left to right. Each row shows the values right after the loop has done one round.</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Round</th><th>i &lt;= N ?</th><th>sum = sum + i</th><th>i after i = i + 1</th></tr>
+    <tr><td class="c">Start</td><td class="c">-</td><td class="c">sum = 0</td><td class="c">i = 1</td></tr>
+    <tr><td class="c">1</td><td class="c">1 &lt;= 4 Yes</td><td class="c">0 + 1 = 1</td><td class="c">2</td></tr>
+    <tr><td class="c">2</td><td class="c">2 &lt;= 4 Yes</td><td class="c">1 + 2 = 3</td><td class="c">3</td></tr>
+    <tr><td class="c">3</td><td class="c">3 &lt;= 4 Yes</td><td class="c">3 + 3 = 6</td><td class="c">4</td></tr>
+    <tr><td class="c">4</td><td class="c">4 &lt;= 4 Yes</td><td class="c">6 + 4 = 10</td><td class="c">5</td></tr>
+    <tr><td class="c">Check</td><td class="c">5 &lt;= 4 No, leave loop</td><td class="c">sum stays 10</td><td class="c">5</td></tr>
+  </table></div>
+  <p>The loop leaves, and the algorithm outputs <b>10</b>. That matches 1 + 2 + 3 + 4.</p>
+  <div class="box key"><b class="t">Reading a loop in a flowchart</b>Find the diamond. The <b>Yes</b> exit goes into the loop body. The last box of the body has an arrow that returns up to the diamond. The <b>No</b> exit is the way out. The diamond is asked again every single round.</div>
+
+  <h3>Example E: Loop and decision together. Password with 3 tries</h3>
+  <p><b>Understand:</b> A user gets up to 3 attempts. If the password is right, welcome them. If they fail three times, lock the account. We need a counter <code>attempts</code>, a loop that runs while attempts &lt; 3, and a decision inside it.</p>
+<pre class="code">START
+attempts = 0
+WHILE attempts &lt; 3 DO
+    INPUT password
+    IF password is correct THEN
+        OUTPUT "Welcome"
+        (leave the loop)
+    ELSE
+        attempts = attempts + 1
+    END IF
+END WHILE
+IF attempts = 3 THEN
+    OUTPUT "Account locked"
+END IF
+END</pre>
+  <p>The flowchart below shows the same idea in a simpler layout: when the password is correct we go straight to Welcome and End. When the loop condition fails, we reach "Account locked".</p>
+  <div class="fc" data-chart="login"></div>
+  <div class="tbl-wrap"><table>
+    <tr><th>Situation</th><th>Path through the flowchart</th><th>Final output</th></tr>
+    <tr><td>Correct on first try</td><td>attempts = 0, 0 &lt; 3 Yes, Input, correct Yes</td><td><b>Welcome</b></td></tr>
+    <tr><td>Wrong, then correct</td><td>0 &lt; 3 Yes, wrong (attempts = 1), 1 &lt; 3 Yes, correct Yes</td><td><b>Welcome</b></td></tr>
+    <tr><td>Wrong three times</td><td>attempts goes 0, 1, 2, 3. Then 3 &lt; 3 is No</td><td><b>Account locked</b></td></tr>
+  </table></div>
+  <label class="done"><input type="checkbox" data-lesson="l6"> I understand this lesson</label>
+</section>
+
+<!-- LESSON EXTRA FLOWCHARTS -->
+<section class="lesson" id="lx">
+  <span class="tag">Lesson 10</span>
+  <h2>More flowcharts: using the extra symbols</h2>
+  <p>In lesson 9 you drew flowcharts with the five core symbols. Now we use the remaining symbols in real examples. Each example shows the pseudocode first, then the flowchart, then how to read it.</p>
+
+  <h3>1. The hexagon: a FOR loop</h3>
+  <p>The hexagon (preparation symbol) holds the whole FOR line. It sets i to its start value, checks it, and adds 1 after each round. Because it does all three jobs, you do not need a separate "i = i + 1" box.</p>
+<pre class="code">START
+FOR i = 1 TO 5
+    OUTPUT i
+END FOR
+END</pre>
+  <div class="fc" data-chart="forloop"></div>
+  <ol class="steps">
+    <li>The flow enters the hexagon. i becomes 1.</li>
+    <li>The hexagon checks: is i still within 1 to 5? If yes, leave by the <b>Body</b> arrow.</li>
+    <li>The body runs: Output i.</li>
+    <li>The loop-back arrow returns to the hexagon. i goes up by 1 automatically.</li>
+    <li>After i = 5 has been done, the next check finds i = 6 is out of range, and the flow leaves by the <b>Done</b> arrow to End.</li>
+  </ol>
+  <p>It outputs 1, 2, 3, 4, 5. The hexagon exit labelled <b>Done</b> means "all rounds finished".</p>
+
+  <h3>2. FOR loop with a total: average of five numbers</h3>
+<pre class="code">START
+total = 0
+FOR i = 1 TO 5
+    INPUT number
+    total = total + number
+END FOR
+average = total / 5
+OUTPUT average
+END</pre>
+  <div class="fc" data-chart="avg5"></div>
+  <p>Compare this to the trace table in lesson 5. With numbers 4, 8, 6, 2, 10, the total builds up 4, 12, 18, 20, 30. After the loop the flow takes the <b>Done</b> exit and calculates average = 30 / 5 = <b>6</b>.</p>
+  <div class="box warn"><b class="t">Where does total = 0 go?</b>Before the hexagon. If you put it inside the loop, total would be reset to 0 on every round and you would lose the running total.</div>
+
+  <h3>3. REPEAT ... UNTIL: the decision comes after the body</h3>
+<pre class="code">START
+REPEAT
+    INPUT guess
+UNTIL guess = 7
+OUTPUT "Correct!"
+END</pre>
+  <div class="fc" data-chart="repeat"></div>
+  <p><b>How to spot a REPEAT UNTIL in a flowchart:</b> the Input (the body) comes <b>before</b> the diamond, and the loop-back arrow leaves the <b>No</b> exit and returns to the body. Compare with the WHILE loop in lesson 9 (sum from 1 to N), where the diamond comes <b>first</b>. That position tells you which loop it is.</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>Loop</th><th>Where is the diamond?</th><th>Which exit loops back?</th></tr>
+    <tr><td>WHILE</td><td>Before the body</td><td>The body's last box loops back up to the diamond. <b>Yes</b> enters the body.</td></tr>
+    <tr><td>REPEAT UNTIL</td><td>After the body</td><td>The <b>No</b> exit loops back to the body. <b>Yes</b> leaves.</td></tr>
+  </table></div>
+
+  <h3>4. AND in a decision: both conditions together</h3>
+<pre class="code">START
+INPUT age, height
+IF age &gt;= 12 AND height &gt;= 140 THEN
+    OUTPUT "You can ride"
+ELSE
+    OUTPUT "Not allowed"
+END IF
+END</pre>
+  <div class="fc" data-chart="andchart"></div>
+  <p>One diamond with a combined question. The Yes path is taken <b>only if both parts are TRUE</b>.</p>
+  <div class="tbl-wrap"><table>
+    <tr><th>age</th><th>height</th><th>age &gt;= 12</th><th>height &gt;= 140</th><th>Both?</th><th>Output</th></tr>
+    <tr><td class="c">15</td><td class="c">150</td><td class="c">TRUE</td><td class="c">TRUE</td><td class="c">Yes</td><td>You can ride</td></tr>
+    <tr><td class="c">15</td><td class="c">130</td><td class="c">TRUE</td><td class="c">FALSE</td><td class="c">No</td><td>Not allowed</td></tr>
+    <tr><td class="c">9</td><td class="c">160</td><td class="c">FALSE</td><td class="c">TRUE</td><td class="c">No</td><td>Not allowed</td></tr>
+    <tr><td class="c">9</td><td class="c">120</td><td class="c">FALSE</td><td class="c">FALSE</td><td class="c">No</td><td>Not allowed</td></tr>
+  </table></div>
+
+  <h3>5. OR in a decision: either condition</h3>
+<pre class="code">START
+INPUT day
+IF day = "Sat" OR day = "Sun" THEN
+    OUTPUT "Weekend"
+ELSE
+    OUTPUT "Weekday"
+END IF
+END</pre>
+  <div class="fc" data-chart="orchart"></div>
+  <p>The Yes path is taken if <b>at least one</b> part is TRUE. For "Sat" the first part is TRUE (so Yes). For "Mon" both parts are FALSE (so No).</p>
+
+  <h3>6. The predefined process: using a function</h3>
+  <p>The rectangle with double side bars means "go and run a procedure or function that is defined somewhere else". The details of that block get their own separate flowchart.</p>
+<pre class="code">FUNCTION circleArea(r)
+    area = 3.14 * r * r
+    RETURN area
+END FUNCTION
+
+START
+INPUT radius
+area = circleArea(radius)
+OUTPUT area
+END</pre>
+  <p><b>The main flowchart</b> uses the predefined-process symbol, plus an <b>annotation</b> (the dashed bracket) explaining it:</p>
+  <div class="fc" data-chart="circleMain"></div>
+  <p><b>The flowchart of the function itself.</b> Notice that it starts with the function's name and ends with RETURN:</p>
+  <div class="fc" data-chart="circleSub"></div>
+  <p>With radius = 2: the main chart reaches the predefined process, jumps to the function chart with r = 2, works out 12.56, returns it, and carries on to Output <b>12.56</b>.</p>
+
+  <h3>7. Connectors: when a flowchart is too big for one column</h3>
+  <p><b>On-page connectors</b> are small circles with a letter. Two circles with the <b>same letter</b> mean "these are the same point". A flow that reaches the first circle carries on at the second one. This avoids long, crossing arrows.</p>
+  <div class="fc" data-chart="connPair"></div>
+  <p>Here the flow leaves the first column at circle <b>A</b> and carries on from circle <b>A</b> at the top of the second column. No arrow joins them. The matching letter is the link.</p>
+  <p><b>Off-page connectors</b> do the same thing across <b>different pages</b>. Page 1 ends with a connector, and page 2 begins with a matching one.</p>
+  <div class="grid2">
+    <div class="fc" data-chart="page1"><div class="cap">Page 1</div></div>
+    <div class="fc" data-chart="page2"><div class="cap">Page 2</div></div>
+  </div>
+  <div class="box warn"><b class="t">Connector rules</b>1. Connectors always come in matching pairs (one out, one in). 2. They carry the same letter or number. 3. Use as few as possible. If your chart is small enough, draw it without them.</div>
+
+  <h3>8. Different kinds of input and output, and annotations</h3>
+  <p>The plain parallelogram is enough for any input and output, but sometimes you want to be exact about <b>how</b> data goes in or out:</p>
+<pre class="code">START
+INPUT total                      // typed by the teacher
+average = total / 3
+OUTPUT average                   // shown on screen
+PRINT report card                // printed on paper
+SAVE record                      // stored in the school database
+END</pre>
+  <div class="fc" data-chart="report"></div>
+  <ul>
+    <li><b>Manual input</b> (slanted top): typed on a keyboard.</li>
+    <li><b>Display</b>: appears on a screen.</li>
+    <li><b>Document</b>: printed on paper.</li>
+    <li><b>Stored data</b> (cylinder): saved in a database or file for later.</li>
+    <li><b>Annotation</b> (dashed bracket): a comment on a nearby step. It is never "run".</li>
+  </ul>
+  <div class="box ok"><b class="t">Plain or specific?</b>For most school work, a plain parallelogram for all input and output is correct and enough. Use the specific symbols when you want to be exact, or when your teacher asks for them.</div>
+  <label class="done"><input type="checkbox" data-lesson="lx"> I understand this lesson</label>
+</section>
+
+<!-- LESSON 7 -->
+<section class="lesson tracer" id="l7">
+  <span class="tag">Lesson 11</span>
+  <h2>Trace it step by step</h2>
+  <p><b>Tracing</b> means following an algorithm by hand, one step at a time, and writing down what every variable holds. It is the best way to understand an algorithm and to find mistakes in it.</p>
+  <p>Pick an algorithm below, choose your input, and press <b>Next step</b>. The shape that is running right now lights up in orange. The yellow box explains what is happening.</p>
+  <div>
+    <label>Algorithm: <select id="trSel">
+      <option value="eo">Even or odd</option>
+      <option value="sum">Sum from 1 to N</option>
+      <option value="login">Password with 3 tries</option>
+    </select></label>
+    <span id="trInputBox"></span>
+    <button class="btn alt" id="trReset">Reset</button>
+  </div>
+  <div class="fc" id="trChart"></div>
+  <div>
+    <button class="btn" id="trNext">Next step</button>
+    <button class="btn alt" id="trAuto">Auto play</button>
+  </div>
+  <div class="vars" id="trVars"></div>
+  <div class="say" id="trSay">Press Next step to begin.</div>
+  <div class="out" id="trOut">Output appears here.</div>
+  <div class="box ok"><b class="t">Try this</b>Run "Even or odd" with 0, then with 7. Run "Sum from 1 to N" with N = 1, then N = 5, and watch <code>i</code> and <code>sum</code> change on every round. Run the password one with "wrong all three times" and count how many times the loop goes round.</div>
+  <label class="done"><input type="checkbox" data-lesson="l7"> I understand this lesson</label>
+</section>
+
+<!-- LESSON 8 -->
+<section class="lesson" id="l8">
+  <span class="tag">Lesson 12</span>
+  <h2>Design your own algorithm: a 6-step method</h2>
+  <p>When you are given a problem, do not start by drawing. Follow these steps.</p>
+  <ol class="steps">
+    <li><b>Read the problem twice.</b> Say it in your own words.</li>
+    <li><b>Find the output.</b> What answer must the algorithm produce?</li>
+    <li><b>Find the input.</b> What information does it need to start?</li>
+    <li><b>Find the process.</b> What calculations, choices or repeats turn the input into the output? Is it sequence, selection, iteration, or a mix?</li>
+    <li><b>Write it in plain steps, then pseudocode, then draw the flowchart.</b></li>
+    <li><b>Test it</b> with simple numbers, including boundary cases, using a trace table.</li>
+  </ol>
+
+  <h3>Worked design: "Find the average of three marks"</h3>
+  <div class="tbl-wrap"><table>
+    <tr><th>Step</th><th>Our answer</th></tr>
+    <tr><td>1. Say it in my words</td><td>Take three marks, add them, divide by three, show the result.</td></tr>
+    <tr><td>2. Output</td><td>The average</td></tr>
+    <tr><td>3. Input</td><td>mark1, mark2, mark3</td></tr>
+    <tr><td>4. Process</td><td>Sequence only: total = mark1 + mark2 + mark3, then average = total / 3</td></tr>
+  </table></div>
+<pre class="code">START
+INPUT mark1, mark2, mark3
+total = mark1 + mark2 + mark3
+average = total / 3
+OUTPUT average
+END</pre>
+  <div class="fc" data-chart="average"></div>
+  <p><b>Test:</b> marks 60, 70, 80. total = 210. average = 210 / 3 = <b>70</b>. Correct.</p>
+
+  <h3>Worked design: "Say whether a number is positive, negative or zero"</h3>
+  <p>Three possible answers means two questions. First ask "is it greater than 0?". If not, ask "is it less than 0?". If not that either, it must be zero.</p>
+<pre class="code">START
+INPUT n
+IF n &gt; 0 THEN
+    OUTPUT "Positive"
+ELSE IF n &lt; 0 THEN
+    OUTPUT "Negative"
+ELSE
+    OUTPUT "Zero"
+END IF
+END</pre>
+  <div class="fc" data-chart="posneg"></div>
+  <div class="tbl-wrap"><table>
+    <tr><th>n</th><th>n &gt; 0 ?</th><th>n &lt; 0 ?</th><th>Output</th></tr>
+    <tr><td class="c">9</td><td class="c">Yes</td><td class="c">not asked</td><td><b>Positive</b></td></tr>
+    <tr><td class="c">-4</td><td class="c">No</td><td class="c">Yes</td><td><b>Negative</b></td></tr>
+    <tr><td class="c">0</td><td class="c">No</td><td class="c">No</td><td><b>Zero</b></td></tr>
+  </table></div>
+  <label class="done"><input type="checkbox" data-lesson="l8"> I understand this lesson</label>
+</section>
+
+<!-- LESSON 9 -->
+<section class="lesson" id="l9">
+  <span class="tag">Lesson 13</span>
+  <h2>Practice problems, with full solutions</h2>
+  <p>Every problem below is already solved for you, with the thinking shown. Study each one, then change the numbers and trace it again yourself. After that, try the "Challenge" under each problem on paper before you look at the answer.</p>
+
+  <h3>Problem 1: Can this person vote?</h3>
+  <p>Input an age. If it is 18 or more, output "Can vote". Otherwise output "Cannot vote".</p>
+  <p><b>Input:</b> age. <b>Output:</b> a message. <b>Type:</b> selection with two paths.</p>
+<pre class="code">START
+INPUT age
+IF age &gt;= 18 THEN
+    OUTPUT "Can vote"
+ELSE
+    OUTPUT "Cannot vote"
+END IF
+END</pre>
+  <div class="fc" data-chart="vote"></div>
+  <div class="tbl-wrap"><table>
+    <tr><th>age</th><th>age &gt;= 18 ?</th><th>Output</th></tr>
+    <tr><td class="c">25</td><td class="c">Yes</td><td>Can vote</td></tr>
+    <tr><td class="c">18</td><td class="c">Yes</td><td>Can vote</td></tr>
+    <tr><td class="c">17</td><td class="c">No</td><td>Cannot vote</td></tr>
+  </table></div>
+  <details><summary>Challenge: change it so the voting age is 21</summary>
+    Only one thing changes: the question in the diamond becomes <code>age &gt;= 21 ?</code>. Test with 21 (Yes) and 20 (No).</details>
+
+  <h3>Problem 2: Which of two numbers is larger?</h3>
+  <p>Input two numbers, A and B. Output which is larger.</p>
+  <p><b>Input:</b> A, B. <b>Output:</b> a message. <b>Type:</b> selection.</p>
+<pre class="code">START
+INPUT A, B
+IF A &gt; B THEN
+    OUTPUT "A is larger"
+ELSE
+    OUTPUT "B is larger or they are equal"
+END IF
+END</pre>
+  <div class="fc" data-chart="larger"></div>
+  <div class="tbl-wrap"><table>
+    <tr><th>A</th><th>B</th><th>A &gt; B ?</th><th>Output</th></tr>
+    <tr><td class="c">9</td><td class="c">4</td><td class="c">Yes</td><td>A is larger</td></tr>
+    <tr><td class="c">3</td><td class="c">8</td><td class="c">No</td><td>B is larger or they are equal</td></tr>
+    <tr><td class="c">6</td><td class="c">6</td><td class="c">No</td><td>B is larger or they are equal</td></tr>
+  </table></div>
+  <div class="box warn"><b class="t">Why the wording of the No path?</b>When A and B are equal, "A &gt; B" is No. If the No path said only "B is larger", the answer for 6 and 6 would be wrong. Testing equal values caught this. That is why we test boundary cases.</div>
+  <details><summary>Challenge: handle equal numbers separately</summary>
+    Add a second diamond on the No path: <code>A = B ?</code>. Yes goes to "They are equal". No goes to "B is larger". That is a three-path selection, like the grade example.</details>
+
+  <h3>Problem 3: Print the numbers 1 to 5</h3>
+  <p><b>Input:</b> none. <b>Output:</b> 1 2 3 4 5, one per line. <b>Type:</b> iteration. The counter <code>i</code> goes from 1 to 5.</p>
+<pre class="code">START
+i = 1
+WHILE i &lt;= 5 DO
+    OUTPUT i
+    i = i + 1
+END WHILE
+END</pre>
+  <div class="fc" data-chart="count"></div>
+  <div class="tbl-wrap"><table>
+    <tr><th>Round</th><th>i at start</th><th>i &lt;= 5 ?</th><th>Output</th><th>i after</th></tr>
+    <tr><td class="c">1</td><td class="c">1</td><td class="c">Yes</td><td class="c">1</td><td class="c">2</td></tr>
+    <tr><td class="c">2</td><td class="c">2</td><td class="c">Yes</td><td class="c">2</td><td class="c">3</td></tr>
+    <tr><td class="c">3</td><td class="c">3</td><td class="c">Yes</td><td class="c">3</td><td class="c">4</td></tr>
+    <tr><td class="c">4</td><td class="c">4</td><td class="c">Yes</td><td class="c">4</td><td class="c">5</td></tr>
+    <tr><td class="c">5</td><td class="c">5</td><td class="c">Yes</td><td class="c">5</td><td class="c">6</td></tr>
+    <tr><td class="c">Check</td><td class="c">6</td><td class="c">No</td><td class="c">leave loop</td><td class="c">-</td></tr>
+  </table></div>
+  <p>The loop body ran exactly <b>5</b> times, once for each of 1, 2, 3, 4, 5.</p>
+  <details><summary>Challenge: print 5 down to 1</summary>
+    Start with <code>i = 5</code>. Change the condition to <code>i &gt;= 1</code>. Change the update to <code>i = i - 1</code>. Trace it: 5, 4, 3, 2, 1, then i = 0 and 0 &gt;= 1 is No.</details>
+
+  <h3>Problem 4: The 3 times table up to 5</h3>
+  <p>Output 3 x 1, 3 x 2, up to 3 x 5. The answers should be 3, 6, 9, 12, 15.</p>
+  <p><b>Type:</b> iteration again. The only new thing is that we output <code>3 * i</code> instead of <code>i</code>.</p>
+<pre class="code">START
+i = 1
+WHILE i &lt;= 5 DO
+    OUTPUT 3 * i
+    i = i + 1
+END WHILE
+END</pre>
+  <div class="fc" data-chart="times"></div>
+  <div class="tbl-wrap"><table>
+    <tr><th>i</th><td class="c">1</td><td class="c">2</td><td class="c">3</td><td class="c">4</td><td class="c">5</td></tr>
+    <tr><th>3 * i (output)</th><td class="c">3</td><td class="c">6</td><td class="c">9</td><td class="c">12</td><td class="c">15</td></tr>
+  </table></div>
+  <details><summary>Challenge: make it work for any number, not only 3</summary>
+    Add <code>INPUT n</code> at the start and output <code>n * i</code>. Now the same flowchart prints any times table.</details>
+
+  <h3>Problem 5: Average of three marks, then a pass/fail message</h3>
+  <p>This joins sequence and selection. First calculate the average (sequence). Then decide: 50 or more is "Pass", otherwise "Fail".</p>
+<pre class="code">START
+INPUT m1, m2, m3
+average = (m1 + m2 + m3) / 3
+IF average &gt;= 50 THEN
+    OUTPUT "Pass"
+ELSE
+    OUTPUT "Fail"
+END IF
+END</pre>
+  <div class="fc" data-chart="avgpass"></div>
+  <div class="tbl-wrap"><table>
+    <tr><th>m1</th><th>m2</th><th>m3</th><th>average</th><th>&gt;= 50 ?</th><th>Output</th></tr>
+    <tr><td class="c">60</td><td class="c">45</td><td class="c">75</td><td class="c">60</td><td class="c">Yes</td><td>Pass</td></tr>
+    <tr><td class="c">30</td><td class="c">40</td><td class="c">50</td><td class="c">40</td><td class="c">No</td><td>Fail</td></tr>
+    <tr><td class="c">50</td><td class="c">50</td><td class="c">50</td><td class="c">50</td><td class="c">Yes</td><td>Pass</td></tr>
+  </table></div>
+  <label class="done"><input type="checkbox" data-lesson="l9"> I understand this lesson</label>
+</section>
+
+<!-- QUIZ -->
+<section class="lesson quiz" id="quiz">
+  <span class="tag">Quiz</span>
+  <h2>Check what you learned</h2>
+  <p>There are <span id="qCount">20</span> questions. After each answer you will see why it is right or wrong. Do not rush. Several of the wrong answers are the mistakes beginners really make.</p>
+  <div id="quizBox"></div>
+</section>
+
+<!-- CHEAT -->
+<section class="lesson" id="cheat">
+  <span class="tag">Cheat sheet</span>
+  <h2>One-page summary</h2>
+  <div class="grid2">
+    <div class="cardmini"><b>Definitions</b>
+      <ul>
+        <li><b>Algorithm:</b> clear, ordered, finite steps that solve a problem</li>
+        <li><b>Pseudocode:</b> algorithm written in code-like English</li>
+        <li><b>Flowchart:</b> algorithm drawn with shapes and arrows</li>
+        <li><b>Variable:</b> a labelled box holding a value</li>
+        <li><b>Trace:</b> following the algorithm by hand, tracking variables</li>
+      </ul></div>
+    <div class="cardmini"><b>Three building blocks</b>
+      <ul>
+        <li><b>Sequence:</b> one step after another</li>
+        <li><b>Selection:</b> IF / ELSE, a diamond with Yes and No</li>
+        <li><b>Iteration:</b> WHILE, an arrow going back up</li>
+      </ul>
+      <b>Loop needs:</b> start value, condition, change</div>
+  </div>
+  <div class="tbl-wrap"><table>
+    <tr><th>Symbol</th><th>Name</th><th>Use</th></tr>
+    <tr><td>Rounded rectangle</td><td>Terminator</td><td>Start and End</td></tr>
+    <tr><td>Parallelogram</td><td>Input / Output</td><td>INPUT and OUTPUT</td></tr>
+    <tr><td>Rectangle</td><td>Process</td><td>Calculations, assignments</td></tr>
+    <tr><td>Diamond</td><td>Decision</td><td>Yes/No question, two exits</td></tr>
+    <tr><td>Arrow</td><td>Flow line</td><td>Shows the next step</td></tr>
+  </table></div>
+  <div class="grid2">
+    <div class="cardmini"><b>Operators</b>
+      <ul><li><code>+ - * /</code> add, subtract, multiply, divide</li><li><code>MOD</code> remainder (7 MOD 2 = 1)</li><li><code>&gt;</code> greater than, <code>&gt;=</code> greater or equal</li><li><code>&lt;</code> less than, <code>&lt;=</code> less or equal</li><li><code>=</code> store (in a process) or compare (in a question)</li></ul></div>
+    <div class="cardmini"><b>6-step design method</b>
+      <ol><li>Read twice</li><li>Find output</li><li>Find input</li><li>Find process</li><li>Write steps, pseudocode, flowchart</li><li>Test with a trace table</li></ol></div>
+  </div>
+  <div class="grid2">
+    <div class="cardmini"><b>Pseudocode keywords</b>
+<pre class="code">START / END
+INPUT x       OUTPUT "text"
+x = x + 1     // comment
+IF cond THEN ... ELSE IF ... ELSE
+END IF
+WHILE cond DO ... END WHILE
+FOR i = 1 TO 5 [STEP 1] ... END FOR
+REPEAT ... UNTIL cond
+FUNCTION f(p) ... RETURN v
+PROCEDURE g(p) ... CALL g(v)</pre></div>
+    <div class="cardmini"><b>The 14 flowchart symbols</b>
+      <ol style="margin:4px 0 0;padding-left:20px;font-size:15px">
+        <li>Terminator (Start/End)</li><li>Process</li><li>Input/Output</li><li>Decision</li><li>Flow line</li>
+        <li>Predefined process</li><li>Preparation (FOR loop)</li><li>On-page connector</li><li>Off-page connector</li>
+        <li>Manual input</li><li>Display</li><li>Document</li><li>Stored data</li><li>Annotation</li></ol></div>
+  </div>
+  <div class="grid2">
+    <div class="cardmini"><b>Operators</b>
+      <ul><li><code>DIV</code> whole-number division, <code>MOD</code> remainder</li><li>Order: brackets, power, * / DIV MOD, then + -</li><li><code>AND</code> both TRUE, <code>OR</code> at least one TRUE, <code>NOT</code> flips</li></ul></div>
+    <div class="cardmini"><b>Loop choice</b>
+      <ul><li><b>FOR:</b> known number of rounds</li><li><b>WHILE:</b> check first, may run 0 times</li><li><b>REPEAT UNTIL:</b> check last, runs at least once</li></ul></div>
+  </div>
+  <button class="btn noprint" id="printCheat">Print this cheat sheet</button>
+</section>
+<footer>Built for David. Go slowly, trace everything by hand, and you will get it.</footer>
 </main>
+</div>
+
 <script>
-var COLORS={"-3":["orange","#f28c28"],"15":["purple","#7b4fb8"],"-1":["pink","#f48fb1"],"3":["black","#222"],"0":["white","#fff"],"-5":["gray","#9a9a9a"],"8":["yellow","#f6d530"],"-8":["blue","#4a7fd4"]};
-var P=[["8 + 0",8],["3 + 5",8],["9 + -1",8],["12 + -4",8],["-8 + 16",8],
-["1 + -4",-3],["-3 + 0",-3],["-5 + 2",-3],["3 + -6",-3],["-4 + 1",-3],["6 + -9",-3],["0 + -3",-3],
-["8 + 7",15],["10 + 5",15],["4 + 11",15],["16 + -1",15],["20 + -5",15],["9 + 6 (?)",15],
-["1 + 2",3],["3 + 0",3],["5 + -2",3],["9 + -6",3],["4 + -1",3],["8 + -5",3],["-4 + 7",3],["-1 + 4",3],["6 + -3",3],
-["-8 + 0",-8],["-7 + -1",-8],["-3 + -5",-8],["8 + -16",-8],
-["4 + -5",-1],["5 + -6",-1],["1 + -2",-1],
-["4 + -9",-5],
-["3 + -3",0]];
-var order=[8,-3,15,3,-8,-1,-5,0],sel=null,done={};
-var chips=document.getElementById("chips"),grid=document.getElementById("grid"),prog=document.getElementById("prog");
-function render(){
-chips.innerHTML="";
-[null].concat(order).forEach(function(k){
-var b=document.createElement("button");b.className="chip"+(sel===k?" on":"");
-b.innerHTML=k===null?"All":'<span class="dot" style="background:'+COLORS[k][1]+'"></span>'+COLORS[k][0]+" ("+k+")";
-b.onclick=function(){sel=k;render()};chips.appendChild(b)});
-grid.innerHTML="";var n=0,d=0;
-order.forEach(function(k){P.forEach(function(p,i){
-if(p[1]!==k)return;n++;var id=p[0];if(done[id])d++;
-if(sel!==null&&sel!==k)return;
-var c=document.createElement("div");c.className="card"+(done[id]?" done":"");
-var fg=(k===3||k===-8||k===15)?"#fff":"#222";
-c.innerHTML='<div class="sw" style="background:'+COLORS[k][1]+';color:'+fg+'">'+(done[id]?"✓ ":"")+COLORS[k][0]+'</div><div class="expr">'+p[0]+'</div><div class="ans">= '+k+'</div>';
-c.onclick=function(){done[id]=!done[id];render()};grid.appendChild(c)})});
-prog.textContent=d+" of "+n+" problems marked colored"}
-render();
+/* ---------------- Flowchart engine ---------------- */
+const NS='http://www.w3.org/2000/svg';
+function dims(n){
+  switch(n.t){
+    case 'dec':return[220,92];
+    case 'io':return[200,46];
+    case 'start':case 'end':return[130,42];
+    case 'conn':return[36,36];
+    case 'offp':return[150,56];
+    case 'pre':return[200,48];
+    case 'prep':return[200,48];
+    case 'man':return[200,48];
+    case 'disp':return[200,48];
+    case 'doc':return[190,54];
+    case 'db':return[150,60];
+    case 'note':return[150,56];
+    default:return[190,48];
+  }
+}
+function anc(n,side){
+  const[w,h]=dims(n);
+  if(side==='t')return[n.x,n.y-h/2];
+  if(side==='b')return[n.x,n.y+h/2];
+  if(side==='l')return[n.x-w/2,n.y];
+  return[n.x+w/2,n.y];
+}
+function route(A,as,B,bs,loopx){
+  const s=anc(A,as),e=anc(B,bs);
+  if(loopx!==undefined){
+    if(as==='b')return[s,[s[0],s[1]+24],[loopx,s[1]+24],[loopx,e[1]],e];
+    return[s,[loopx,s[1]],[loopx,e[1]],e];
+  }
+  if(as==='b'&&bs==='t'){
+    if(s[0]===e[0])return[s,e];
+    const m=(s[1]+e[1])/2;return[s,[s[0],m],[e[0],m],e];
+  }
+  if((as==='l'||as==='r')&&bs==='t')return[s,[e[0],s[1]],e];
+  if(as==='b'&&(bs==='l'||bs==='r'))return[s,[s[0],e[1]],e];
+  return[s,e];
+}
+function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function shapeSVG(n){
+  const[w,h]=dims(n);const x=n.x,y=n.y;
+  const L=x-w/2,R=x+w/2,T=y-h/2,B=y+h/2;let sh='',dy=0,tx=x;
+  switch(n.t){
+    case 'start':case 'end':
+      sh=`<rect class="shape ${n.t}" x="${L}" y="${T}" width="${w}" height="${h}" rx="${h/2}"/>`;break;
+    case 'proc':
+      sh=`<rect class="shape proc" x="${L}" y="${T}" width="${w}" height="${h}" rx="3"/>`;break;
+    case 'io':{const k=16;
+      sh=`<polygon class="shape io" points="${L+k},${T} ${R},${T} ${R-k},${B} ${L},${B}"/>`;break;}
+    case 'dec':
+      sh=`<polygon class="shape dec" points="${x},${T} ${R},${y} ${x},${B} ${L},${y}"/>`;break;
+    case 'conn':
+      sh=`<circle class="shape conn" cx="${x}" cy="${y}" r="${w/2}"/>`;break;
+    case 'offp':
+      sh=`<polygon class="shape offp" points="${L},${T} ${R},${T} ${R},${y+h/6} ${x},${B} ${L},${y+h/6}"/>`;dy=-5;break;
+    case 'pre':
+      sh=`<rect class="shape pre" x="${L}" y="${T}" width="${w}" height="${h}" rx="3"/><line class="sl" x1="${L+14}" y1="${T}" x2="${L+14}" y2="${B}"/><line class="sl" x1="${R-14}" y1="${T}" x2="${R-14}" y2="${B}"/>`;break;
+    case 'prep':
+      sh=`<polygon class="shape prep" points="${L},${y} ${L+24},${T} ${R-24},${T} ${R},${y} ${R-24},${B} ${L+24},${B}"/>`;break;
+    case 'man':
+      sh=`<polygon class="shape man" points="${L},${T+14} ${R},${T} ${R},${B} ${L},${B}"/>`;dy=5;break;
+    case 'disp':
+      sh=`<path class="shape disp" d="M${L+26},${T} H${R-26} Q${R+8},${y} ${R-26},${B} H${L+26} L${L},${y} Z"/>`;break;
+    case 'doc':
+      sh=`<path class="shape doc" d="M${L},${T} H${R} V${B-8} C${x+w/4},${B-24} ${x-w/4},${B+6} ${L},${B-8} Z"/>`;dy=-4;break;
+    case 'db':
+      sh=`<path class="shape db" d="M${L},${T+10} V${B-10} A${w/2},10 0 0 0 ${R},${B-10} V${T+10} Z"/><ellipse class="shape db" cx="${x}" cy="${T+10}" rx="${w/2}" ry="10"/>`;dy=8;break;
+    case 'note':
+      sh=`<path class="shape note" d="M${L+12},${T} H${L} V${B} H${L+12}"/>`;tx=x+6;break;
+  }
+  const lines=String(n.txt).split('\n');const lh=16;const y0=y+dy-(lines.length-1)*lh/2+5;
+  const bold=n.t==='conn'?' style="font-weight:700;font-size:15px"':'';
+  const txt=lines.map((l,i)=>`<text x="${tx}" y="${y0+i*lh}"${bold}>${esc(l)}</text>`).join('');
+  return `<g class="node" data-id="${n.id}">${sh}${txt}</g>`;
+}
+function renderChart(spec){
+  const map={};spec.nodes.forEach(n=>map[n.id]=n);
+  let edges='',labels='';
+  spec.edges.forEach(ed=>{
+    const[a,as,b,bs,lab,lx,style]=ed;
+    const pts=route(map[a],as,map[b],bs,lx);
+    const pl=pts.map(p=>p.join(',')).join(' ');
+    if(style==='dash')edges+=`<polyline class="edge dash" points="${pl}"/>`;
+    else edges+=`<polyline class="edge" points="${pl}" marker-end="url(#ah)"/>`;
+    if(lab){
+      const s=pts[0];let lxp=s[0],lyp=s[1];
+      if(as==='l'){lxp-=20;lyp-=7}else if(as==='r'){lxp+=20;lyp-=7}else{lxp+=16;lyp+=17}
+      labels+=`<text class="lbl" x="${lxp}" y="${lyp}">${lab}</text>`;
+    }
+  });
+  const body=spec.nodes.map(shapeSVG).join('');
+  return `<svg viewBox="0 0 ${spec.w} ${spec.h}" width="${spec.w}" role="img" aria-label="Flowchart"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--stroke)"/></marker></defs>${edges}${body}${labels}</svg>`;
+}
+
+/* builders */
+function seqChart(items,opts){
+  opts=opts||{};
+  const f=opts.first||{t:'start',txt:'Start'};
+  const nodes=[{id:'s',t:f.t,txt:f.txt,x:200,y:35}];
+  let y=35;let prevH=dims({t:f.t})[1];
+  items.forEach((it,i)=>{const t=it[0],txt=it[1];const h=dims({t})[1];y+=prevH/2+32+h/2;nodes.push({id:'n'+i,t,txt,x:200,y});prevH=h;});
+  if(!opts.noEnd){y+=prevH/2+32+21;nodes.push({id:'e',t:'end',txt:'End',x:200,y});}
+  else{y+=prevH/2;}
+  const edges=[];for(let i=0;i<nodes.length-1;i++)edges.push([nodes[i].id,'b',nodes[i+1].id,'t']);
+  return{w:opts.w||400,h:y+34,nodes,edges};
+}
+function ifElse(inp,cond,yes,no){
+  const nodes=[
+    {id:'s',t:'start',txt:'Start',x:280,y:35},
+    {id:'in',t:'io',txt:inp,x:280,y:105},
+    {id:'d',t:'dec',txt:cond,x:280,y:205},
+    {id:'y',t:'io',txt:yes,x:105,y:315},
+    {id:'n',t:'io',txt:no,x:455,y:315},
+    {id:'e',t:'end',txt:'End',x:280,y:405}];
+  return{w:560,h:440,nodes,edges:[['s','b','in','t'],['in','b','d','t'],['d','l','y','t','Yes'],['d','r','n','t','No'],['y','b','e','t'],['n','b','e','t']]};
+}
+function loopChart(o){
+  const nodes=[{id:'s',t:'start',txt:'Start',x:230,y:35}];
+  const order=[];
+  if(o.input)order.push({id:'in',t:'io',txt:o.input});
+  if(o.init)order.push({id:'init',t:'proc',txt:o.init});
+  order.push({id:'d',t:'dec',txt:o.cond});
+  o.body.forEach((b,i)=>order.push({id:'b'+i,t:b[0],txt:b[1]}));
+  let y=35,prevH=42;
+  order.forEach(n=>{const h=dims(n)[1];y+=prevH/2+34+h/2;n.x=230;n.y=y;prevH=h;nodes.push(n);});
+  const d=nodes.find(n=>n.id==='d');const last=nodes[nodes.length-1];
+  const after=o.after?{id:'after',t:'io',txt:o.after,x:480,y:d.y}:null;
+  const end={id:'e',t:'end',txt:'End',x:480,y:o.after?d.y+90:d.y};
+  if(after)nodes.push(after);
+  nodes.push(end);
+  const edges=[];
+  const chain=nodes.filter(n=>n.id!=='after'&&n.id!=='e');
+  for(let i=0;i<chain.length-1;i++){
+    const lab=chain[i].id==='d'?'Yes':undefined;
+    edges.push([chain[i].id,'b',chain[i+1].id,'t',lab]);
+  }
+  edges.push([last.id,'l','d','l',undefined,28]);
+  if(after){edges.push(['d','r','after','l','No']);edges.push(['after','b','e','t']);}
+  else edges.push(['d','r','e','l','No']);
+  const h=Math.max(last.y+60,end.y+50);
+  return{w:600,h,nodes,edges};
+}
+
+const CHARTS={
+  add:seqChart([['io','Input num1, num2'],['proc','sum = num1 + num2'],['io','Output sum']]),
+  area:seqChart([['io','Input length, width'],['proc','area = length * width'],['io','Output area']]),
+  average:seqChart([['io','Input mark1, mark2, mark3'],['proc','total = mark1 + mark2 + mark3'],['proc','average = total / 3'],['io','Output average']]),
+  evenodd:ifElse('Input number','number MOD 2 = 0 ?','Output "Even"','Output "Odd"'),
+  vote:ifElse('Input age','age >= 18 ?','Output "Can vote"','Output "Cannot vote"'),
+  larger:ifElse('Input A, B','A > B ?','Output "A is larger"','Output "B is larger\nor equal"'),
+  sum:loopChart({input:'Input N',init:'sum = 0\ni = 1',cond:'i <= N ?',body:[['proc','sum = sum + i'],['proc','i = i + 1']],after:'Output sum'}),
+  count:loopChart({init:'i = 1',cond:'i <= 5 ?',body:[['io','Output i'],['proc','i = i + 1']],after:null}),
+  times:loopChart({init:'i = 1',cond:'i <= 5 ?',body:[['io','Output 3 * i'],['proc','i = i + 1']],after:null}),
+};
+CHARTS.grade={w:620,h:540,nodes:[
+  {id:'s',t:'start',txt:'Start',x:230,y:35},
+  {id:'in',t:'io',txt:'Input score',x:230,y:105},
+  {id:'d1',t:'dec',txt:'score >= 70 ?',x:230,y:200},
+  {id:'a',t:'io',txt:'Output "A"',x:470,y:200},
+  {id:'d2',t:'dec',txt:'score >= 50 ?',x:230,y:315},
+  {id:'b',t:'io',txt:'Output "B"',x:470,y:315},
+  {id:'f',t:'io',txt:'Output "F"',x:230,y:425},
+  {id:'e',t:'end',txt:'End',x:230,y:505}],
+  edges:[['s','b','in','t'],['in','b','d1','t'],['d1','r','a','l','Yes'],['d1','b','d2','t','No'],['d2','r','b','l','Yes'],['d2','b','f','t','No'],['a','r','e','r',undefined,600],['b','b','e','r'],['f','b','e','t']]};
+CHARTS.posneg={w:620,h:540,nodes:[
+  {id:'s',t:'start',txt:'Start',x:230,y:35},
+  {id:'in',t:'io',txt:'Input n',x:230,y:105},
+  {id:'d1',t:'dec',txt:'n > 0 ?',x:230,y:200},
+  {id:'a',t:'io',txt:'Output "Positive"',x:470,y:200},
+  {id:'d2',t:'dec',txt:'n < 0 ?',x:230,y:315},
+  {id:'b',t:'io',txt:'Output "Negative"',x:470,y:315},
+  {id:'f',t:'io',txt:'Output "Zero"',x:230,y:425},
+  {id:'e',t:'end',txt:'End',x:230,y:505}],
+  edges:[['s','b','in','t'],['in','b','d1','t'],['d1','r','a','l','Yes'],['d1','b','d2','t','No'],['d2','r','b','l','Yes'],['d2','b','f','t','No'],['a','r','e','r',undefined,600],['b','b','e','r'],['f','b','e','t']]};
+CHARTS.avgpass={w:560,h:520,nodes:[
+  {id:'s',t:'start',txt:'Start',x:280,y:35},
+  {id:'in',t:'io',txt:'Input m1, m2, m3',x:280,y:100},
+  {id:'p',t:'proc',txt:'average =\n(m1 + m2 + m3) / 3',x:280,y:175},
+  {id:'d',t:'dec',txt:'average >= 50 ?',x:280,y:285},
+  {id:'y',t:'io',txt:'Output "Pass"',x:105,y:395},
+  {id:'n',t:'io',txt:'Output "Fail"',x:455,y:395},
+  {id:'e',t:'end',txt:'End',x:280,y:485}],
+  edges:[['s','b','in','t'],['in','b','p','t'],['p','b','d','t'],['d','l','y','t','Yes'],['d','r','n','t','No'],['y','b','e','t'],['n','b','e','t']]};
+CHARTS.login={w:640,h:560,nodes:[
+  {id:'s',t:'start',txt:'Start',x:250,y:35},
+  {id:'p0',t:'proc',txt:'attempts = 0',x:250,y:100},
+  {id:'d1',t:'dec',txt:'attempts < 3 ?',x:250,y:195},
+  {id:'in',t:'io',txt:'Input password',x:250,y:295},
+  {id:'d2',t:'dec',txt:'password correct ?',x:250,y:395},
+  {id:'ok',t:'io',txt:'Output "Welcome"',x:490,y:395},
+  {id:'inc',t:'proc',txt:'attempts = attempts + 1',x:250,y:495},
+  {id:'lock',t:'io',txt:'Output "Account locked"',x:490,y:195},
+  {id:'e',t:'end',txt:'End',x:490,y:510}],
+  edges:[['s','b','p0','t'],['p0','b','d1','t'],['d1','b','in','t','Yes'],['d1','r','lock','l','No'],['in','b','d2','t'],['d2','r','ok','l','Yes'],['d2','b','inc','t','No'],['inc','l','d1','l',undefined,40],['ok','b','e','t'],['lock','r','e','r',undefined,625]]};
+
+/* extra-symbol charts */
+CHARTS.forloop={w:600,h:280,nodes:[
+  {id:'s',t:'start',txt:'Start',x:230,y:35},
+  {id:'prep',t:'prep',txt:'FOR i = 1 TO 5',x:230,y:120},
+  {id:'out',t:'io',txt:'Output i',x:230,y:215},
+  {id:'e',t:'end',txt:'End',x:490,y:120}],
+  edges:[['s','b','prep','t'],['prep','b','out','t','Body'],['out','l','prep','l',undefined,40],['prep','r','e','l','Done']]};
+CHARTS.avg5={w:600,h:430,nodes:[
+  {id:'s',t:'start',txt:'Start',x:230,y:35},
+  {id:'p',t:'proc',txt:'total = 0',x:230,y:105},
+  {id:'prep',t:'prep',txt:'FOR i = 1 TO 5',x:230,y:195},
+  {id:'in',t:'io',txt:'Input number',x:230,y:295},
+  {id:'p2',t:'proc',txt:'total = total + number',x:230,y:375},
+  {id:'p3',t:'proc',txt:'average = total / 5',x:490,y:195},
+  {id:'out',t:'io',txt:'Output average',x:490,y:285},
+  {id:'e',t:'end',txt:'End',x:490,y:365}],
+  edges:[['s','b','p','t'],['p','b','prep','t'],['prep','b','in','t','Body'],['in','b','p2','t'],['p2','l','prep','l',undefined,40],['prep','r','p3','l','Done'],['p3','b','out','t'],['out','b','e','t']]};
+CHARTS.repeat={w:600,h:350,nodes:[
+  {id:'s',t:'start',txt:'Start',x:230,y:35},
+  {id:'in',t:'io',txt:'Input guess',x:230,y:115},
+  {id:'d',t:'dec',txt:'guess = 7 ?',x:230,y:215},
+  {id:'ok',t:'io',txt:'Output "Correct!"',x:490,y:215},
+  {id:'e',t:'end',txt:'End',x:490,y:305}],
+  edges:[['s','b','in','t'],['in','b','d','t'],['d','r','ok','l','Yes'],['d','l','in','l','No',40],['ok','b','e','t']]};
+CHARTS.andchart=ifElse('Input age, height','age >= 12 AND\nheight >= 140 ?','Output "You can ride"','Output "Not allowed"');
+CHARTS.orchart=ifElse('Input day','day = "Sat" OR\nday = "Sun" ?','Output "Weekend"','Output "Weekday"');
+(function(){
+  const a=seqChart([['io','Input radius'],['pre','area =\ncircleArea(radius)'],['io','Output area']],{w:560});
+  const pre=a.nodes.find(n=>n.t==='pre');
+  a.nodes.push({id:'note',t:'note',txt:'circleArea has its\nown flowchart',x:445,y:pre.y});
+  a.edges.push(['note','l','n1','r',undefined,undefined,'dash']);
+  CHARTS.circleMain=a;
+  CHARTS.circleSub={w:400,h:225,nodes:[
+    {id:'s',t:'start',txt:'circleArea(r)',x:200,y:35},
+    {id:'p',t:'proc',txt:'area = 3.14 * r * r',x:200,y:115},
+    {id:'e',t:'end',txt:'RETURN area',x:200,y:190}],
+    edges:[['s','b','p','t'],['p','b','e','t']]};
+  CHARTS.connPair={w:560,h:390,nodes:[
+    {id:'s',t:'start',txt:'Start',x:130,y:35},
+    {id:'a',t:'io',txt:'Input a, b',x:130,y:105},
+    {id:'p',t:'proc',txt:'sum = a + b',x:130,y:180},
+    {id:'q',t:'proc',txt:'product = a * b',x:130,y:255},
+    {id:'c1',t:'conn',txt:'A',x:130,y:335},
+    {id:'c2',t:'conn',txt:'A',x:410,y:35},
+    {id:'o1',t:'io',txt:'Output sum',x:410,y:105},
+    {id:'o2',t:'io',txt:'Output product',x:410,y:180},
+    {id:'e',t:'end',txt:'End',x:410,y:255},
+    {id:'note',t:'note',txt:'Same letter =\nsame point',x:410,y:335}],
+    edges:[['s','b','a','t'],['a','b','p','t'],['p','b','q','t'],['q','b','c1','t'],['c2','b','o1','t'],['o1','b','o2','t'],['o2','b','e','t'],['note','l','c1','r',undefined,undefined,'dash']]};
+  CHARTS.page1=seqChart([['io','Input marks'],['proc','total = total + marks'],['offp','To page 2\n(connector 1)']],{noEnd:true,w:400});
+  CHARTS.page2=seqChart([['proc','average = total / 3'],['io','Output average']],{first:{t:'offp',txt:'From page 1\n(connector 1)'},w:400});
+  const r=seqChart([['man','Type total marks'],['proc','average = total / 3'],['disp','Show average\non screen'],['doc','Print\nreport card'],['db','Save to student\nrecords']],{w:560});
+  const n0=r.nodes.find(n=>n.id==='n0'),n4=r.nodes.find(n=>n.id==='n4');
+  r.nodes.push({id:'note1',t:'note',txt:'Typed on the\nkeyboard',x:445,y:n0.y});
+  r.nodes.push({id:'note2',t:'note',txt:'Kept for\nlater use',x:445,y:n4.y});
+  r.edges.push(['note1','l','n0','r',undefined,undefined,'dash']);
+  r.edges.push(['note2','l','n4','r',undefined,undefined,'dash']);
+  CHARTS.report=r;
+})();
+
+function mountCharts(){
+  document.querySelectorAll('.fc[data-chart]').forEach(el=>{
+    const cap=el.querySelector('.cap');
+    el.insertAdjacentHTML('afterbegin',renderChart(CHARTS[el.dataset.chart]));
+  });
+}
+
+/* symbol gallery */
+const SYMS_CORE=[
+  {t:'start',name:'1. Terminator',shape:'Rounded rectangle (a pill)',txt:'Start',
+   meaning:'Marks the very beginning and the very end of the flowchart.',
+   use:'The first shape is always Start. The last shape is always End. For a function, the name goes inside (for example circleArea(r)).',
+   rules:['Write "Start" or "End" inside.','Only one Start. Every path must finally reach an End.','Arrows leave Start but never enter it. Arrows enter End but never leave it.'],
+   eg:'Pseudocode: START ... END'},
+  {t:'proc',name:'2. Process',shape:'Rectangle',txt:'sum = a + b',
+   meaning:'Something is done inside the computer: a calculation, or storing a value in a variable.',
+   use:'Any line that changes or works out a value: total = 0, area = length * width, i = i + 1.',
+   rules:['One arrow in, one arrow out.','Write the action in short form, using the same variable names as your pseudocode.','Do not put questions in a rectangle. Questions go in a diamond.'],
+   eg:'Pseudocode: sum = a + b'},
+  {t:'io',name:'3. Input / Output',shape:'Parallelogram (a slanted rectangle)',txt:'Input age',
+   meaning:'Data comes in from the user, or data goes out to the user.',
+   use:'Any INPUT or OUTPUT line. Begin the text with the word Input or Output so the reader knows which it is.',
+   rules:['One arrow in, one arrow out.','The same shape is used for both input and output.','Text to be shown is written in quotation marks: Output "Hello".'],
+   eg:'Pseudocode: INPUT age   or   OUTPUT total'},
+  {t:'dec',name:'4. Decision',shape:'Diamond',txt:'age >= 18 ?',
+   meaning:'A yes/no question. The path the flow takes depends on the answer.',
+   use:'Every IF, ELSE IF, WHILE and REPEAT UNTIL contains a question, and the question goes in a diamond.',
+   rules:['One arrow in.','Exactly two arrows out, labelled Yes and No.','The question must be answerable with Yes or No. Write "age >= 18 ?" and never "What is age?".'],
+   eg:'Pseudocode: IF age >= 18 THEN ...'}
+];
+const SYMS_EXTRA=[
+  {t:'pre',name:'6. Predefined process',shape:'Rectangle with a double bar on each side',txt:'CALL circleArea(r)',
+   meaning:'"Go and run a procedure or function that is defined (drawn) somewhere else, then come back."',
+   use:'When you reuse a named block of steps. The details are in a separate flowchart.',
+   rules:['One arrow in, one arrow out.','Put the name of the procedure or function inside.','The separate flowchart starts with that same name.'],
+   eg:'Pseudocode: area = circleArea(radius)'},
+  {t:'prep',name:'7. Preparation',shape:'Hexagon (six sides)',txt:'FOR i = 1 TO 5',
+   meaning:'Sets up a counted loop: gives the counter its start value, checks it, and steps it each round.',
+   use:'A FOR loop. It replaces the three separate pieces (start value, condition, change) with one symbol.',
+   rules:['Write the whole FOR line inside.','Arrow in from above. One exit goes to the loop body, one exit (Done) goes on after the loop.','The last box of the body loops back to the hexagon.'],
+   eg:'Pseudocode: FOR i = 1 TO 5'},
+  {t:'conn',name:'8. On-page connector',shape:'Small circle with a letter or number',txt:'A',
+   meaning:'"Carry on at the other circle with the same letter, on this same page."',
+   use:'When a chart is long and an arrow would have to cross the whole page.',
+   rules:['Always used in pairs with the same letter.','One circle has an arrow in. Its partner has an arrow out.','Use only when really needed.'],
+   eg:'Pseudocode: (no equivalent: it is a drawing tool)'},
+  {t:'offp',name:'9. Off-page connector',shape:'Pentagon pointing down',txt:'To page 2',
+   meaning:'"The flowchart continues on another page."',
+   use:'When the chart does not fit on one sheet.',
+   rules:['Use a matching one at the top of the next page.','Label both with the same number or letter.','Write "To page 2" or "From page 1" so the reader knows which way to turn.'],
+   eg:'Pseudocode: (no equivalent: it is a drawing tool)'},
+  {t:'man',name:'10. Manual input',shape:'Four-sided shape with a slanted top',txt:'Type your name',
+   meaning:'Data typed by hand on a keyboard.',
+   use:'When you want to be exact that a person typed the data (not scanned, not read from a file).',
+   rules:['One arrow in, one arrow out.','Can replace the parallelogram for keyboard input.'],
+   eg:'Pseudocode: INPUT name'},
+  {t:'disp',name:'11. Display',shape:'Pointed on the left, curved on the right (like an old screen)',txt:'Show result',
+   meaning:'Information is shown on a screen.',
+   use:'When you want to be exact that the output appears on a screen (not printed, not saved).',
+   rules:['One arrow in, one arrow out.','Can replace the parallelogram for screen output.'],
+   eg:'Pseudocode: OUTPUT result'},
+  {t:'doc',name:'12. Document',shape:'Rectangle with a wavy bottom edge (a sheet of paper)',txt:'Print report',
+   meaning:'Information is printed on paper, such as a report, receipt or ticket.',
+   use:'When the result is a printed page.',
+   rules:['One arrow in, one arrow out.','Write what is printed inside.'],
+   eg:'Pseudocode: PRINT receipt'},
+  {t:'db',name:'13. Stored data (database)',shape:'Cylinder (like a stack of discs)',txt:'Student\nrecords',
+   meaning:'Data kept in a database or file, to be saved or looked up.',
+   use:'Saving a record, reading from a record, or showing that data lives in a store.',
+   rules:['An arrow into it means "save".','An arrow out of it means "read".','Write the name of the store inside.'],
+   eg:'Pseudocode: SAVE record   or   READ record'}
+];
+function symCard(s,extraSpec){
+  const[w,h]=dims({t:s.t});
+  const W=Math.max(w+60,260),H=h+30;
+  const spec={w:W,h:H,nodes:[{id:'x',t:s.t,txt:s.txt,x:W/2,y:H/2}],edges:[]};
+  return `<div class="sym"><div style="text-align:center">${renderChart(spec)}</div><div><b>${s.name}</b><div style="color:var(--muted);font-size:.92em">Shape: ${s.shape}</div>
+  <p style="margin:.4em 0"><b>Means:</b> ${s.meaning}</p><p style="margin:.4em 0"><b>Use it for:</b> ${s.use}</p>
+  <ul style="margin:.3em 0 .2em">${s.rules.map(r=>`<li>${r.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</li>`).join('')}</ul>
+  <div style="font-size:.92em;color:var(--muted)">${s.eg.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div></div></div>`;
+}
+function flowLineCard(){
+  const svg=`<svg viewBox="0 0 260 70" width="260"><defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--stroke)"/></marker></defs><polyline class="edge" points="30,35 230,35" marker-end="url(#ah2)"/></svg>`;
+  return `<div class="sym"><div style="text-align:center">${svg}</div><div><b>5. Flow line</b><div style="color:var(--muted);font-size:.92em">Shape: A line with an arrowhead</div>
+  <p style="margin:.4em 0"><b>Means:</b> "After this step, go to that step."</p><p style="margin:.4em 0"><b>Use it for:</b> joining every pair of shapes and showing the order in which the steps happen.</p>
+  <ul style="margin:.3em 0 .2em"><li>Always has an arrowhead showing the direction.</li><li>Normally goes down the page, or left to right.</li><li>Arrows leaving a diamond are labelled Yes and No.</li><li>A line that goes back up is a loop.</li></ul>
+  <div style="font-size:.92em;color:var(--muted)">Pseudocode: the order of the lines</div></div></div>`;
+}
+function noteCard(){
+  const spec={w:380,h:90,nodes:[{id:'p',t:'proc',txt:'total = a + b',x:105,y:45},{id:'n',t:'note',txt:'Add the\ntwo numbers',x:290,y:45}],edges:[['n','l','p','r',undefined,undefined,'dash']]};
+  return `<div class="sym"><div style="text-align:center">${renderChart(spec)}</div><div><b>14. Annotation (comment)</b><div style="color:var(--muted);font-size:.92em">Shape: An open bracket joined to a step by a dashed line</div>
+  <p style="margin:.4em 0"><b>Means:</b> "Here is a note to help the reader." It is never executed.</p><p style="margin:.4em 0"><b>Use it for:</b> explaining a step, giving a unit, or reminding the reader about a rule.</p>
+  <ul style="margin:.3em 0 .2em"><li>Attach it with a dashed line, not an arrow, because no flow goes through it.</li><li>Keep the note short.</li></ul>
+  <div style="font-size:.92em;color:var(--muted)">Pseudocode: // Add the two numbers</div></div></div>`;
+}
+function mountSymbols(){
+  document.getElementById('symbols-core').innerHTML=SYMS_CORE.map(s=>symCard(s)).join('')+flowLineCard();
+  document.getElementById('symbols-extra').innerHTML=SYMS_EXTRA.map(s=>symCard(s)).join('')+noteCard();
+}
+
+/* ---------------- Tracer ---------------- */
+const tr={steps:[],i:-1,timer:null,spec:null};
+function genEO(n){
+  const st=[];const r=((n%2)+2)%2;
+  st.push({id:'s',v:{},note:'The algorithm begins.'});
+  st.push({id:'in',v:{number:n},note:`Input: the user types ${n}. It is stored in the variable <b>number</b>.`});
+  st.push({id:'d',v:{number:n},note:`Decision: ${n} MOD 2 = ${r}. Is ${r} equal to 0? <b>${r===0?'Yes':'No'}</b>.`});
+  st.push(r===0?{id:'y',v:{number:n},out:'Even',note:'Yes path: output "Even".'}:{id:'n',v:{number:n},out:'Odd',note:'No path: output "Odd".'});
+  st.push({id:'e',v:{number:n},note:'End. The algorithm has finished.'});
+  return st;
+}
+function genSum(N){
+  const st=[];let sum=0,i=1;
+  st.push({id:'s',v:{},note:'The algorithm begins.'});
+  st.push({id:'in',v:{N},note:`Input: N = ${N}. We will add 1 + 2 + ... + ${N}.`});
+  st.push({id:'init',v:{N,sum:0,i:1},note:'Set the starting values: sum = 0 and i = 1.'});
+  while(true){
+    st.push({id:'d',v:{N,sum,i},note:`Decision: is i &lt;= N ? That is ${i} &lt;= ${N}. <b>${i<=N?'Yes, go into the loop':'No, leave the loop'}</b>.`});
+    if(!(i<=N))break;
+    const old=sum;sum+=i;
+    st.push({id:'b0',v:{N,sum,i},note:`sum = sum + i, so sum = ${old} + ${i} = <b>${sum}</b>.`});
+    i++;
+    st.push({id:'b1',v:{N,sum,i},note:`i = i + 1, so i is now <b>${i}</b>. Go back up to the decision.`});
+  }
+  st.push({id:'after',v:{N,sum,i},out:String(sum),note:`Output the answer: <b>${sum}</b>.`});
+  st.push({id:'e',v:{N,sum,i},note:'End. The algorithm has finished.'});
+  return st;
+}
+function genLogin(mode){
+  const seq=mode==='first'?[true]:mode==='second'?[false,true]:[false,false,false];
+  const st=[];let a=0;
+  st.push({id:'s',v:{},note:'The algorithm begins.'});
+  st.push({id:'p0',v:{attempts:0},note:'Set attempts = 0.'});
+  let k=0;
+  while(true){
+    st.push({id:'d1',v:{attempts:a},note:`Decision: is attempts &lt; 3 ? That is ${a} &lt; 3. <b>${a<3?'Yes':'No'}</b>.`});
+    if(!(a<3)){st.push({id:'lock',v:{attempts:a},out:'Account locked',note:'Three attempts used up. Output "Account locked".'});break;}
+    st.push({id:'in',v:{attempts:a},note:`Input: the user types password number ${k+1}.`});
+    const ok=seq[k];k++;
+    st.push({id:'d2',v:{attempts:a},note:`Decision: is the password correct? <b>${ok?'Yes':'No'}</b>.`});
+    if(ok){st.push({id:'ok',v:{attempts:a},out:'Welcome',note:'Correct. Output "Welcome".'});break;}
+    a++;
+    st.push({id:'inc',v:{attempts:a},note:`Wrong. attempts = attempts + 1, so attempts is now <b>${a}</b>. Go back up to the first decision.`});
+  }
+  st.push({id:'e',v:{attempts:a},note:'End. The algorithm has finished.'});
+  return st;
+}
+function trSetup(){
+  const k=document.getElementById('trSel').value;
+  const box=document.getElementById('trInputBox');
+  if(k==='eo'){box.innerHTML=' Number: <input type="number" id="trIn" value="7" style="width:90px">';tr.spec=CHARTS.evenodd;}
+  else if(k==='sum'){box.innerHTML=' N (1 to 8): <input type="number" id="trIn" value="4" min="1" max="8" style="width:80px">';tr.spec=CHARTS.sum;}
+  else{box.innerHTML=' Passwords: <select id="trIn"><option value="first">correct on 1st try</option><option value="second" selected>wrong, then correct</option><option value="locked">wrong all three times</option></select>';tr.spec=CHARTS.login;}
+  document.getElementById('trIn').addEventListener('change',trReset);
+  trReset();
+}
+function trReset(){
+  clearInterval(tr.timer);tr.timer=null;document.getElementById('trAuto').textContent='Auto play';
+  const k=document.getElementById('trSel').value;const v=document.getElementById('trIn').value;
+  if(k==='eo'){const n=parseInt(v,10);tr.steps=genEO(isNaN(n)?0:n);}
+  else if(k==='sum'){let n=parseInt(v,10);if(isNaN(n)||n<1)n=1;if(n>8)n=8;tr.steps=genSum(n);}
+  else tr.steps=genLogin(v);
+  tr.i=-1;
+  document.getElementById('trChart').innerHTML=renderChart(tr.spec);
+  document.getElementById('trVars').innerHTML='';
+  document.getElementById('trSay').innerHTML='Press <b>Next step</b> to begin.';
+  document.getElementById('trOut').textContent='Output appears here.';
+  document.getElementById('trNext').disabled=false;
+  tr.outs=[];
+}
+function trNext(){
+  if(tr.i>=tr.steps.length-1){clearInterval(tr.timer);document.getElementById('trNext').disabled=true;return;}
+  tr.i++;const s=tr.steps[tr.i];
+  document.querySelectorAll('#trChart .node').forEach(g=>g.classList.toggle('active',g.dataset.id===s.id));
+  document.getElementById('trVars').innerHTML=Object.keys(s.v).map(k=>`<div class="var">${k} = ${s.v[k]}</div>`).join('');
+  document.getElementById('trSay').innerHTML=`<b>Step ${tr.i+1} of ${tr.steps.length}.</b> ${s.note}`;
+  if(s.out!==undefined){tr.outs.push(s.out);document.getElementById('trOut').textContent='Output: '+tr.outs.join('  ');}
+  if(tr.i>=tr.steps.length-1){clearInterval(tr.timer);tr.timer=null;document.getElementById('trAuto').textContent='Auto play';document.getElementById('trNext').disabled=true;}
+}
+function trAuto(){
+  if(tr.timer){clearInterval(tr.timer);tr.timer=null;document.getElementById('trAuto').textContent='Auto play';return;}
+  if(tr.i>=tr.steps.length-1)trReset();
+  document.getElementById('trAuto').textContent='Pause';
+  tr.timer=setInterval(trNext,1500);trNext();
+}
+
+/* ---------------- Quiz ---------------- */
+const QUIZ=[
+ ["Which description best fits an algorithm?",["A finite, ordered list of clear steps that solves a problem","A program that must be written in a real programming language","A diagram showing how the parts of a computer are wired","A list of steps that keeps repeating until the user stops it"],"An algorithm is a finite, ordered, clear set of steps. It does not need a programming language, and it must stop."],
+ ["Which of these is NOT a required property of an algorithm?",["It must be written in a programming language","Each step must have only one clear meaning","It must finish after a limited number of steps","It must produce at least one output"],"Algorithms can be written in plain English, pseudocode or a flowchart. A programming language is optional."],
+ ["You want to draw the question \"Is age >= 18 ?\". Which symbol do you use?",["Diamond","Parallelogram","Rectangle","Rounded rectangle"],"A yes/no question is a decision, and decisions use the diamond."],
+ ["Which flowchart symbol is used for \"Input number\"?",["Parallelogram","Rectangle","Diamond","Rounded rectangle"],"Data coming in or going out uses the parallelogram. Rectangles are for calculations."],
+ ["How many arrows leave a decision diamond?",["Two, labelled Yes and No","One, labelled Next","Three, one for each possible number","As many as you like, with no labels needed"],"A diamond asks a yes/no question, so it has exactly two exits, labelled Yes and No."],
+ ["Which building block repeats steps until a condition changes?",["Iteration","Selection","Sequence","Declaration"],"Iteration means looping. Selection chooses a path. Sequence is steps in order."],
+ ["Trace this: x = 4, then x = x + 2, then x = x * 3. What is x at the end?",["18","12","14","9"],"x = 4 + 2 = 6, then x = 6 * 3 = 18. Doing the steps in the written order matters."],
+ ["What does 7 MOD 2 give?",["1","0","3","3.5"],"7 divided by 2 is 3 with remainder 1. MOD gives the remainder, which is 1."],
+ ["In the sum loop (sum = 0, i = 1, WHILE i <= N, sum = sum + i, i = i + 1) with N = 3, what is the output?",["6","3","5","9"],"1 + 2 + 3 = 6. The output is the running total, not the last value of i or of N."],
+ ["A loop has i = 1, condition i <= 5, and body that only outputs i (it never changes i). What happens?",["It never stops and prints 1 forever","It prints 1 once and stops","It prints 1 to 5 and stops","It prints nothing"],"With no change to i, the condition 1 <= 5 is always Yes. That is an infinite loop."],
+ ["What should you do first when given a problem to turn into an algorithm?",["Understand the problem and identify the input and output","Draw the flowchart shapes you think you will need","Decide which programming language to use","Test it with sample numbers"],"You cannot design well until you know what goes in and what must come out."],
+ ["How many Start symbols should a flowchart have?",["Exactly one","One for every decision","One for every input","None, if it begins with an input"],"One Start, at the top. One clear beginning."],
+ ["A pseudocode block says: IF age >= 18 THEN ... ELSE ... END IF. Which building block is it?",["Selection","Sequence","Iteration","Variable"],"IF / ELSE chooses between paths. That is selection."],
+ ["Algorithm steps: 1. Output the average. 2. Input three marks. 3. Add the marks and divide by 3. Which order is correct?",["2, 3, 1","1, 2, 3","3, 2, 1","2, 1, 3"],"Get the marks first, calculate next, show the answer last."],
+ ["Grade rule: score >= 70 gives A, score >= 50 gives B, otherwise F. What is the output for score 50?",["B","A","F","No output"],"50 is not >= 70, but 50 >= 50 is Yes. The >= includes the boundary, so the answer is B."],
+ ["i = 1, WHILE i <= 5 DO (output i, i = i + 1). How many times does the loop body run?",["5","4","6","15"],"i takes the values 1, 2, 3, 4, 5. At i = 6 the condition is No. So the body runs 5 times."],
+ ["Where should the loop-back arrow of a WHILE loop point?",["Back up to the decision diamond","Straight down to the End symbol","To the Start symbol","To the Input at the top, always"],"The condition must be checked again each round, so the arrow returns to the diamond."],
+ ["Which statement is true?",["A flowchart is one way to show an algorithm; the same algorithm can also be written as pseudocode","A flowchart and an algorithm are completely different things that cannot describe the same steps","Pseudocode is only for experts and cannot be turned into a flowchart","Only an algorithm drawn as a flowchart counts as a real algorithm"],"Plain steps, pseudocode and flowcharts are three ways to show the same algorithm."],
+ ["In the password flowchart, what is the output after three wrong passwords?",["Account locked","Welcome","Input password again","Nothing, it runs forever"],"After three failures attempts = 3, the condition attempts < 3 is No, and the algorithm outputs Account locked."],
+ ["What does the line count = count + 1 mean, if count is 4 before it runs?",["Take the old value of count, add 1, store 5 back in count","It is impossible, because a number cannot equal itself plus one","Compare count with count + 1 and output the larger","Add 1 to the output but leave count as 4"],"The = means store. Work out the right side (4 + 1 = 5), then put the result back in the box."],
+ ["Which kind of loop always runs its body at least once?",["REPEAT ... UNTIL","WHILE ... DO","FOR with a start value larger than the end value","A loop whose condition is FALSE at the start"],"REPEAT UNTIL checks its condition at the bottom, after the body has already run once. WHILE and FOR check first and may run zero times."],
+ ["What are the values of 17 DIV 5 and 17 MOD 5?",["3 and 2","2 and 3","3 and 3","3.4 and 2"],"5 goes into 17 three whole times (DIV = 3). 3 x 5 = 15, so 2 is left over (MOD = 2)."],
+ ["What is the value of 2 + 3 * 4 ?",["14","20","24","9"],"Multiplication happens before addition: 3 * 4 = 12, then 2 + 12 = 14. Going simply left to right would wrongly give 20."],
+ ["age = 15 and height = 150. What is the result of (age >= 12 AND height >= 160) ?",["FALSE","TRUE","15","It depends on the order of the two parts"],"15 >= 12 is TRUE, but 150 >= 160 is FALSE. AND needs both parts TRUE, so the result is FALSE."],
+ ["What is the result of (5 > 8 OR 3 < 4) ?",["TRUE","FALSE","8","Neither: it cannot be worked out"],"5 > 8 is FALSE but 3 < 4 is TRUE. OR only needs one part to be TRUE, so the result is TRUE."],
+ ["count = 0, then FOR i = 1 TO 4 with count = count + 2 inside the loop. What is count afterwards?",["8","6","10","4"],"The loop runs 4 times (i = 1, 2, 3, 4). Each round adds 2, so 4 x 2 = 8."],
+ ["What does the hexagon (preparation) symbol represent in a flowchart?",["Setting up and controlling a counted FOR loop","Showing a message on a screen","Joining two parts of a flowchart together","The point where the algorithm finishes"],"The hexagon holds the FOR line: the start value, the limit and the stepping of the counter."],
+ ["A small circle containing the letter A appears twice in a flowchart. What does that mean?",["Both circles are the same point; the flow carries on at the other one","The flow must repeat the steps between them","Two flowcharts on different pages are joined here","Both circles are calculations that give the value A"],"On-page connectors come in matching pairs. A flow that reaches one carries on at its partner with the same letter."],
+ ["Which symbol is a rectangle with a double vertical bar on each side?",["A call to a procedure or function defined elsewhere","A step that receives typed input","A yes/no question","A printed report"],"The predefined process symbol means 'run a named block that is defined in its own flowchart'."],
+ ["Which of these is a text value?",["\"2026\"","2026","TRUE","3.5"],"Anything inside quotation marks is text, even if it looks like a number. 2026 and 3.5 are numbers, and TRUE is a Boolean."],
+ ["i = 1, then WHILE i < 5 DO (OUTPUT i, i = i + 1). How many times does the loop body run?",["4","5","6","It never stops"],"i takes the values 1, 2, 3, 4. When i = 5, the condition 5 < 5 is FALSE, so the loop stops after 4 rounds. Using <= would give 5 rounds."],
+ ["Which variable name is best for storing the total of a student's marks?",["totalMarks","total marks","2marks","t"],"totalMarks is meaningful and has no space or leading digit. A name with a space looks like two words, and one starting with a digit is not allowed. A single letter works but tells the reader nothing."]
+];
+const qz={i:0,score:0,order:[],wrong:[],pass:1};
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function quizStart(list){
+  qz.order=shuffle(list);qz.i=0;qz.score=0;qz.wrong=[];quizShow();
+}
+function quizShow(){
+  const box=document.getElementById('quizBox');
+  if(qz.i>=qz.order.length){
+    const total=qz.order.length;
+    box.innerHTML=`<h3>You scored ${qz.score} out of ${total}</h3><p>${qz.score===total?'Perfect. You understand this well.':qz.score>=total*0.75?'Good work. Review the questions you missed and try again.':'Go back through the lessons, trace the examples again, then retry. Each attempt makes it clearer.'}</p>`+
+      (qz.wrong.length?`<button class="btn" id="qRetryWrong">Retry the ${qz.wrong.length} I got wrong</button>`:'')+`<button class="btn alt" id="qAll">Restart all ${QUIZ.length}</button>`;
+    const rw=document.getElementById('qRetryWrong');if(rw)rw.onclick=()=>quizStart(qz.wrong.slice());
+    document.getElementById('qAll').onclick=()=>quizStart(QUIZ);
+    return;
+  }
+  const q=qz.order[qz.i];
+  const opts=shuffle(q[1].map((t,idx)=>({t,ok:idx===0})));
+  box.innerHTML=`<div class="prog">Question ${qz.i+1} of ${qz.order.length}</div><h3 style="margin-top:6px">${q[0].replace(/&/g,'&amp;').replace(/</g,'&lt;')}</h3>`+
+    opts.map((o,k)=>`<button class="opt" data-k="${k}">${o.t.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</button>`).join('')+`<div class="why" id="qWhy"></div>`;
+  box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    const o=opts[+b.dataset.k];
+    box.querySelectorAll('.opt').forEach((x,k)=>{x.disabled=true;if(opts[k].ok)x.classList.add('right');});
+    if(!o.ok)b.classList.add('wrong');
+    if(o.ok)qz.score++;else qz.wrong.push(q);
+    document.getElementById('qWhy').innerHTML=`<div class="box ${o.ok?'ok':'warn'}"><b class="t">${o.ok?'Correct.':'Not quite.'}</b>${q[2].replace(/&/g,'&amp;').replace(/</g,'&lt;')}</div><button class="btn" id="qNext">${qz.i===qz.order.length-1?'See my score':'Next question'}</button>`;
+    document.getElementById('qNext').onclick=()=>{qz.i++;quizShow();};
+  });
+}
+
+/* ---------------- Progress & nav ---------------- */
+function store(get,key,val){try{if(get)return localStorage.getItem(key);localStorage.setItem(key,val);}catch(e){return null;}}
+function updateProgress(){
+  const boxes=[...document.querySelectorAll('input[data-lesson]')];
+  const done=boxes.filter(b=>b.checked).length;
+  document.getElementById('barFill').style.width=(done/boxes.length*100)+'%';
+  document.getElementById('barText').textContent=done+'/'+boxes.length;
+}
+function initProgress(){
+  document.querySelectorAll('input[data-lesson]').forEach(b=>{
+    b.checked=store(true,'dav_'+b.dataset.lesson)==='1';
+    b.addEventListener('change',()=>{store(false,'dav_'+b.dataset.lesson,b.checked?'1':'0');updateProgress();});
+  });
+  updateProgress();
+}
+function initNav(){
+  const side=document.getElementById('side');
+  document.getElementById('menuBtn').onclick=()=>side.classList.toggle('open');
+  side.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>side.classList.remove('open')));
+  const links=[...side.querySelectorAll('a')];
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+  const onScroll=()=>{
+    let idx=0;secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<140)idx=i;});
+    links.forEach((a,i)=>a.classList.toggle('on',i===idx));
+  };
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+}
+
+mountCharts();mountSymbols();initProgress();initNav();
+document.getElementById('trSel').addEventListener('change',trSetup);
+document.getElementById('trReset').onclick=trReset;
+document.getElementById('trNext').onclick=trNext;
+document.getElementById('trAuto').onclick=trAuto;
+trSetup();
+document.getElementById('qCount').textContent=QUIZ.length;
+quizStart(QUIZ);
+document.getElementById('printCheat').onclick=()=>{document.body.classList.add('print-cheat');window.print();setTimeout(()=>document.body.classList.remove('print-cheat'),500);};
 </script>
 </body>
 </html>
