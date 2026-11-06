@@ -1,198 +1,486 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Grade 6 Maths Quiz: Integers, Rational Numbers & Fractions</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Earth's Systems Explorer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
-  :root{
-    --bg:#f5f6fb; --card:#fff; --ink:#1d2140; --muted:#636a8a; --line:#e3e6f2;
-    --primary:#4f46e5; --primary-soft:#eceaff; --good:#15803d; --good-soft:#e3f6ea;
-    --bad:#b91c1c; --bad-soft:#fde8e8; --warn:#b45309;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{ --bg:#12142a; --card:#1b1e3a; --ink:#eef0ff; --muted:#a2a8cc; --line:#2e3258;
-      --primary:#8b87ff; --primary-soft:#262a55; --good:#4ade80; --good-soft:#12301f;
-      --bad:#f87171; --bad-soft:#3a1a1f; --warn:#fbbf24; }
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5}
-  .wrap{max-width:720px;margin:0 auto;padding:20px 16px 60px}
-  h1{font-size:1.6rem;margin:8px 0 4px}
-  h2{font-size:1.2rem;margin:0 0 12px}
-  p.sub{color:var(--muted);margin:0 0 20px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
-  button{font:inherit;cursor:pointer}
-  .btn{background:var(--primary);color:#fff;border:0;border-radius:12px;padding:12px 20px;font-weight:600}
-  .btn:hover{filter:brightness(1.08)}
-  .btn.ghost{background:transparent;color:var(--primary);border:1.5px solid var(--primary)}
-  .btn:disabled{opacity:.5;cursor:default}
-  .topics{display:grid;gap:10px;margin:14px 0}
-  .topic{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:left;background:var(--card);
-    border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--ink)}
-  .topic:hover{border-color:var(--primary)}
-  .topic small{color:var(--muted)}
-  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  label.chk{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:.95rem;margin:12px 0}
-  .bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
-  .bar>i{display:block;height:100%;background:var(--primary);border-radius:99px;transition:width .25s}
-  .meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.9rem;margin-bottom:8px;gap:8px;flex-wrap:wrap}
-  .chip{background:var(--primary-soft);color:var(--primary);border-radius:99px;padding:2px 10px;font-size:.8rem;font-weight:600}
-  .q{font-size:1.25rem;font-weight:600;margin:18px 0}
-  .opts{display:grid;gap:10px}
-  .opt{display:flex;gap:12px;align-items:center;text-align:left;background:var(--card);color:var(--ink);
-    border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;font-size:1.05rem}
-  .opt:hover:not(:disabled){border-color:var(--primary);background:var(--primary-soft)}
-  .opt .k{flex:none;width:28px;height:28px;border-radius:8px;background:var(--primary-soft);color:var(--primary);
-    display:grid;place-items:center;font-weight:700;font-size:.9rem}
-  .opt.correct{border-color:var(--good);background:var(--good-soft)}
-  .opt.correct .k{background:var(--good);color:#fff}
-  .opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
-  .opt.wrong .k{background:var(--bad);color:#fff}
-  .opt:disabled{cursor:default}
-  .fb{margin-top:16px;border-radius:12px;padding:12px 14px;border:1.5px solid var(--line)}
-  .fb.ok{background:var(--good-soft);border-color:var(--good)}
-  .fb.no{background:var(--bad-soft);border-color:var(--bad)}
-  .fb b{display:block;margin-bottom:2px}
-  .frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px;line-height:1.15;font-size:.95em}
-  .frac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 3px}
-  .frac>span:last-child{padding:0 3px}
-  .mixed{display:inline-flex;align-items:center;gap:2px}
-  .score{font-size:3rem;font-weight:800;color:var(--primary);margin:0}
-  .tbar{display:grid;grid-template-columns:1fr auto;gap:4px 12px;margin:12px 0}
-  .rev{border-top:1px solid var(--line);padding:14px 0}
-  .rev:first-child{border-top:0}
-  .rev .y{color:var(--bad)} .rev .c{color:var(--good)}
-  .hidden{display:none}
-  footer{color:var(--muted);font-size:.85rem;text-align:center;margin-top:24px}
+/* Layout: one scrolling guide, sticky chapter tabs, each chapter coloured by the sphere it teaches. */
+:root{
+  --bg:#f3f7fb; --surface:#ffffff; --fg:#14283d; --muted:#4d6479; --line:#d5e0ea;
+  --hydro:#1b6fd1; --geo:#9a5b22; --atmo:#6a5acd; --bio:#237a3b;
+  --sun:#f2b21b; --sky:#dcecfb; --good:#1c7c3c; --bad:#b42f2f;
+  --font-display:'Fredoka','Trebuchet MS',system-ui,sans-serif;
+  --font-body:'Nunito','Segoe UI',system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1b29; --surface:#17283a; --fg:#e8f0f8; --muted:#a2b6c9; --line:#2b4157;
+  --hydro:#6fb0ff; --geo:#e0a066; --atmo:#a79bff; --bio:#6fd08a;
+  --sky:#1b3550; --good:#7ddc98; --bad:#ff8f8f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1b29; --surface:#17283a; --fg:#e8f0f8; --muted:#a2b6c9; --line:#2b4157;
+  --hydro:#6fb0ff; --geo:#e0a066; --atmo:#a79bff; --bio:#6fd08a;
+  --sky:#1b3550; --good:#7ddc98; --bad:#ff8f8f; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:17px/1.6 var(--font-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+h1,h2,h3{font-family:var(--font-display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.2rem,7vw,3.6rem);font-weight:700}
+h2{font-size:clamp(1.6rem,4.5vw,2.2rem);font-weight:600}
+h3{font-size:1.25rem;font-weight:600}
+p{margin:0}
+.wrap{max-width:900px;margin:0 auto}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:8px max(16px,env(safe-area-inset-left,0px))}
+nav .row{max-width:900px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin}
+nav a{flex:none;padding:6px 12px;border-radius:99px;text-decoration:none;color:var(--fg);font-weight:700;font-size:.9rem;border:1.5px solid var(--line)}
+nav a:hover{border-color:var(--fg)}
+a:focus-visible,button:focus-visible,summary:focus-visible,textarea:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+section{padding-block:40px 8px;scroll-margin-top:56px;display:flex;flex-direction:column;gap:18px}
+.tag{font:700 .8rem var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--c,var(--muted))}
+.hero{padding-block:36px 8px;display:grid;gap:20px}
+.hero p.lead{font-size:1.2rem;color:var(--muted);max-width:60ch}
+.mission{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));padding:0;margin:0;list-style:none}
+.mission li{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-weight:700}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card.tint{background:color-mix(in srgb,var(--c) 12%,var(--surface));border-color:color-mix(in srgb,var(--c) 45%,var(--line))}
+.card .name{color:var(--c);font-family:var(--font-display);font-size:1.3rem;font-weight:600}
+.hydro{--c:var(--hydro)}.geo{--c:var(--geo)}.atmo{--c:var(--atmo)}.bio{--c:var(--bio)}
+.chapter{border-left:0;display:flex;flex-direction:column;gap:6px}
+.chapter h2{color:var(--c)}
+.facts{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.facts li{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px 10px 40px;position:relative}
+.facts li::before{content:"";position:absolute;left:14px;top:17px;width:12px;height:12px;border-radius:50%;background:var(--c)}
+.key{font-weight:800;color:var(--c)}
+figure{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px;overflow-x:auto}
+figure svg{display:block;width:100%;height:auto;min-width:520px}
+figcaption{font-size:.9rem;color:var(--muted);padding:6px 6px 2px}
+svg text{font-family:var(--font-body);font-weight:700;fill:var(--fg)}
+.check{background:var(--surface);border:2px dashed color-mix(in srgb,var(--c) 60%,var(--line));border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.check h3{color:var(--c)}
+details{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+summary{cursor:pointer;font-weight:700}
+details p{margin-top:8px;color:var(--good);font-weight:700}
+button{font:700 1rem var(--font-body);cursor:pointer;border-radius:10px;border:2px solid var(--line);background:var(--surface);color:var(--fg);padding:8px 14px;min-height:44px}
+button:hover:not(:disabled){border-color:var(--fg)}
+button.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+button:disabled{cursor:default;opacity:.75}
+.sortrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.sortrow .item{font-weight:800;min-width:150px}
+.btns{display:flex;flex-wrap:wrap;gap:6px}
+.btns button{padding:6px 10px;min-height:40px;font-size:.92rem}
+button.on{background:color-mix(in srgb,var(--atmo) 25%,var(--surface));border-color:var(--atmo)}
+button.right{background:color-mix(in srgb,var(--good) 25%,var(--surface));border-color:var(--good)}
+button.wrong{background:color-mix(in srgb,var(--bad) 22%,var(--surface));border-color:var(--bad)}
+.fb{font-weight:700;min-height:1.4em}
+.fb.ok{color:var(--good)}.fb.no{color:var(--bad)}
+.bar{display:flex;height:44px;border-radius:10px;overflow:hidden;border:1px solid var(--line);font-weight:800;font-size:.9rem;color:#fff}
+.bar span{display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.92rem;color:var(--muted)}
+.vocab{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.vocab div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.vocab b{font-family:var(--font-display);font-weight:600;color:var(--c,var(--fg))}
+/* quiz */
+.quiz{background:var(--surface);border:2px solid var(--fg);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.prog{height:10px;background:var(--line);border-radius:99px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--fg);width:0;transition:width .25s}
+.qmeta{display:flex;justify-content:space-between;font-weight:700;color:var(--muted);font-size:.92rem}
+.q{font-family:var(--font-display);font-size:1.35rem;font-weight:600;line-height:1.3}
+.opts{display:grid;gap:8px}
+.opts button{text-align:left;min-height:52px}
+.exp{background:var(--bg);border-radius:10px;padding:12px 14px;border:1px solid var(--line)}
+.score{font-family:var(--font-display);font-size:2.6rem;font-weight:700}
+.missed{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.missed li{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+textarea{width:100%;font:inherit;color:var(--fg);background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:10px 12px;resize:vertical;min-height:84px}
+.frame{display:grid;gap:10px}
+.frame label{font-weight:800;color:var(--c)}
+footer{margin-top:40px;color:var(--muted);font-size:.85rem;text-align:center}
+.shake{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@media (prefers-reduced-motion:reduce){.shake{animation:none}.prog i{transition:none}}
 </style>
-</head>
-<body>
-<div class="wrap" id="app"></div>
+
+<div class="wrap">
+<div class="hero">
+  <span class="tag">Grade 4 Science · Chapters 1–8</span>
+  <h1>Earth's Systems Explorer</h1>
+  <p class="lead">Earth is made of four connected parts called spheres. Learn what each one is, how it works, and how they push and pull on each other. Then test yourself with the 50-question quiz at the end.</p>
+  <ul class="mission">
+    <li>Explain the four Earth systems</li>
+    <li>Review water, rocks, air and living things</li>
+    <li>Find how the systems affect each other</li>
+    <li>Try the final quiz</li>
+  </ul>
+</div>
+</div>
+
+<nav aria-label="Chapters"><div class="row">
+  <a href="#spheres">Four spheres</a><a href="#hydro">1 Water</a><a href="#geo">2 Rocks</a><a href="#atmo">3 Air</a><a href="#bio">4 Life</a><a href="#interact">5–8 Interactions</a><a href="#exit">Exit ticket</a><a href="#words">Words</a><a href="#quiz">Quiz (50)</a>
+</div></nav>
+
+<main class="wrap">
+
+<section id="spheres">
+  <span class="tag">Start here</span>
+  <h2>The four spheres</h2>
+  <div class="grid">
+    <div class="card tint hydro"><svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><path d="M22 4C14 15 9 21 9 28a13 13 0 0 0 26 0c0-7-5-13-13-24z" fill="var(--hydro)"/></svg><div class="name">Hydrosphere</div><p>All of Earth's <b>water</b>: oceans, rivers, lakes, ice and groundwater.</p></div>
+    <div class="card tint geo"><svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><path d="M2 38L16 12l8 13 6-9 12 22z" fill="var(--geo)"/></svg><div class="name">Geosphere</div><p>The <b>rocky parts</b> of Earth: crust, mantle, core, mountains and soil.</p></div>
+    <div class="card tint atmo"><svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><path d="M12 34a9 9 0 0 1 1-18 11 11 0 0 1 21 3 7.5 7.5 0 0 1-1 15z" fill="var(--atmo)"/></svg><div class="name">Atmosphere</div><p>The <b>gases</b> that surround Earth, like nitrogen and oxygen.</p></div>
+    <div class="card tint bio"><svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><path d="M8 36C6 18 18 6 38 6c0 20-12 32-30 30zM8 36L26 18" fill="var(--bio)" stroke="var(--surface)" stroke-width="2"/></svg><div class="name">Biosphere</div><p><b>All living things</b>: plants, animals, fungi and tiny microbes.</p></div>
+  </div>
+</section>
+
+<!-- CHAPTER 1 -->
+<section id="hydro" class="hydro">
+  <div class="chapter"><span class="tag">Chapter 1</span><h2>Hydrosphere</h2></div>
+  <ul class="facts">
+    <li>Water exists in three forms: <span class="key">solid</span> (ice), <span class="key">liquid</span> and <span class="key">gas</span> (water vapor).</li>
+    <li>Oceans hold <span class="key">salt water</span>. Many rivers and lakes hold <span class="key">fresh water</span>.</li>
+    <li><span class="key">Groundwater</span> is stored below Earth's surface.</li>
+    <li>A <span class="key">reservoir</span> is a place where water collects.</li>
+  </ul>
+  <h3>The water cycle</h3>
+  <figure>
+    <svg viewBox="0 0 640 350" role="img" aria-label="Water cycle: the sun heats the ocean, water evaporates, condenses into a cloud, falls as precipitation on a mountain and flows downhill back to the ocean.">
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--fg)"/></marker></defs>
+      <rect width="640" height="350" rx="10" fill="var(--sky)"/>
+      <circle cx="60" cy="52" r="26" fill="var(--sun)"/>
+      <g stroke="var(--sun)" stroke-width="4" stroke-linecap="round"><path d="M60 12v-6M60 92v6M20 52h-6M100 52h6M32 24l-4-4M88 80l4 4M32 80l-4 4M88 24l4-4"/></g>
+      <text x="100" y="40" font-size="14">Sun's energy</text>
+      <path d="M0 262h320v88H0z" fill="var(--hydro)" opacity=".75"/>
+      <text x="110" y="316" font-size="16" style="fill:#fff">Ocean</text>
+      <path d="M300 262h118l100-150 122 150v88H300z" fill="var(--geo)" opacity=".85"/>
+      <text x="470" y="318" font-size="16" style="fill:#fff">Land</text>
+      <g fill="#fff"><ellipse cx="450" cy="62" rx="50" ry="22"/><ellipse cx="490" cy="52" rx="42" ry="24"/><ellipse cx="415" cy="72" rx="34" ry="16"/><ellipse cx="520" cy="68" rx="34" ry="16"/></g>
+      <path d="M150 250V120" stroke="var(--fg)" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round" marker-end="url(#ah)"/>
+      <text x="164" y="170" font-size="15">1 Evaporation</text><text x="164" y="188" font-size="12.5" style="font-weight:600">liquid → gas</text>
+      <path d="M170 104Q250 60 380 66" fill="none" stroke="var(--fg)" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round" marker-end="url(#ah)"/>
+      <text x="200" y="40" font-size="15" dx="30">2 Condensation</text><text x="230" y="58" font-size="12.5" style="font-weight:600">gas → liquid droplets</text>
+      <g stroke="var(--hydro)" stroke-width="3" stroke-linecap="round"><path d="M455 96v18M475 100v18M495 96v18M515 100v18"/></g>
+      <text x="410" y="140" font-size="15" style="fill:var(--fg)" dx="-40">3 Precipitation</text>
+      <path d="M440 232L322 258" stroke="var(--fg)" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round" marker-end="url(#ah)"/>
+      <text x="290" y="196" font-size="15">4 Gravity moves</text><text x="290" y="214" font-size="15">water downhill</text>
+    </svg>
+    <figcaption>The sun gives the energy. Then the cycle repeats.</figcaption>
+  </figure>
+  <ul class="facts">
+    <li><span class="key">Sunlight</span> provides the energy for evaporation.</li>
+    <li>Cooling water vapor <span class="key">condenses</span> into droplets.</li>
+    <li><span class="key">Precipitation</span> returns water to Earth's surface.</li>
+    <li><span class="key">Gravity</span> moves water downhill, and the cycle repeats.</li>
+  </ul>
+  <div class="check">
+    <h3>Check 1 · Water detective</h3>
+    <details><summary>What is the difference between evaporation and condensation?</summary><p>Evaporation: liquid → gas. Condensation: gas → liquid.</p></details>
+    <details><summary>Why is ocean water salty?</summary><p>Salts are carried from rocks into oceans, and evaporation leaves the salt behind.</p></details>
+    <details><summary>What do we call water stored underground?</summary><p>Groundwater.</p></details>
+  </div>
+</section>
+
+<!-- CHAPTER 2 -->
+<section id="geo" class="geo">
+  <div class="chapter"><span class="tag">Chapter 2</span><h2>Geosphere</h2></div>
+  <ul class="facts">
+    <li>Earth has a <span class="key">crust</span>, <span class="key">upper mantle</span>, <span class="key">lower mantle</span>, <span class="key">outer core</span> and <span class="key">inner core</span>.</li>
+    <li>Crustal plates move slowly.</li>
+    <li>Plate movement can cause <span class="key">earthquakes</span>, <span class="key">mountains</span> and <span class="key">volcanoes</span>.</li>
+    <li>The geosphere changes over time.</li>
+  </ul>
+  <figure>
+    <svg viewBox="0 0 640 400" role="img" aria-label="Cutaway of Earth showing crust, upper mantle, lower mantle, outer core and inner core.">
+      <circle cx="200" cy="200" r="190" fill="#6b4423"/>
+      <circle cx="200" cy="200" r="178" fill="#d9772b"/>
+      <circle cx="200" cy="200" r="138" fill="#e8a13a"/>
+      <circle cx="200" cy="200" r="90" fill="#f4cf55"/>
+      <circle cx="200" cy="200" r="46" fill="#fff3b8"/>
+      <g stroke="var(--fg)" stroke-width="1.5" fill="none">
+        <path d="M200 12L410 40M200 36L410 100M200 100L410 170M200 160L410 240M200 200L410 310"/>
+      </g>
+      <g font-size="16">
+        <text x="418" y="44">Crust</text><text x="418" y="62" font-size="13" style="font-weight:600">thin, rocky outside</text>
+        <text x="418" y="104">Upper mantle</text>
+        <text x="418" y="174">Lower mantle</text>
+        <text x="418" y="244">Outer core</text>
+        <text x="418" y="314">Inner core</text>
+      </g>
+    </svg>
+    <figcaption>Not to scale. The crust is really much thinner than it looks here.</figcaption>
+  </figure>
+  <h3>Three kinds of rock</h3>
+  <div class="grid">
+    <div class="card tint geo"><svg width="64" height="44" viewBox="0 0 64 44" aria-hidden="true"><path d="M4 42L26 12h12l22 30z" fill="var(--geo)"/><path d="M26 12l6-8 6 8" fill="#e8552b"/></svg><div class="name">Igneous</div><p>Forms from <b>cooled magma or lava</b>.</p></div>
+    <div class="card tint geo"><svg width="64" height="44" viewBox="0 0 64 44" aria-hidden="true"><g fill="var(--geo)"><rect x="4" y="4" width="56" height="8" rx="2" opacity=".5"/><rect x="4" y="15" width="56" height="8" rx="2" opacity=".7"/><rect x="4" y="26" width="56" height="8" rx="2" opacity=".85"/><rect x="4" y="37" width="56" height="6" rx="2"/></g></svg><div class="name">Sedimentary</div><p>Material that was <b>deposited and pressed together</b>.</p></div>
+    <div class="card tint geo"><svg width="64" height="44" viewBox="0 0 64 44" aria-hidden="true"><path d="M4 12Q18 2 32 12T60 12M4 22Q18 12 32 22T60 22M4 32Q18 22 32 32T60 32" fill="none" stroke="var(--geo)" stroke-width="6" stroke-linecap="round"/></svg><div class="name">Metamorphic</div><p>An existing rock <b>changed by heat and pressure</b>.</p></div>
+  </div>
+  <p>The <span class="key">rock cycle</span> has no fixed beginning or end. Any rock can become another kind of rock over a very long time.</p>
+  <div class="check">
+    <h3>Check 2 · Rock challenge</h3>
+    <details><summary>Which type forms from cooling lava?</summary><p>Igneous rock.</p></details>
+    <details><summary>What causes an earthquake?</summary><p>Energy released when rock breaks along faults causes seismic waves.</p></details>
+    <details><summary>Which rock type is changed by heat and pressure?</summary><p>Metamorphic rock.</p></details>
+  </div>
+</section>
+
+<!-- CHAPTER 3 -->
+<section id="atmo" class="atmo">
+  <div class="chapter"><span class="tag">Chapter 3</span><h2>Atmosphere</h2></div>
+  <p>The air is a mix of gases. Nearly all of it is nitrogen and oxygen.</p>
+  <div>
+    <div class="bar" role="img" aria-label="Air is about 78 percent nitrogen, 20 percent oxygen, and 2 percent other gases">
+      <span style="flex:78;background:#4b4fb8">Nitrogen ~78%</span><span style="flex:20;background:#1d7f8f">Oxygen ~20%</span><span style="flex:2;background:#8a3d3d"></span>
+    </div>
+    <div class="legend" style="margin-top:6px"><span>Remaining ~2%: other gases, including carbon dioxide and water vapor</span></div>
+  </div>
+  <ul class="facts">
+    <li>Most weather happens in the <span class="key">troposphere</span>, the layer closest to the ground.</li>
+    <li>Air pressure generally <span class="key">decreases</span> as you go higher.</li>
+    <li>The <span class="key">ozone layer</span> in the stratosphere helps protect living things.</li>
+  </ul>
+  <h3>Air, pressure and weather</h3>
+  <div class="grid">
+    <div class="card"><b>Warm air rises</b><p>Cool air sinks. This moving air makes wind and changing weather.</p></div>
+    <div class="card"><b>Low pressure</b><p>Linked with <span class="key">clouds and precipitation</span>.</p></div>
+    <div class="card"><b>High pressure</b><p>Generally brings <span class="key">clearer, calmer</span> weather.</p></div>
+  </div>
+</section>
+
+<!-- CHAPTER 4 -->
+<section id="bio" class="bio">
+  <div class="chapter"><span class="tag">Chapter 4</span><h2>Biosphere</h2></div>
+  <ul class="facts">
+    <li>The biosphere includes <span class="key">every living organism</span>.</li>
+    <li><span class="key">Biodiversity</span> means the variety of species.</li>
+    <li>Living things interact with each other and with air, water and rocks.</li>
+    <li>Organisms need resources and energy from their environments.</li>
+  </ul>
+  <div class="check">
+    <h3>Quick sort · Which sphere?</h3>
+    <p>Tap the right sphere for each one.</p>
+    <div id="sort" style="display:grid;gap:8px"></div>
+  </div>
+</section>
+
+<!-- CHAPTERS 5-8 -->
+<section id="interact">
+  <div class="chapter"><span class="tag">Chapters 5–8</span><h2>How the spheres interact</h2></div>
+  <p>The spheres are not separate. Each one changes the others all the time.</p>
+  <div class="grid">
+    <div class="card tint hydro"><span class="tag">Chapter 5</span><div class="name">Hydrosphere interactions</div>
+      <ul class="facts" style="--c:var(--hydro)"><li>Water breaks down rock: <b>weathering</b>.</li><li>Moving water carries sediments: <b>erosion</b>.</li><li>Water swaps heat and water vapor with air.</li><li>Plants and animals use water to survive.</li></ul></div>
+    <div class="card tint geo"><span class="tag">Chapter 6</span><div class="name">Geosphere interactions</div>
+      <ul class="facts" style="--c:var(--geo)"><li>Mountains can change rainfall patterns.</li><li>Land shape affects where water flows.</li><li><b>Aquifers</b> store groundwater in underground rock.</li><li>Weathered rock and organic material help form <b>soil</b>.</li></ul></div>
+    <div class="card tint atmo"><span class="tag">Chapter 7</span><div class="name">Atmosphere interactions</div>
+      <ul class="facts" style="--c:var(--atmo)"><li>Wind moves sand and other sediments.</li><li>Air can change rocks chemically, like <b>rusting</b>.</li><li>Air and water exchange heat and moisture.</li><li>Gases in the air support life.</li></ul></div>
+    <div class="card tint bio"><span class="tag">Chapter 8</span><div class="name">Biosphere interactions</div>
+      <ul class="facts" style="--c:var(--bio)"><li>Plants take in carbon dioxide for <b>photosynthesis</b>.</li><li>Organisms exchange matter with water and air.</li><li>Roots and burrowing animals can break down rock.</li><li><b>Decomposers</b> return nutrients to the environment.</li></ul></div>
+  </div>
+  <div class="check" style="--c:var(--atmo)">
+    <h3>Interaction challenge · Name TWO spheres</h3>
+    <p>Pick the two spheres in each example, then press Check.</p>
+    <div id="pairs" style="display:grid;gap:8px"></div>
+    <div><button id="pairCheck" class="primary">Check my answers</button> <span id="pairFb" class="fb" style="margin-left:8px"></span></div>
+  </div>
+</section>
+
+<!-- EXIT -->
+<section id="exit" class="bio">
+  <span class="tag">Exit ticket</span>
+  <h2>Explain the connection</h2>
+  <p>Pick one example with two or more spheres. Explain it using <b>because</b> and <b>therefore</b>. Here is a finished example. You can edit the words or write your own.</p>
+  <div class="card frame">
+    <label for="ex1" style="--c:var(--hydro)">My example (spheres: hydrosphere + geosphere)</label>
+    <textarea id="ex1">Heavy rain falls on a hillside and washes loose soil into a river.</textarea>
+    <label for="ex2" style="--c:var(--geo)">Because…</label>
+    <textarea id="ex2">Because the rain is moving water, it picks up soil and small pieces of rock as it flows downhill.</textarea>
+    <label for="ex3" style="--c:var(--bio)">Therefore…</label>
+    <textarea id="ex3">Therefore the river carries the sediment away (erosion) and drops it somewhere new, like a river bend or the ocean.</textarea>
+  </div>
+  <figure>
+    <svg viewBox="0 0 640 230" role="img" aria-label="Model: rain from a cloud falls on a hill, soil washes into a river.">
+      <rect width="640" height="230" rx="10" fill="var(--sky)"/>
+      <g fill="#fff"><ellipse cx="150" cy="40" rx="50" ry="20"/><ellipse cx="190" cy="32" rx="38" ry="20"/><ellipse cx="115" cy="48" rx="30" ry="14"/></g>
+      <g stroke="var(--hydro)" stroke-width="3" stroke-linecap="round"><path d="M120 76v16M145 80v16M170 76v16M195 80v16"/></g>
+      <text x="215" y="90" font-size="14">Rain (hydrosphere)</text>
+      <path d="M0 230V150Q120 100 250 150T420 190V230z" fill="var(--geo)"/>
+      <text x="40" y="195" font-size="14" style="fill:#fff">Hill and soil (geosphere)</text>
+      <path d="M400 230V200Q500 180 640 200V230z" fill="var(--hydro)"/>
+      <text x="470" y="222" font-size="14" style="fill:#fff">River</text>
+      <path d="M230 160Q320 175 410 196" fill="none" stroke="var(--fg)" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round"/>
+      <text x="270" y="146" font-size="14">soil washes downhill</text>
+    </svg>
+    <figcaption>A labelled model for the example above. Draw your own on paper.</figcaption>
+  </figure>
+</section>
+
+<!-- WORDS -->
+<section id="words">
+  <span class="tag">Word bank</span>
+  <h2>Words to know</h2>
+  <div class="vocab">
+    <div class="hydro"><b>Groundwater</b><br>Water stored below Earth's surface.</div>
+    <div class="hydro"><b>Reservoir</b><br>A place where water collects.</div>
+    <div class="hydro"><b>Evaporation</b><br>Liquid water turning into a gas.</div>
+    <div class="hydro"><b>Condensation</b><br>Water vapor cooling into droplets.</div>
+    <div class="hydro"><b>Precipitation</b><br>Water falling to the ground as rain, snow, sleet or hail.</div>
+    <div class="geo"><b>Igneous rock</b><br>Rock formed from cooled magma or lava.</div>
+    <div class="geo"><b>Sedimentary rock</b><br>Rock formed from deposited material pressed together.</div>
+    <div class="geo"><b>Metamorphic rock</b><br>Rock changed by heat and pressure.</div>
+    <div class="geo"><b>Weathering</b><br>Water, air or living things breaking rock down.</div>
+    <div class="geo"><b>Erosion</b><br>Moving water, wind or ice carrying sediment away.</div>
+    <div class="geo"><b>Aquifer</b><br>Underground rock material that holds groundwater.</div>
+    <div class="atmo"><b>Troposphere</b><br>The layer of air where most weather happens.</div>
+    <div class="atmo"><b>Ozone layer</b><br>Part of the stratosphere that helps protect living things.</div>
+    <div class="bio"><b>Biodiversity</b><br>The variety of species.</div>
+    <div class="bio"><b>Decomposer</b><br>A living thing that returns nutrients to the environment.</div>
+    <div class="bio"><b>Photosynthesis</b><br>How plants use carbon dioxide, water and sunlight to make food.</div>
+  </div>
+  <footer>Based on the “Earth Systems Chapters 1–8 Review” slides · Core Knowledge Science, Grade 4</footer>
+</section>
+<!-- QUIZ -->
+<section id="quiz">
+  <span class="tag">Final quiz</span>
+  <h2>50-question quiz app</h2>
+  <div class="quiz" id="quizBox" aria-live="polite"></div>
+</section>
+
+</main>
+
 <script>
-const ALL = [{"t": 0, "q": "What is the opposite of 7?", "o": ["0", "-8", "7", "-7"], "a": 3, "e": "Opposites are the same distance from 0 on opposite sides, so the opposite of 7 is -7."}, {"t": 0, "q": "What is the opposite of -9?", "o": ["9", "10", "0", "-9"], "a": 0, "e": "Opposites are the same distance from 0 on opposite sides, so the opposite of -9 is 9."}, {"t": 0, "q": "What is the opposite of 12?", "o": ["-12", "12", "0", "-13"], "a": 0, "e": "Opposites are the same distance from 0 on opposite sides, so the opposite of 12 is -12."}, {"t": 0, "q": "What is the opposite of -4?", "o": ["5", "0", "4", "-4"], "a": 2, "e": "Opposites are the same distance from 0 on opposite sides, so the opposite of -4 is 4."}, {"t": 0, "q": "What is the opposite of 15?", "o": ["0", "-16", "15", "-15"], "a": 3, "e": "Opposites are the same distance from 0 on opposite sides, so the opposite of 15 is -15."}, {"t": 0, "q": "What is the absolute value of -7, written |-7|?", "o": ["0", "-7", "7", "8"], "a": 2, "e": "Absolute value is the distance from 0, which is never negative. |-7| = 7."}, {"t": 0, "q": "What is the absolute value of -12, written |-12|?", "o": ["13", "-12", "12", "0"], "a": 2, "e": "Absolute value is the distance from 0, which is never negative. |-12| = 12."}, {"t": 0, "q": "What is the absolute value of 9, written |9|?", "o": ["9", "10", "-9", "0"], "a": 0, "e": "Absolute value is the distance from 0, which is never negative. |9| = 9."}, {"t": 0, "q": "What is the absolute value of -3, written |-3|?", "o": ["-3", "3", "0", "4"], "a": 1, "e": "Absolute value is the distance from 0, which is never negative. |-3| = 3."}, {"t": 0, "q": "What is -|-4|?", "o": ["8", "4", "-4", "0"], "a": 2, "e": "First |-4| = 4. Then the minus sign in front makes it -4."}, {"t": 0, "q": "Which is the greatest of these integers: -8, 3, -1, 0?", "o": ["0", "3", "-8", "-1"], "a": 1, "e": "On a number line, numbers to the right are greater. The greatest is 3."}, {"t": 0, "q": "Which is the greatest of these integers: -15, -9, -12, -20?", "o": ["-20", "-15", "-9", "-12"], "a": 2, "e": "On a number line, numbers to the right are greater. The greatest is -9."}, {"t": 0, "q": "Which is the least of these integers: 4, -6, 0, -2?", "o": ["-6", "-2", "4", "0"], "a": 0, "e": "On a number line, numbers to the right are greater. The least is -6."}, {"t": 0, "q": "Which is the least of these integers: -3, -11, 5, -7?", "o": ["-7", "5", "-3", "-11"], "a": 3, "e": "On a number line, numbers to the right are greater. The least is -11."}, {"t": 0, "q": "Which symbol makes this true? -8 ___ -3", "o": ["Cannot tell", "=", ">", "<"], "a": 3, "e": "-8 is farther left than -3 on the number line, so -8 < -3."}, {"t": 0, "q": "A temperature of 8 degrees below zero is written as which integer?", "o": ["-8", "8", "0", "-80"], "a": 0, "e": "'Below zero' means negative, so 8 below zero is -8."}, {"t": 0, "q": "A diver is 25 metres below sea level. Which integer shows this?", "o": ["-25", "25", "0", "-52"], "a": 0, "e": "Below sea level is negative, so the depth is -25."}, {"t": 0, "q": "Which integer shows a bank withdrawal of N500?", "o": ["500", "5", "0", "-500"], "a": 3, "e": "Money taken out is a decrease, shown with a negative integer: -500."}, {"t": 0, "q": "Which of these is NOT an integer?", "o": ["14", "0", "2.5", "-3"], "a": 2, "e": "Integers are whole numbers and their opposites. 2.5 has a decimal part, so it is not an integer."}, {"t": 0, "q": "Which integer is neither positive nor negative?", "o": ["-1", "0", "1", "10"], "a": 1, "e": "Zero is the only integer that is neither positive nor negative."}, {"t": 1, "q": "(8) + (-3) = ?", "o": ["11", "-5", "5", "6"], "a": 2, "e": "Different signs: subtract the smaller absolute value from the larger (8 - 3) and keep the sign of the larger. Answer 5."}, {"t": 1, "q": "(-6) + (-5) = ?", "o": ["-11", "11", "-1", "-10"], "a": 0, "e": "Same signs: add the absolute values (6 + 5 = 11) and keep the sign. Answer -11."}, {"t": 1, "q": "(-9) + (4) = ?", "o": ["-5", "13", "5", "-13"], "a": 0, "e": "Different signs: subtract the smaller absolute value from the larger (9 - 4) and keep the sign of the larger. Answer -5."}, {"t": 1, "q": "(12) + (-12) = ?", "o": ["0", "24", "-1", "1"], "a": 0, "e": "Different signs: subtract the smaller absolute value from the larger (12 - 12) and keep the sign of the larger. Answer 0."}, {"t": 1, "q": "(-7) + (10) = ?", "o": ["-17", "3", "17", "-3"], "a": 1, "e": "Different signs: subtract the smaller absolute value from the larger (10 - 7) and keep the sign of the larger. Answer 3."}, {"t": 1, "q": "(-14) + (-6) = ?", "o": ["-19", "-20", "20", "-8"], "a": 1, "e": "Same signs: add the absolute values (14 + 6 = 20) and keep the sign. Answer -20."}, {"t": 1, "q": "(5) + (-11) = ?", "o": ["6", "16", "-5", "-6"], "a": 3, "e": "Different signs: subtract the smaller absolute value from the larger (11 - 5) and keep the sign of the larger. Answer -6."}, {"t": 1, "q": "(-3) + (15) = ?", "o": ["-18", "12", "18", "-12"], "a": 1, "e": "Different signs: subtract the smaller absolute value from the larger (15 - 3) and keep the sign of the larger. Answer 12."}, {"t": 1, "q": "(-8) + (-8) = ?", "o": ["-16", "16", "-15", "0"], "a": 0, "e": "Same signs: add the absolute values (8 + 8 = 16) and keep the sign. Answer -16."}, {"t": 1, "q": "(9) + (-2) = ?", "o": ["7", "11", "-7", "8"], "a": 0, "e": "Different signs: subtract the smaller absolute value from the larger (9 - 2) and keep the sign of the larger. Answer 7."}, {"t": 1, "q": "(5) - (9) = ?", "o": ["14", "-4", "4", "-3"], "a": 1, "e": "Subtracting 9 is the same as adding its opposite: (5) + (-9) = -4."}, {"t": 1, "q": "(-4) - (3) = ?", "o": ["-7", "-6", "-1", "7"], "a": 0, "e": "Subtracting 3 is the same as adding its opposite: (-4) + (-3) = -7."}, {"t": 1, "q": "(-7) - (-2) = ?", "o": ["-4", "5", "-9", "-5"], "a": 3, "e": "Subtracting -2 is the same as adding its opposite: (-7) + (2) = -5."}, {"t": 1, "q": "(6) - (-4) = ?", "o": ["-10", "2", "10", "11"], "a": 2, "e": "Subtracting -4 is the same as adding its opposite: (6) + (4) = 10."}, {"t": 1, "q": "(-10) - (-10) = ?", "o": ["1", "-20", "0", "-1"], "a": 2, "e": "Subtracting -10 is the same as adding its opposite: (-10) + (10) = 0."}, {"t": 1, "q": "(0) - (8) = ?", "o": ["-7", "-8", "8", "-9"], "a": 1, "e": "Subtracting 8 is the same as adding its opposite: (0) + (-8) = -8."}, {"t": 1, "q": "(-5) - (-9) = ?", "o": ["4", "5", "-4", "-14"], "a": 0, "e": "Subtracting -9 is the same as adding its opposite: (-5) + (9) = 4."}, {"t": 1, "q": "(12) - (20) = ?", "o": ["8", "-8", "-7", "32"], "a": 1, "e": "Subtracting 20 is the same as adding its opposite: (12) + (-20) = -8."}, {"t": 1, "q": "(7) - (-7) = ?", "o": ["-14", "0", "15", "14"], "a": 3, "e": "Subtracting -7 is the same as adding its opposite: (7) + (7) = 14."}, {"t": 1, "q": "(-1) - (6) = ?", "o": ["5", "-6", "7", "-7"], "a": 3, "e": "Subtracting 6 is the same as adding its opposite: (-1) + (-6) = -7."}, {"t": 1, "q": "The temperature is -4 degrees and rises by 9 degrees. What is the new temperature?", "o": ["-5", "13", "5", "-13"], "a": 2, "e": "-4 + 9 = 5."}, {"t": 1, "q": "At night it is -6 degrees. It drops 5 more degrees. What is the temperature now?", "o": ["-11", "-1", "-10", "11"], "a": 0, "e": "-6 - 5 = -11."}, {"t": 1, "q": "Ada's account balance is -N2000. She deposits N3500. What is her new balance?", "o": ["5500", "-5500", "1500", "-1500"], "a": 2, "e": "-2000 + 3500 = 1500."}, {"t": 1, "q": "A submarine is at -120 m. It rises 45 m. What is its new depth?", "o": ["-165", "-75", "75", "-85"], "a": 1, "e": "-120 + 45 = -75."}, {"t": 1, "q": "What is the difference in temperature between 12 degrees and -5 degrees?", "o": ["-17", "17", "60", "7"], "a": 1, "e": "12 - (-5) = 12 + 5 = 17."}, {"t": 2, "q": "Which statement is true?", "o": ["-3/4 is not a rational number", "Every rational number is an integer", "Every integer is a rational number", "0.5 is not a rational number"], "a": 2, "e": "A rational number is any number that can be written as a fraction with a whole-number top and a non-zero whole-number bottom. Every integer n can be written as n/1."}, {"t": 2, "q": "How can the integer -6 be written as a fraction?", "o": ["-1/6", "0/-6", "-6/1", "1/-6"], "a": 2, "e": "Any integer n equals n/1, so -6 = -6/1."}, {"t": 2, "q": "Write 3/4 as a decimal.", "o": ["0.075", "0.75", "7.5", "0.25"], "a": 1, "e": "Divide the top by the bottom: 3 ÷ 4 = 0.75."}, {"t": 2, "q": "Write -2/5 as a decimal.", "o": ["-0.04", "-0.4", "-0.6", "-4"], "a": 1, "e": "Divide the top by the bottom: -2 ÷ 5 = -0.4."}, {"t": 2, "q": "Write 7/8 as a decimal.", "o": ["0.0875", "0.125", "8.75", "0.875"], "a": 3, "e": "Divide the top by the bottom: 7 ÷ 8 = 0.875."}, {"t": 2, "q": "Write -3/20 as a decimal.", "o": ["-0.85", "-0.015", "-1.5", "-0.15"], "a": 3, "e": "Divide the top by the bottom: -3 ÷ 20 = -0.15."}, {"t": 2, "q": "Write 0.25 as a fraction in simplest form.", "o": ["4", "7/20", "1/8", "1/4"], "a": 3, "e": "0.25 = 250/1000 which simplifies to 1/4."}, {"t": 2, "q": "Write 0.6 as a fraction in simplest form.", "o": ["3/5", "7/10", "3/10", "5/3"], "a": 0, "e": "0.6 = 600/1000 which simplifies to 3/5."}, {"t": 2, "q": "Write 0.125 as a fraction in simplest form.", "o": ["8", "1/8", "9/40", "1/16"], "a": 1, "e": "0.125 = 125/1000 which simplifies to 1/8."}, {"t": 2, "q": "Which is greater: 3/5 or 5/8?", "o": ["They are equal", "5/8", "3/5", "Cannot be compared"], "a": 1, "e": "Use a common denominator of 40: 3/5 = 24/40 and 5/8 = 25/40. 5/8 is greater (for negatives, the one closer to 0 is greater)."}, {"t": 2, "q": "Which is greater: 7/12 or 2/3?", "o": ["Cannot be compared", "2/3", "They are equal", "7/12"], "a": 1, "e": "Use a common denominator of 12: 7/12 = 7/12 and 2/3 = 8/12. 2/3 is greater (for negatives, the one closer to 0 is greater)."}, {"t": 2, "q": "Which is greater: -1/2 or -3/5?", "o": ["-1/2", "-3/5", "They are equal", "Cannot be compared"], "a": 0, "e": "Use a common denominator of 10: -1/2 = -5/10 and -3/5 = -6/10. -1/2 is greater (for negatives, the one closer to 0 is greater)."}, {"t": 2, "q": "Which is greater: -2/3 or -3/4?", "o": ["-3/4", "-2/3", "They are equal", "Cannot be compared"], "a": 1, "e": "Use a common denominator of 12: -2/3 = -8/12 and -3/4 = -9/12. -2/3 is greater (for negatives, the one closer to 0 is greater)."}, {"t": 2, "q": "Which list puts these numbers in order from least to greatest: -3/4, -1/2, 0.25, 1?", "o": ["1, -1/2, 0.25, -3/4", "1, 0.25, -1/2, -3/4", "-3/4, 0.25, -1/2, 1", "-3/4, -1/2, 0.25, 1"], "a": 3, "e": "Place each number on a number line: numbers further left are smaller. The correct order is -3/4, -1/2, 0.25, 1."}, {"t": 2, "q": "Which list puts these numbers in order from least to greatest: -0.8, -2/5, 0, 3/10?", "o": ["3/10, 0, -2/5, -0.8", "-0.8, 0, -2/5, 3/10", "3/10, -2/5, 0, -0.8", "-0.8, -2/5, 0, 3/10"], "a": 3, "e": "Place each number on a number line: numbers further left are smaller. The correct order is -0.8, -2/5, 0, 3/10."}, {"t": 2, "q": "Which list puts these numbers in order from least to greatest: -1.5, -1 1/4, -1/2, -0.25?", "o": ["-0.25, -1/2, -1 1/4, -1.5", "-0.25, -1 1/4, -1/2, -1.5", "-1.5, -1/2, -1 1/4, -0.25", "-1.5, -1 1/4, -1/2, -0.25"], "a": 3, "e": "Place each number on a number line: numbers further left are smaller. The correct order is -1.5, -1 1/4, -1/2, -0.25."}, {"t": 2, "q": "What is the opposite of -3/5?", "o": ["-3/5", "3/5", "5/3", "-5/3"], "a": 1, "e": "The opposite of a number has the same size but the other sign, so the opposite of -3/5 is 3/5."}, {"t": 2, "q": "What is the absolute value of -2/7, written |-2/7|?", "o": ["-2/7", "2/7", "7/2", "0"], "a": 1, "e": "Absolute value is the distance from 0, so |-2/7| = 2/7."}, {"t": 2, "q": "Which fraction is exactly halfway between 0 and 1 on a number line?", "o": ["2/3", "1/2", "1/3", "1/4"], "a": 1, "e": "Halfway between 0 and 1 is 1/2."}, {"t": 2, "q": "Which number is the least: -2.5, -2.25, -2, -1.9?", "o": ["-1.9", "-2", "-2.5", "-2.25"], "a": 2, "e": "The most negative number is the farthest left on the number line, so -2.5 is least."}, {"t": 3, "q": "3/7 + 2/7 = ?", "o": ["5/7", "6/7", "5/14", "4/7"], "a": 0, "e": "Same denominator, so + the numerators: 3 + 2 = 5, giving 5/7."}, {"t": 3, "q": "4/9 + 7/9 = ?", "o": ["1 1/3", "11/18", "1 2/9", "1 1/9"], "a": 2, "e": "Same denominator, so + the numerators: 4 + 7 = 11, giving 11/9. In simplest form: 1 2/9."}, {"t": 3, "q": "5/8 + 5/8 = ?", "o": ["1 1/8", "5/8", "1 1/4", "1 3/8"], "a": 2, "e": "Same denominator, so + the numerators: 5 + 5 = 10, giving 10/8. In simplest form: 1 1/4."}, {"t": 3, "q": "7/12 + 9/12 = ?", "o": ["1 1/3", "1 5/12", "1 1/4", "2/3"], "a": 0, "e": "Same denominator, so + the numerators: 7 + 9 = 16, giving 16/12. In simplest form: 1 1/3."}, {"t": 3, "q": "9/10 - 3/10 = ?", "o": ["3/5", "7/10", "3/10", "1/2"], "a": 0, "e": "Same denominator, so - the numerators: 9 - 3 = 6, giving 6/10. In simplest form: 3/5."}, {"t": 3, "q": "5/6 - 1/6 = ?", "o": ["5/6", "1/3", "2/3", "1/2"], "a": 2, "e": "Same denominator, so - the numerators: 5 - 1 = 4, giving 4/6. In simplest form: 2/3."}, {"t": 3, "q": "8/11 - 5/11 = ?", "o": ["4/11", "3/11", "3/22", "2/11"], "a": 1, "e": "Same denominator, so - the numerators: 8 - 5 = 3, giving 3/11."}, {"t": 3, "q": "14/15 - 4/15 = ?", "o": ["1/3", "3/5", "2/3", "11/15"], "a": 2, "e": "Same denominator, so - the numerators: 14 - 4 = 10, giving 10/15. In simplest form: 2/3."}, {"t": 3, "q": "1/2 + 1/3 = ?", "o": ["2/3", "1", "5/6", "2/5"], "a": 2, "e": "LCD of 2 and 3 is 6. 1/2 = 3/6 and 1/3 = 2/6. 3 + 2 = 5, giving 5/6."}, {"t": 3, "q": "3/4 + 1/6 = ?", "o": ["11/12", "2/5", "1", "5/6"], "a": 0, "e": "LCD of 4 and 6 is 12. 3/4 = 9/12 and 1/6 = 2/12. 9 + 2 = 11, giving 11/12."}, {"t": 3, "q": "2/5 + 3/10 = ?", "o": ["1/3", "7/10", "4/5", "3/5"], "a": 1, "e": "LCD of 5 and 10 is 10. 2/5 = 4/10 and 3/10 = 3/10. 4 + 3 = 7, giving 7/10."}, {"t": 3, "q": "5/6 + 3/8 = ?", "o": ["1 1/4", "1 1/6", "4/7", "1 5/24"], "a": 3, "e": "LCD of 6 and 8 is 24. 5/6 = 20/24 and 3/8 = 9/24. 20 + 9 = 29, giving 29/24. In simplest form: 1 5/24."}, {"t": 3, "q": "2/3 + 4/5 = ?", "o": ["3/4", "1 7/15", "1 2/5", "1 8/15"], "a": 1, "e": "LCD of 3 and 5 is 15. 2/3 = 10/15 and 4/5 = 12/15. 10 + 12 = 22, giving 22/15. In simplest form: 1 7/15."}, {"t": 3, "q": "3/4 - 1/3 = ?", "o": ["1/3", "2/7", "1/2", "5/12"], "a": 3, "e": "LCD of 4 and 3 is 12. 3/4 = 9/12 and 1/3 = 4/12. 9 - 4 = 5, giving 5/12."}, {"t": 3, "q": "7/10 - 2/5 = ?", "o": ["3/10", "1/5", "2/5", "1/3"], "a": 0, "e": "LCD of 10 and 5 is 10. 7/10 = 7/10 and 2/5 = 4/10. 7 - 4 = 3, giving 3/10."}, {"t": 3, "q": "5/6 - 1/4 = ?", "o": ["2/5", "7/12", "1/2", "2/3"], "a": 1, "e": "LCD of 6 and 4 is 12. 5/6 = 10/12 and 1/4 = 3/12. 10 - 3 = 7, giving 7/12."}, {"t": 3, "q": "7/8 - 1/2 = ?", "o": ["1/2", "1/4", "3/5", "3/8"], "a": 3, "e": "LCD of 8 and 2 is 8. 7/8 = 7/8 and 1/2 = 4/8. 7 - 4 = 3, giving 3/8."}, {"t": 3, "q": "4/5 - 3/7 = ?", "o": ["1/12", "2/5", "13/35", "12/35"], "a": 2, "e": "LCD of 5 and 7 is 35. 4/5 = 28/35 and 3/7 = 15/35. 28 - 15 = 13, giving 13/35."}, {"t": 3, "q": "2 1/3 + 1 1/6 = ?", "o": ["3 2/3", "3 1/3", "1 5/9", "3 1/2"], "a": 3, "e": "Convert to improper fractions: 7/3 + 7/6. With LCD 6: 14/6 + 7/6 = 21/6 = 3 1/2."}, {"t": 3, "q": "3 1/2 + 2 3/4 = ?", "o": ["6", "3", "6 1/2", "6 1/4"], "a": 3, "e": "Convert to improper fractions: 7/2 + 11/4. With LCD 4: 14/4 + 11/4 = 25/4 = 6 1/4."}, {"t": 3, "q": "1 3/4 + 2 1/2 = ?", "o": ["2", "4 1/4", "4", "4 1/2"], "a": 1, "e": "Convert to improper fractions: 7/4 + 5/2. With LCD 4: 7/4 + 10/4 = 17/4 = 4 1/4."}, {"t": 3, "q": "4 2/5 + 1 7/10 = ?", "o": ["6", "6 1/10", "2 3/5", "6 1/5"], "a": 1, "e": "Convert to improper fractions: 22/5 + 17/10. With LCD 10: 44/10 + 17/10 = 61/10 = 6 1/10."}, {"t": 3, "q": "5 1/2 - 2 1/3 = ?", "o": ["3", "3 1/6", "4/5", "3 1/3"], "a": 1, "e": "Convert to improper fractions: 11/2 - 7/3. With LCD 6: 33/6 - 14/6 = 19/6 = 3 1/6."}, {"t": 3, "q": "6 3/4 - 2 1/8 = ?", "o": ["4 1/2", "4 3/4", "5/6", "4 5/8"], "a": 3, "e": "Convert to improper fractions: 27/4 - 17/8. With LCD 8: 54/8 - 17/8 = 37/8 = 4 5/8."}, {"t": 3, "q": "4 1/3 - 1 5/6 = ?", "o": ["2/9", "2 2/3", "2 1/2", "2 1/3"], "a": 2, "e": "Convert to improper fractions: 13/3 - 11/6. With LCD 6: 26/6 - 11/6 = 15/6 = 2 1/2."}, {"t": 3, "q": "(-3/4) + 1/2 = ?", "o": ["1/4", "0", "-1/2", "-1/4"], "a": 3, "e": "Use LCD 4: (-3/4) + (2/4) = -1/4 = -1/4."}, {"t": 3, "q": "(-2/3) + (-1/6) = ?", "o": ["5/6", "-1", "-5/6", "-2/3"], "a": 2, "e": "Use LCD 6: (-4/6) + (-1/6) = -5/6 = -5/6."}, {"t": 3, "q": "1/5 - 3/5 = ?", "o": ["-2/5", "-3/5", "2/5", "-1/5"], "a": 0, "e": "Subtracting is adding the opposite. Use LCD 5: (1/5) - (3/5) = -2/5 = -2/5."}, {"t": 3, "q": "(-1/2) - (-1/3) = ?", "o": ["-1/3", "0", "1/6", "-1/6"], "a": 3, "e": "Subtracting is adding the opposite. Use LCD 6: (-3/6) - (-2/6) = -1/6 = -1/6."}, {"t": 3, "q": "(-5/6) + 1/3 = ?", "o": ["-1/2", "-2/3", "-1/3", "1/2"], "a": 0, "e": "Use LCD 6: (-5/6) + (2/6) = -3/6 = -1/2."}, {"t": 3, "q": "Tolu ate 1/4 of a pizza and Ada ate 2/5 of the same pizza. What fraction did they eat altogether?", "o": ["3/9", "13/20", "7/20", "3/20"], "a": 1, "e": "LCD is 20: 1/4 = 5/20 and 2/5 = 8/20. 5/20 + 8/20 = 13/20."}, {"t": 3, "q": "A ribbon is 7/8 m long. Chidi cuts off 1/3 m. How much ribbon is left?", "o": ["13/24", "6/5", "5/8", "6/24"], "a": 0, "e": "LCD is 24: 7/8 = 21/24 and 1/3 = 8/24. 21/24 - 8/24 = 13/24 m."}, {"t": 3, "q": "It rained 2 1/2 cm on Monday and 1 3/4 cm on Tuesday. How much rain fell in total?", "o": ["4 1/4", "3 4/6", "3 1/4", "4 3/4"], "a": 0, "e": "2 1/2 + 1 3/4 = 2 2/4 + 1 3/4 = 3 5/4 = 4 1/4 cm."}, {"t": 3, "q": "A bag has 5 1/3 kg of rice. A cook uses 2 1/2 kg. How much rice is left?", "o": ["2 1/6", "3 1/6", "3 1/2", "2 5/6"], "a": 3, "e": "5 1/3 = 5 2/6 and 2 1/2 = 2 3/6. 5 2/6 - 2 3/6 = 4 8/6 - 2 3/6 = 2 5/6 kg."}, {"t": 3, "q": "Femi spent 2/3 of his money on books and 1/5 on snacks. What fraction of his money is left?", "o": ["7/15", "1/8", "13/15", "2/15"], "a": 3, "e": "Spent: 2/3 + 1/5 = 10/15 + 3/15 = 13/15. Left: 15/15 - 13/15 = 2/15."}];
-const TOPICS = ["Integers", "Adding & Subtracting Integers", "Rational Numbers", "Adding & Subtracting Fractions"];
-const app = document.getElementById('app');
+(function(){
+var SPH=[["hydro","Hydrosphere"],["geo","Geosphere"],["atmo","Atmosphere"],["bio","Biosphere"]];
+var NAME={hydro:"Hydrosphere",geo:"Geosphere",atmo:"Atmosphere",bio:"Biosphere"};
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
 
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function fmt(s){
-  s = esc(s);
-  s = s.replace(/(?<![\d\/.])(\d+) (\d+)\/(\d+)(?![\d\/])/g,
-    (m,w,n,d)=>`<span class="mixed">${w}<span class="frac"><span>${n}</span><span>${d}</span></span></span>`);
-  s = s.replace(/(?<![\d\/])(\d+)\/(\d+)(?![\d\/])/g,
-    (m,n,d)=>`<span class="frac"><span>${n}</span><span>${d}</span></span>`);
-  s = s.replace(/ - /g,' − ').replace(/-(?=\d|<span)/g,'−');
-  return s;
+/* quick sort */
+var sortItems=[["A glacier","hydro"],["A mountain","geo"],["An owl","bio"],["The nitrogen in the air","atmo"],["A river","hydro"]];
+var sortBox=document.getElementById("sort");
+sortItems.forEach(function(it){
+  var row=el("div","sortrow");row.appendChild(el("span","item",it[0]));
+  var b=el("div","btns");var fb=el("span","fb");
+  SPH.forEach(function(s){
+    var bt=el("button","",s[1]);bt.type="button";
+    bt.onclick=function(){
+      if(s[0]===it[1]){bt.className="right";fb.className="fb ok";fb.textContent="Yes! "+NAME[it[1]];
+        Array.prototype.forEach.call(b.children,function(x){x.disabled=true})}
+      else{bt.className="wrong";fb.className="fb no";fb.textContent="Not quite. Try again.";row.classList.remove("shake");void row.offsetWidth;row.classList.add("shake")}
+    };b.appendChild(bt)});
+  row.appendChild(b);row.appendChild(fb);sortBox.appendChild(row)});
+
+/* interaction pairs */
+var pairs=[["Rain washes soil into a river.",["hydro","geo"]],["Tree roots grow into a crack in rock.",["bio","geo"]],["Wind reshapes a sand dune.",["atmo","geo"]],["A plant takes in carbon dioxide from the air.",["bio","atmo"]]];
+var sel=pairs.map(function(){return {}});
+var pb=document.getElementById("pairs");
+pairs.forEach(function(p,i){
+  var row=el("div","sortrow");row.appendChild(el("span","item",p[0]));
+  var b=el("div","btns");
+  SPH.forEach(function(s){
+    var bt=el("button","",s[1]);bt.type="button";bt.setAttribute("aria-pressed","false");
+    bt.onclick=function(){sel[i][s[0]]=!sel[i][s[0]];bt.classList.toggle("on",!!sel[i][s[0]]);bt.setAttribute("aria-pressed",!!sel[i][s[0]]);
+      bt.classList.remove("right","wrong")};
+    bt.dataset.k=s[0];b.appendChild(bt)});
+  row.appendChild(b);pb.appendChild(row)});
+document.getElementById("pairCheck").onclick=function(){
+  var ok=0;
+  Array.prototype.forEach.call(pb.children,function(row,i){
+    var want=pairs[i][1];var good=true;
+    Array.prototype.forEach.call(row.querySelectorAll("button"),function(bt){
+      var on=!!sel[i][bt.dataset.k],should=want.indexOf(bt.dataset.k)>-1;
+      bt.classList.remove("right","wrong");
+      if(on&&should)bt.classList.add("right");else if(on&&!should){bt.classList.add("wrong");good=false}else if(!on&&should)good=false});
+    if(good)ok++});
+  var fb=document.getElementById("pairFb");
+  fb.className="fb "+(ok===4?"ok":"no");
+  fb.textContent=ok===4?"All 4 correct!":ok+" of 4 correct. Green is right, red is not part of the answer.";
+};
+
+/* quiz: [question, correct, [wrong x3], explanation] */
+var Q=[
+["Which sphere is made up of all of Earth's water?","Hydrosphere",["Atmosphere","Biosphere","Geosphere"],"Hydro means water. The hydrosphere is all of Earth's water."],
+["What gas do plants take in during photosynthesis?","Carbon dioxide",["Oxygen","Nitrogen","Water vapor"],"Plants take in carbon dioxide and give off oxygen."],
+["Which of these is water as a gas?","Water vapor in the air",["Rain falling from a cloud","Snow on a mountain top","Water in a lake"],"Water vapor is the gas form. Rain and lake water are liquid, snow is solid."],
+["Why is the ocean salty?","Rivers carry salts from rocks and evaporation leaves them behind",["Sea animals give off salt as they swim and eat","Clouds drop salt into the sea when it rains","Waves crashing on the beach slowly make salt"],"Rivers carry salts washed from rocks. Water evaporates but the salt stays."],
+["What do we call water stored below Earth's surface?","Groundwater",["Runoff","Precipitation","Water vapor"],"Groundwater is stored underground."],
+["What gives the energy for evaporation in the water cycle?","Sunlight",["Gravity","Wind","Ocean currents"],"The sun's energy warms water so it turns into a gas."],
+["Which step of the water cycle is gas turning into liquid droplets?","Condensation",["Evaporation","Precipitation","Erosion"],"Cooling water vapor condenses into droplets, which form clouds."],
+["What makes water flow downhill after it rains?","Gravity",["Sunlight","Air pressure","Evaporation"],"Gravity pulls water downhill."],
+["What is a reservoir?","A place where water collects",["A layer of air that holds water","A rock that melts into water","A cloud that is full of rain"],"A reservoir is any place water collects, like a lake or aquifer."],
+["Which is the outermost layer of Earth?","Crust",["Upper mantle","Outer core","Inner core"],"The crust is the thin, rocky outside layer."],
+["Which natural event can happen when crustal plates move?","An earthquake",["A tide","A change of season","A phase of the Moon"],"Moving plates can cause earthquakes, mountains and volcanoes."],
+["Which type of rock forms from cooled magma or lava?","Igneous",["Sedimentary","Metamorphic","Fossil"],"Igneous rock forms when melted rock cools and hardens."],
+["Which type of rock is made when heat and pressure change an existing rock?","Metamorphic",["Igneous","Sedimentary","Volcanic"],"Metamorphic means changed in form."],
+["Sedimentary rock forms when…","deposited material is pressed together",["lava cools quickly at the surface","heat changes one rock into another","water evaporates from the ocean"],"Layers of sediment get squeezed into rock over time."],
+["What causes an earthquake?","Energy released when rock breaks along faults",["Heavy rain soaking into the soil","Wind pushing on mountains","The Moon pulling on the crust"],"The released energy travels as seismic waves."],
+["What does it mean that the rock cycle has no fixed beginning or end?","Any rock can slowly become another kind of rock",["Rocks only change once","Igneous rock always comes first","Rock changes stop after a year"],"Rocks keep changing in a loop over a very long time."],
+["About how much of the air is nitrogen?","About 78%",["About 21%","About 50%","About 2%"],"Air is about 78% nitrogen and 20% oxygen."],
+["In which layer of the atmosphere does most weather happen?","Troposphere",["Stratosphere","Ozone layer","Exosphere"],"The troposphere is the layer closest to the ground."],
+["What happens to air pressure as you climb higher?","It decreases",["It increases","It stays the same","It only changes at night"],"Air pressure generally decreases with altitude."],
+["What does the ozone layer in the stratosphere do?","Helps protect living things",["Makes rain fall","Keeps Earth's core hot","Produces wind"],"It helps protect living things from harmful sunlight."],
+["Low air pressure is usually linked with…","clouds and precipitation",["clear, calm weather","very hot, dry days","no wind at all"],"High pressure brings clearer weather; low pressure brings clouds and rain."],
+["What happens to warm air?","It rises",["It sinks","It stands still","It turns to water"],"Warm air rises and cool air sinks, which makes wind."],
+["What is biodiversity?","The variety of species",["The number of plants in a garden","How much oxygen is in the air","How fast animals can grow"],"Biodiversity means many different kinds of living things."],
+["Which of these belongs to the geosphere?","A mountain",["A glacier","A river","The nitrogen in the air"],"A glacier and a river are water (hydrosphere). Nitrogen is in the atmosphere."],
+["Water carrying sediment downstream is called…","erosion",["weathering","condensation","precipitation"],"Weathering breaks rock down. Erosion carries pieces away."],
+["Tree roots grow into a crack in a rock. Which two spheres interact?","Biosphere and geosphere",["Hydrosphere and atmosphere","Atmosphere and biosphere","Hydrosphere and geosphere"],"The tree is living. The rock is part of the geosphere."],
+["What is an aquifer?","Underground rock material that holds groundwater",["A lake on the surface","A layer of soil full of seeds","A river that flows underground only in winter"],"Aquifers store groundwater in underground rock materials."],
+["Why are decomposers important?","They return nutrients to the environment",["They make sunlight","They build new rocks","They produce rain clouds"],"Decomposers break down dead things and recycle nutrients."],
+["Wind reshapes a sand dune. Which two spheres interact?","Atmosphere and geosphere",["Hydrosphere and biosphere","Biosphere and atmosphere","Hydrosphere and atmosphere"],"Moving air (atmosphere) moves sand (geosphere)."],
+["Which sphere includes every living thing?","Biosphere",["Hydrosphere","Geosphere","Atmosphere"],"Bio means life."],
+["Which sphere does a river belong to?","Hydrosphere",["Geosphere","Biosphere","Atmosphere"],"Rivers hold water, so they are part of the hydrosphere."],
+["Which of these usually holds fresh water?","Many rivers and lakes",["The oceans","Every sea on Earth","Salt flats near the coast"],"Oceans hold salt water. Many rivers and lakes hold fresh water."],
+["Ice is water in which form?","Solid",["Liquid","Gas","Vapor"],"Water can be a solid, a liquid or a gas."],
+["Which layer is at the very centre of Earth?","Inner core",["Outer core","Lower mantle","Upper mantle"],"The inner core is the centre layer."],
+["How do crustal plates move?","Very slowly",["Quickly, about a metre every day","Only during earthquakes","Only when volcanoes erupt"],"Plates creep slowly, but over a long time they change the land."],
+["Layers of sand and mud pressed together over a long time make which rock?","Sedimentary",["Igneous","Metamorphic","Volcanic"],"Pressed-together sediment forms sedimentary rock."],
+["About how much of the air is oxygen?","About 20%",["About 78%","About 2%","About 50%"],"Air is about 78% nitrogen and about 20% oxygen."],
+["Where is air pressure usually greatest?","Near sea level",["On top of a tall mountain","High in the stratosphere","It is the same everywhere"],"Pressure decreases with height, so it is greatest low down."],
+["High air pressure generally brings…","clearer, calmer weather",["clouds and storms","heavy rain","thick fog and drizzle"],"High pressure is linked with clearer, calmer weather."],
+["Moving air masses produce…","wind and changing weather",["earthquakes under the ocean","new layers of sediment","rising sea levels"],"When air masses move, they make wind and weather change."],
+["Living things in the biosphere interact with…","each other and with air, water and rocks",["only animals of their own kind","only the sun and the moon","only the soil under their feet"],"The biosphere interacts with all the other spheres."],
+["What do organisms get from their environment?","Resources and energy",["Rocks and metals","Wind and sand","Salt and minerals only"],"Living things need resources and energy to survive."],
+["The nitrogen in the air belongs to which sphere?","Atmosphere",["Biosphere","Geosphere","Hydrosphere"],"Nitrogen is a gas in the air, so it is part of the atmosphere."],
+["Water breaking down rock is called…","weathering",["erosion","condensation","precipitation"],"Weathering breaks rock into smaller pieces."],
+["Oceans and the air exchange which two things?","Heat and water vapor",["Rocks and sand","Salt and soil","Seeds and roots"],"Water gives heat and vapor to the air and takes them back."],
+["Mountains can change…","rainfall patterns",["the length of a day","how much oxygen is in the air","the speed of Earth's spin"],"Mountains force air upward, which can change where rain falls."],
+["Soil forms from…","weathered rock and organic material",["crushed shells and seawater","hardened lava and ice","dust and rainwater only"],"Broken-down rock mixes with dead plant and animal material."],
+["Which is an example of air chemically changing a rock?","Rusting",["Evaporation","Condensation","Melting"],"Oxygen in the air can make iron-rich rock rust."],
+["Roots and burrowing animals can…","break down rock",["melt glaciers","heat the mantle","create new magma"],"Roots grow into cracks and animals dig, so rock breaks apart."],
+["Rain washes soil into a river. Which two spheres interact?","Hydrosphere and geosphere",["Biosphere and atmosphere","Atmosphere and geosphere","Hydrosphere and biosphere"],"Rain and river water are hydrosphere. Soil is geosphere."]
+];
+var box=document.getElementById("quizBox");
+var idx=0,score=0,missed=[],order=[];
+function start(){idx=0;score=0;missed=[];
+  order=Q.map(function(q){return {q:q,opts:shuffle([q[1]].concat(q[2]))}});render()}
+function render(){
+  box.innerHTML="";
+  if(idx>=order.length)return done();
+  var o=order[idx],q=o.q;
+  var meta=el("div","qmeta");meta.appendChild(el("span","","Question "+(idx+1)+" of "+order.length));meta.appendChild(el("span","","Score "+score));
+  var pr=el("div","prog");var i=el("i");i.style.width=(idx/order.length*100)+"%";pr.appendChild(i);
+  box.appendChild(meta);box.appendChild(pr);box.appendChild(el("p","q",q[0]));
+  var opts=el("div","opts"),exp=el("div","exp");exp.hidden=true;
+  var next=el("button","primary",idx===order.length-1?"See my score":"Next question");next.hidden=true;
+  o.opts.forEach(function(t){
+    var b=el("button","",t);b.type="button";
+    b.onclick=function(){
+      Array.prototype.forEach.call(opts.children,function(x){x.disabled=true;if(x.textContent===q[1])x.classList.add("right")});
+      var good=t===q[1];
+      if(good)score++;else{b.classList.add("wrong");missed.push(q)}
+      exp.textContent=(good?"Correct! ":"Not quite. The answer is “"+q[1]+"”. ")+q[3];exp.hidden=false;next.hidden=false;next.focus();
+    };opts.appendChild(b)});
+  next.onclick=function(){idx++;render();box.scrollIntoView({block:"start"})};
+  box.appendChild(opts);box.appendChild(exp);box.appendChild(next);
 }
-function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k));localStorage.setItem(k,JSON.stringify(v));}catch(e){return null;}}
-
-let pool=[], i=0, score=0, log=[], locked=false, mode='all', doShuffle=false;
-
-function home(){
-  const best = store('g6quiz-best');
-  const counts = TOPICS.map((_,t)=>ALL.filter(q=>q.t===t).length);
-  app.innerHTML = `
-    <h1>Grade 6 Maths Quiz</h1>
-    <p class="sub">Integers, rational numbers, and adding & subtracting fractions. 100 questions.</p>
-    <div class="card">
-      <h2>Full quiz</h2>
-      <button class="btn" id="startAll">Start all 100 questions</button>
-      ${best?`<p class="sub" style="margin:12px 0 0">Best score: <b>${best.score}/${best.total}</b> (${Math.round(best.score/best.total*100)}%)</p>`:''}
-      <label class="chk"><input type="checkbox" id="shuf"> Shuffle question order</label>
-    </div>
-    <div class="card">
-      <h2>Practise one topic</h2>
-      <div class="topics">
-        ${TOPICS.map((n,t)=>`<button class="topic" data-t="${t}"><span>${esc(n)}</span><small>${counts[t]} questions</small></button>`).join('')}
-      </div>
-    </div>
-    <footer>Tip: press 1–4 to answer and Enter for the next question.</footer>`;
-  const sh=document.getElementById('shuf'); sh.checked=doShuffle; sh.onchange=()=>doShuffle=sh.checked;
-  document.getElementById('startAll').onclick=()=>start(ALL,'all');
-  document.querySelectorAll('.topic').forEach(b=>b.onclick=()=>start(ALL.filter(q=>q.t==b.dataset.t),'topic'));
+function done(){
+  var pct=Math.round(score/order.length*100);
+  box.appendChild(el("span","tag","Quiz finished"));
+  box.appendChild(el("div","score",score+" / "+order.length+" ("+pct+"%)"));
+  box.appendChild(el("p","",pct>=90?"Outstanding! You really know Earth's systems.":pct>=70?"Great work! Look over the ones you missed.":"Good try. Read the chapters again, then try once more."));
+  if(missed.length){box.appendChild(el("h3","","Review these"));var ul=el("ul","missed");
+    missed.forEach(function(q){var li=el("li");var b=el("b","",q[0]);li.appendChild(b);li.appendChild(el("div","","Answer: "+q[1]));ul.appendChild(li)});box.appendChild(ul)}
+  var again=el("button","primary","Try again");again.onclick=start;box.appendChild(again);
 }
-
-function start(qs,m){
-  mode=m; pool = doShuffle?shuffle(qs):qs.slice(); i=0; score=0; log=[]; locked=false; show();
-}
-
-function show(){
-  const q=pool[i]; locked=false;
-  app.innerHTML = `
-    <div class="meta"><span class="chip">${esc(TOPICS[q.t])}</span><span>Question ${i+1} of ${pool.length} · Score ${score}</span></div>
-    <div class="bar"><i style="width:${i/pool.length*100}%"></i></div>
-    <div class="card" style="margin-top:14px">
-      <div class="q">${fmt(q.q)}</div>
-      <div class="opts">
-        ${q.o.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${'ABCD'[k]}</span><span>${fmt(o)}</span></button>`).join('')}
-      </div>
-      <div id="fb"></div>
-      <div class="row" style="margin-top:16px;justify-content:space-between">
-        <button class="btn ghost" id="quit">Quit</button>
-        <button class="btn hidden" id="next">${i+1===pool.length?'See results':'Next question'}</button>
-      </div>
-    </div>`;
-  document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>pick(+b.dataset.k));
-  document.getElementById('quit').onclick=()=>{if(confirm('Quit this quiz?'))home();};
-  document.getElementById('next').onclick=next;
-}
-
-function pick(k){
-  if(locked)return; locked=true;
-  const q=pool[i], ok=k===q.a;
-  if(ok)score++;
-  log.push({q,pick:k,ok});
-  document.querySelectorAll('.opt').forEach((b,n)=>{
-    b.disabled=true;
-    if(n===q.a)b.classList.add('correct');
-    else if(n===k)b.classList.add('wrong');
-  });
-  document.getElementById('fb').innerHTML=`<div class="fb ${ok?'ok':'no'}"><b>${ok?'Correct!':'Not quite.'}</b>${fmt(q.e)}</div>`;
-  document.getElementById('next').classList.remove('hidden');
-  document.getElementById('next').focus();
-}
-
-function next(){ i++; if(i>=pool.length)results(); else show(); }
-
-function results(){
-  const total=pool.length, pct=Math.round(score/total*100);
-  if(mode==='all'){const b=store('g6quiz-best'); if(!b||score/total>b.score/b.total)store('g6quiz-best',{score,total});}
-  const msg = pct>=90?'Excellent work!':pct>=70?'Great job, keep it up!':pct>=50?'Good effort. Review the mistakes below.':'Keep practising. You will get there!';
-  const byT = TOPICS.map((n,t)=>{const l=log.filter(x=>x.q.t===t);return {n,c:l.filter(x=>x.ok).length,t:l.length};}).filter(x=>x.t>0);
-  const wrongs = log.filter(x=>!x.ok);
-  app.innerHTML = `
-    <div class="card" style="text-align:center">
-      <p class="score">${score}/${total}</p>
-      <h2>${pct}%: ${msg}</h2>
-      <div class="row" style="justify-content:center">
-        ${wrongs.length?`<button class="btn" id="retryW">Retry ${wrongs.length} missed</button>`:''}
-        <button class="btn ghost" id="again">Restart</button>
-        <button class="btn ghost" id="home">Home</button>
-      </div>
-    </div>
-    <div class="card"><h2>By topic</h2>
-      ${byT.map(x=>`<div class="tbar"><span>${esc(x.n)}</span><b>${x.c}/${x.t}</b><div class="bar" style="grid-column:1/-1"><i style="width:${x.c/x.t*100}%"></i></div></div>`).join('')}
-    </div>
-    ${wrongs.length?`<div class="card"><h2>Review your mistakes</h2>${wrongs.map(x=>`
-      <div class="rev"><div><b>${fmt(x.q.q)}</b></div>
-      <div class="y">Your answer: ${fmt(x.q.o[x.pick])}</div>
-      <div class="c">Correct answer: ${fmt(x.q.o[x.q.a])}</div>
-      <div style="color:var(--muted)">${fmt(x.q.e)}</div></div>`).join('')}</div>`:''}`;
-  const rw=document.getElementById('retryW'); if(rw)rw.onclick=()=>start(wrongs.map(x=>x.q),'retry');
-  document.getElementById('again').onclick=()=>start(mode==='all'?ALL:pool.slice(),mode);
-  document.getElementById('home').onclick=home;
-  window.scrollTo(0,0);
-}
-
-document.addEventListener('keydown',e=>{
-  const nb=document.getElementById('next');
-  if(document.querySelector('.opt')){
-    if(!locked && '1234'.includes(e.key) && e.key)pick(+e.key-1);
-    else if(locked && (e.key==='Enter'||e.key===' ') && nb && !nb.classList.contains('hidden')){e.preventDefault();next();}
-  }
-});
-home();
+start();
+})();
 </script>
-</body>
-</html>
+</body></html>
