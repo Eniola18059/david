@@ -1,253 +1,366 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Math Homework Solutions</title>
+<title>Loops in C#: a hands-on guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f6f8fb;--card:#fff;--ink:#1d2433;--mut:#5b6577;--accent:#2f6fed;--ok:#14804a;--okbg:#e6f6ec;--bad:#b3261e;--badbg:#fdecea;--line:#e2e7ef}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
-header{background:linear-gradient(135deg,#2f6fed,#6a4cf0);color:#fff;padding:36px 20px;text-align:center}
-header h1{margin:0 0 6px;font-size:1.9rem}
-header p{margin:0;opacity:.9}
-nav{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);padding:10px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;z-index:5}
-nav a{padding:6px 12px;border-radius:20px;background:#eef2fb;color:var(--accent);text-decoration:none;font-weight:600;font-size:.9rem}
-nav a:hover{background:var(--accent);color:#fff}
-main{max-width:820px;margin:0 auto;padding:20px 16px 60px}
-h2.sec{margin:34px 0 4px;font-size:1.3rem;color:var(--accent)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(20,30,60,.05)}
-.card h3{margin:0 0 8px;font-size:1.1rem}
-.q{background:#f4f7ff;border-left:4px solid var(--accent);padding:10px 14px;border-radius:6px;margin:8px 0 14px}
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
-.opt{padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fafbfd}
-.opt.right{background:var(--okbg);border-color:var(--ok);font-weight:700}
-.opts.one{grid-template-columns:1fr}
-.steps{margin:10px 0 0;padding-left:20px}
-.steps li{margin:4px 0}
-.answer{display:inline-block;background:var(--ok);color:#fff;padding:6px 14px;border-radius:20px;font-weight:700;margin:10px 0 4px}
-.why{font-size:.93rem;color:var(--mut);margin-top:8px}
-.why b{color:var(--bad)}
-.strip{display:flex;border:2px solid #333;border-radius:4px;height:38px;max-width:420px;margin:6px 0 2px;background:#fff}
-.strip div{flex:1;display:flex;align-items:center;justify-content:center;border-right:2px solid #333;font-weight:700}
-.strip div:last-child{border-right:0}
-.strip .twenty{flex:4;background:#cfe0ff}
-.strip .d{background:#ffe9b8}
-.brace{max-width:420px;text-align:center;border-top:2px solid #333;font-size:.85rem;font-weight:700;margin-bottom:10px;padding-top:2px}
-table.t{border-collapse:collapse;margin:8px 0}
-table.t td{border:1px solid var(--line);padding:5px 12px;text-align:center}
-.grid{display:flex;gap:4px;margin:8px 0}
-.grid span{width:38px;height:44px;border:2px solid #333;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;background:#fff}
-.grid .dot{border:0;width:16px;background:none}
-.dots{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
-.grp{border:2px solid var(--accent);border-radius:8px;padding:4px 8px;font-size:.85rem;background:#eef3ff}
-.rem{border:2px dashed var(--ok);background:var(--okbg)}
-table.sum{width:100%;border-collapse:collapse;margin-top:12px}
-table.sum th,table.sum td{border-bottom:1px solid var(--line);padding:8px;text-align:left}
-table.sum th{color:var(--mut);font-size:.85rem}
-footer{text-align:center;color:var(--mut);padding:20px;font-size:.85rem}
-@media(max-width:560px){.opts{grid-template-columns:1fr}}
-@media print{nav{display:none}.card{break-inside:avoid}}
+:root{--bg:#f1f4f2;--panel:#fff;--ink:#17262b;--mute:#52656b;--line:#d3dcd8;--acc:#5b3fd0;--acc-soft:#e7e2fb;--hot:#e8a317;--code:#1b2230;--ok:#1f7a4d;--bad:#b3362b;
+--h:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;--b:"Source Serif 4",Georgia,serif;--m:"JetBrains Mono",ui-monospace,Consolas,monospace}
+@media(prefers-color-scheme:dark){:root{--bg:#10181b;--panel:#172226;--ink:#e6eeeb;--mute:#9db0b0;--line:#2b3b3f;--acc:#a592ff;--acc-soft:#2a2650;--code:#0b1014;--ok:#5fcf98;--bad:#ff8f84}}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:1rem}
+body{margin:0;background:var(--bg);color:var(--ink);font:1.08rem/1.7 var(--b)}
+a{color:var(--acc)}
+.wrap{display:grid;grid-template-columns:230px minmax(0,1fr);max-width:1120px;margin:0 auto}
+nav{position:sticky;top:0;align-self:start;height:100vh;padding:2rem 1.2rem;border-right:1px solid var(--line);overflow:auto}
+nav b{font:800 1.1rem var(--h);display:block;margin-bottom:1rem}
+nav a{display:block;padding:.3rem .6rem;margin:.1rem 0;border-radius:6px;text-decoration:none;color:var(--mute);font:600 .92rem var(--h)}
+nav a:hover,nav a:focus-visible{background:var(--acc-soft);color:var(--ink);outline:none}
+main{padding:2.5rem clamp(1rem,4vw,3rem) 5rem;max-width:820px}
+h1{font:800 clamp(2.2rem,6vw,3.6rem)/1.05 var(--h);margin:0 0 1rem;letter-spacing:-.02em}
+h2{font:800 1.9rem/1.15 var(--h);margin:3.5rem 0 .8rem;letter-spacing:-.01em}
+h3{font:600 1.2rem var(--h);margin:2rem 0 .4rem}
+p,li{max-width:68ch}.lead{font-size:1.25rem;color:var(--mute)}
+code{font:.88em var(--m);background:var(--acc-soft);padding:.1em .35em;border-radius:4px}
+pre{background:var(--code);color:#e3e8f3;padding:1rem 1.2rem;border-radius:8px;overflow-x:auto;font:.9rem/1.6 var(--m);margin:1rem 0}
+pre code{background:none;padding:0;font:inherit}
+.k{color:#c4a8ff}.s{color:#9be3a8}.c{color:#7d8aa5;font-style:italic}.n{color:#ffcb6b}.t{color:#7fd6ff}
+.out{border-left:4px solid var(--hot);background:var(--panel);padding:.6rem 1rem;font:.88rem/1.5 var(--m);border-radius:0 8px 8px 0;white-space:pre}
+.out::before{content:"Output";display:block;font:600 .8rem var(--h);color:var(--mute);margin-bottom:.2rem}
+.note{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--acc);padding:.8rem 1.1rem;border-radius:8px;margin:1.2rem 0}
+.warn{border-left-color:var(--bad)}
+.lab{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1.2rem;margin:1.5rem 0 2.5rem}
+.lab pre{margin-top:.2rem}
+.ctl{display:flex;flex-wrap:wrap;gap:.8rem;align-items:end;margin-bottom:.8rem}
+.ctl label{font:600 .85rem var(--h);display:grid;gap:.2rem}
+input,select{font:1rem var(--m);padding:.35rem .5rem;width:5.2rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+button{font:600 .95rem var(--h);padding:.5rem 1rem;border:0;border-radius:8px;background:var(--acc);color:#fff;cursor:pointer}
+button.alt{background:var(--acc-soft);color:var(--ink)}
+button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--hot);outline-offset:2px}
+.state{display:flex;gap:1rem;flex-wrap:wrap;margin:.8rem 0}
+.box{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.5rem .9rem;min-width:8rem}
+.box small{display:block;font:600 .75rem var(--h);color:var(--mute)}
+.box strong{font:600 1.4rem var(--m)}
+.hot{border-color:var(--hot);box-shadow:0 0 0 2px var(--hot) inset}
+#msg{min-height:3.2rem;margin:.4rem 0}
+table{border-collapse:collapse;width:100%;font-size:.95rem;margin:1rem 0;display:block;overflow-x:auto}
+th,td{border:1px solid var(--line);padding:.5rem .7rem;text-align:left;vertical-align:top}th{background:var(--acc-soft);font-family:var(--h)}
+details{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:.6rem 1rem;margin:.8rem 0}
+summary{cursor:pointer;font:600 1rem var(--h)}
+.flow{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;font:600 .85rem var(--h);margin:1rem 0}
+.flow span{background:var(--panel);border:1px solid var(--line);padding:.35rem .7rem;border-radius:999px}
+.flow i{font-style:normal;color:var(--mute)}
+@media(max-width:820px){.wrap{display:block}nav{position:static;height:auto;border:0;border-bottom:1px solid var(--line);padding:1rem}nav a{display:inline-block}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-<header>
-<h1>Math Homework Solutions</h1>
-<p>All 10 problems from both worksheets, solved step by step</p>
-</header>
-<nav>
-<a href="#s1">Sheet 1</a><a href="#s2">Sheet 2</a><a href="#summary">Answer Key</a>
+<div class="wrap">
+<nav aria-label="Lessons">
+<b>C# Loops</b>
+<a href="#why">Why loops?</a>
+<a href="#for">The for loop</a>
+<a href="#while">The while loop</a>
+<a href="#dowhile">The do-while loop</a>
+<a href="#foreach">The foreach loop</a>
+<a href="#control">break and continue</a>
+<a href="#nested">Nested loops</a>
+<a href="#mistakes">Common mistakes</a>
+<a href="#choose">Which loop?</a>
+<a href="#practice">Practice</a>
 </nav>
 <main>
+<h1>Make the computer repeat itself, so you don’t have to.</h1>
+<p class="lead">A complete walk through C# loops. Each lesson explains the idea in plain words, shows the code, shows what it prints, and warns you about the traps. Start with the live loop below: press <strong>Step</strong> and watch a loop run one turn at a time.</p>
 
-<h2 class="sec" id="s1">Sheet 1</h2>
-
-<div class="card" id="a1">
-<h3>Problem 1: Ulric's $40 (strip diagram)</h3>
-<div class="q">Ulric was given $40. He saved half in his savings account. He will spend the rest over the next 4 days, the same amount each day. Which strip diagram shows a way to find <i>d</i>, the dollars he spends each day?</div>
-<ol class="steps">
-<li>Half of $40 is saved: 40 ÷ 2 = <b>20</b>.</li>
-<li>The rest to spend: 40 − 20 = <b>20</b>.</li>
-<li>Spread over 4 days: 4 × d = 20, so d = 20 ÷ 4 = <b>5</b>.</li>
-</ol>
-<p>The correct diagram shows a part of <b>20</b> (saved) plus <b>four equal d parts</b> (spent), for a total of <b>40</b>. That is <b>G</b>:</p>
-<div class="strip"><div class="twenty">20</div><div class="d">d</div><div class="d">d</div><div class="d">d</div><div class="d">d</div></div>
-<div class="brace">40</div>
-<div class="answer">Answer: G (d = $5 each day)</div>
-<p class="why"><b>F</b> uses a 4 as one part, but nothing in the story is 4 dollars. <b>H</b> has four d's totalling 40, which ignores the saved half. <b>J</b> has only one d, but he spends over 4 days.</p>
+<div class="lab" id="lab">
+<div class="ctl">
+<label>start<input id="st" type="number" value="0"></label>
+<label>condition<select id="op" style="width:4.5rem"><option>&lt;</option><option>&lt;=</option></select></label>
+<label>limit<input id="li" type="number" value="5"></label>
+<label>step<input id="sp" type="number" value="1"></label>
+<button id="go">Step</button><button class="alt" id="all">Run all</button><button class="alt" id="rs">Reset</button>
+</div>
+<pre><code id="lcode"></code></pre>
+<div class="state"><div class="box" id="bi"><small>variable i</small><strong id="vi">–</strong></div><div class="box"><small>iterations done</small><strong id="vn">0</strong></div></div>
+<div id="msg" aria-live="polite">Press Step to begin.</div>
+<div class="out" id="lout"></div>
 </div>
 
-<div class="card" id="a2">
-<h3>Problem 2: Quotient of about 9</h3>
-<div class="q">Which expression has a quotient of about 9?</div>
-<div class="opts">
-<div class="opt right">F &nbsp;46 ÷ 5</div><div class="opt">H &nbsp;12 ÷ 3</div>
-<div class="opt">G &nbsp;40 ÷ 6</div><div class="opt">J &nbsp;6 ÷ 3</div>
-</div>
-<table class="t"><tr><td>46 ÷ 5</td><td>≈ 9.2</td><td>✔ about 9</td></tr>
-<tr><td>40 ÷ 6</td><td>≈ 6.7</td><td>✘</td></tr>
-<tr><td>12 ÷ 3</td><td>= 4</td><td>✘</td></tr>
-<tr><td>6 ÷ 3</td><td>= 2</td><td>✘</td></tr></table>
-<p>Quick check: 5 × 9 = 45, and 46 is very close to 45.</p>
-<div class="answer">Answer: F (46 ÷ 5)</div>
-</div>
+<h2 id="why">Why loops?</h2>
+<p>Imagine printing the numbers 1 to 100. You could write <code>Console.WriteLine</code> one hundred times, but that is slow to write, hard to change, and easy to get wrong. A <strong>loop</strong> lets you write the instruction once and tell C# how many times, or for how long, to repeat it.</p>
+<p>Every loop has the same three ingredients, whatever its syntax:</p>
+<ul>
+<li><strong>A starting point</strong>: where counting or checking begins.</li>
+<li><strong>A condition</strong>: a true/false question asked before (or after) each turn. While the answer is <code>true</code>, the loop continues.</li>
+<li><strong>A change</strong>: something that moves the loop toward finishing, usually adding 1 to a counter. Without it, the loop never ends.</li>
+</ul>
+<div class="flow"><span>Start</span><i>→</i><span>Check condition</span><i>→ true →</i><span>Run body</span><i>→</i><span>Update</span><i>→ back to check</i></div>
+<p>When the check says <code>false</code>, C# skips the body and carries on with the code after the loop. One run through the body is called an <strong>iteration</strong>.</p>
+<p>C# gives you four loops: <code>for</code>, <code>while</code>, <code>do-while</code> and <code>foreach</code>. They can often do the same job, so the real skill is choosing the one that reads most clearly.</p>
 
-<div class="card" id="a3">
-<h3>Problem 3: Tens digit worth 10 times the ones digit</h3>
-<div class="q">In which number is the value of the digit in the tens place 10 times the value of the digit in the ones place?</div>
-<div class="opts">
-<div class="opt">A &nbsp;440</div><div class="opt">C &nbsp;818</div>
-<div class="opt right">B &nbsp;766</div><div class="opt">D &nbsp;101</div>
-</div>
-<table class="t">
-<tr><td></td><td>Tens value</td><td>Ones value</td><td>Is tens = 10 × ones?</td></tr>
-<tr><td>440</td><td>40</td><td>0</td><td>10 × 0 = 0, not 40 ✘</td></tr>
-<tr><td><b>766</b></td><td><b>60</b></td><td><b>6</b></td><td><b>10 × 6 = 60 ✔</b></td></tr>
-<tr><td>818</td><td>10</td><td>8</td><td>10 × 8 = 80, not 10 ✘</td></tr>
-<tr><td>101</td><td>0</td><td>1</td><td>10 × 1 = 10, not 0 ✘</td></tr>
+<h2 id="for">The for loop</h2>
+<p>Use <code>for</code> when you know how many times to repeat, or you need a counter. It puts all three ingredients on one line, separated by semicolons.</p>
+<pre><code>for (int i = 1; i &lt;= 5; i++)
+{
+    Console.WriteLine("Round " + i);
+}</code></pre>
+<div class="out">Round 1
+Round 2
+Round 3
+Round 4
+Round 5</div>
+<h3>Reading the three parts</h3>
+<table>
+<tr><th>Part</th><th>Example</th><th>When it runs</th></tr>
+<tr><td>Initializer</td><td><code>int i = 1</code></td><td>Once, before the first check. Declares the counter. The name <code>i</code> is a convention for “index”, and the counter exists only inside the loop.</td></tr>
+<tr><td>Condition</td><td><code>i &lt;= 5</code></td><td>Before every iteration. If false, the loop stops.</td></tr>
+<tr><td>Iterator</td><td><code>i++</code></td><td>After every iteration. <code>i++</code> means “add 1 to i”.</td></tr>
 </table>
-<p>The trick: in 766 the tens digit and ones digit are the same (6 and 6). The tens place makes the same digit worth 10 times as much.</p>
-<div class="answer">Answer: B (766)</div>
-</div>
+<p>The order matters: initialize, check, run body, iterate, check again, and so on. You can see this order in the live loop at the top of the page.</p>
+<h3>Counting in other ways</h3>
+<p>The iterator can be anything. Count by twos, or count down:</p>
+<pre><code>for (int i = 0; i &lt;= 10; i += 2) Console.Write(i + " ");   // 0 2 4 6 8 10
+for (int i = 5; i &gt; 0; i--)       Console.Write(i + " ");   // 5 4 3 2 1</code></pre>
+<h3>Looping through an array by index</h3>
+<p>Arrays start counting at <strong>0</strong>, and <code>Length</code> tells you how many items there are. So the last valid index is <code>Length - 1</code>, which is why the condition is <code>&lt;</code> and not <code>&lt;=</code>.</p>
+<pre><code>string[] fruits = { "mango", "pawpaw", "orange" };
+for (int i = 0; i &lt; fruits.Length; i++)
+{
+    Console.WriteLine($"{i}: {fruits[i]}");
+}</code></pre>
+<div class="out">0: mango
+1: pawpaw
+2: orange</div>
+<div class="note"><strong>Worked example: sum 1 to 100.</strong> Create a variable to hold the running total outside the loop, then add to it on each turn.
+<pre><code>int total = 0;
+for (int n = 1; n &lt;= 100; n++)
+{
+    total += n;      // same as total = total + n
+}
+Console.WriteLine(total);   // 5050</code></pre></div>
 
-<div class="card" id="a4">
-<h3>Problem 4: Watermelon slices</h3>
-<div class="q">Each of 12 watermelons was cut into 8 slices. The slices were placed onto 6 trays with the same number on each tray. How many slices were on each tray?</div>
-<ol class="steps">
-<li>Total slices: 12 × 8 = <b>96</b>.</li>
-<li>Share across 6 trays: 96 ÷ 6 = <b>16</b>.</li>
-</ol>
-<div class="opts">
-<div class="opt">F &nbsp;26</div><div class="opt">G &nbsp;12</div>
-<div class="opt">H &nbsp;14</div><div class="opt right">J &nbsp;16</div>
-</div>
-<p>Check: 16 × 6 = 96 ✔</p>
-<div class="answer">Answer: J (16 slices)</div>
-</div>
+<h2 id="while">The while loop</h2>
+<p>Use <code>while</code> when you don’t know in advance how many turns you need. You only know the condition that keeps the loop going. It checks first, so if the condition is false at the start, the body never runs at all.</p>
+<pre><code>int money = 1000;
+int days = 0;
+while (money &gt; 0)
+{
+    money -= 300;     // spend 300 each day
+    days++;
+}
+Console.WriteLine($"Money lasted {days} days");</code></pre>
+<div class="out">Money lasted 4 days</div>
+<p>Here you did not decide “4” anywhere. The loop worked it out. Notice that <em>you</em> are responsible for the change step: <code>money -= 300</code> is what eventually makes the condition false.</p>
+<h3>Typical use: keep asking until the input is valid</h3>
+<pre><code>string input = "";
+while (input != "yes")
+{
+    Console.Write("Type yes to continue: ");
+    input = Console.ReadLine();
+}</code></pre>
 
-<div class="card" id="a5">
-<h3>Problem 5: Salvador's jogging (grid-in)</h3>
-<div class="q">Salvador jogs 12 kilometers each day during March. March has 31 days. What is the total number of kilometers?</div>
-<ol class="steps">
-<li>12 × 31 = (12 × 30) + (12 × 1)</li>
-<li>= 360 + 12 = <b>372</b></li>
-</ol>
-<p>How to write it in the answer grid (no decimal needed):</p>
-<div class="grid"><span>3</span><span>7</span><span>2</span><span class="dot">.</span><span></span></div>
-<div class="answer">Answer: 372 kilometers</div>
-</div>
-
-<h2 class="sec" id="s2">Sheet 2</h2>
-
-<div class="card" id="b1">
-<h3>Problem 6: Tyshon's money</h3>
-<div class="q">Tyshon had one $10 bill, one $5 bill, two quarters and one dime. He bought a magazine for $6.95. How much did he have left?</div>
-<table class="t">
-<tr><td>$10 bill</td><td>$10.00</td></tr>
-<tr><td>$5 bill</td><td>$5.00</td></tr>
-<tr><td>2 quarters (2 × $0.25)</td><td>$0.50</td></tr>
-<tr><td>1 dime</td><td>$0.10</td></tr>
-<tr><td><b>Total</b></td><td><b>$15.60</b></td></tr>
+<h2 id="dowhile">The do-while loop</h2>
+<p>This is <code>while</code> with the check moved to the <strong>end</strong>. The body always runs at least once, then the condition decides whether to go again. Note the semicolon after the closing parenthesis.</p>
+<pre><code>int pin;
+do
+{
+    Console.Write("Enter a 4-digit PIN: ");
+    pin = int.Parse(Console.ReadLine());
+}
+while (pin &lt; 1000 || pin &gt; 9999);</code></pre>
+<p>A menu or a PIN prompt fits perfectly: you must ask at least once before you can judge the answer. A plain <code>while</code> would force you to invent a fake starting value first.</p>
+<table>
+<tr><th></th><th>while</th><th>do-while</th></tr>
+<tr><td>Checks condition</td><td>Before the body</td><td>After the body</td></tr>
+<tr><td>Minimum runs</td><td>0</td><td>1</td></tr>
 </table>
-<p>After the magazine: $15.60 − $6.95 = <b>$8.65</b></p>
-<div class="opts">
-<div class="opt right">F &nbsp;$8.65</div><div class="opt">H &nbsp;$11.35</div>
-<div class="opt">G &nbsp;$15.60</div><div class="opt">J &nbsp;$8.75</div>
-</div>
-<div class="answer">Answer: F ($8.65)</div>
-<p class="why"><b>G</b> is the money before buying. <b>J</b> comes from forgetting the dime (15.50 − 6.95 = 8.55) or a subtraction slip.</p>
-</div>
 
-<div class="card" id="b2">
-<h3>Problem 7: Librarian's books</h3>
-<div class="q">A librarian placed 852 books on 6 carts, the same number on each cart. How many books on each cart?</div>
-<table class="t">
-<tr><td>6 into 8</td><td>1, remainder 2</td></tr>
-<tr><td>6 into 25</td><td>4 (24), remainder 1</td></tr>
-<tr><td>6 into 12</td><td>2, remainder 0</td></tr>
+<h2 id="foreach">The foreach loop</h2>
+<p>When you just want every item in a collection and don’t care about positions, use <code>foreach</code>. There is no counter, no condition, no iterator to get wrong. C# hands you each item in turn.</p>
+<pre><code>string[] students = { "Ada", "Tunde", "Ngozi" };
+foreach (string name in students)
+{
+    Console.WriteLine("Hello, " + name);
+}</code></pre>
+<div class="out">Hello, Ada
+Hello, Tunde
+Hello, Ngozi</div>
+<p>Read it aloud: “for each <em>name</em> in <em>students</em>”. It works on arrays, <code>List&lt;T&gt;</code>, strings (character by character) and anything else enumerable.</p>
+<pre><code>var scores = new List&lt;int&gt; { 70, 85, 92 };
+int sum = 0;
+foreach (int s in scores) sum += s;
+Console.WriteLine(sum / (double)scores.Count);   // 82.33...</code></pre>
+<div class="note warn"><strong>Read-only variable.</strong> You cannot assign to the loop variable (<code>name = "x"</code> is a compile error), and you must not add or remove items from the collection while looping over it, or C# throws an exception. If you need to change items or know their position, use <code>for</code>.</div>
+
+<h2 id="control">Steering a loop: break and continue</h2>
+<p><code>break</code> leaves the loop immediately. <code>continue</code> abandons the current iteration and jumps to the next one.</p>
+<pre><code>for (int i = 1; i &lt;= 10; i++)
+{
+    if (i == 3) continue;   // skip 3
+    if (i == 6) break;      // stop completely at 6
+    Console.Write(i + " ");
+}</code></pre>
+<div class="out">1 2 4 5</div>
+<p>A common real use of <code>break</code> is searching: stop as soon as you find what you want, rather than checking the rest.</p>
+<pre><code>int[] ids = { 14, 27, 31, 42 };
+int foundAt = -1;
+for (int i = 0; i &lt; ids.Length; i++)
+{
+    if (ids[i] == 31) { foundAt = i; break; }
+}
+Console.WriteLine(foundAt);   // 2</code></pre>
+<p>Inside a loop that must run until you say stop, <code>while (true)</code> plus a <code>break</code> is a legitimate pattern, provided there is a reachable <code>break</code>.</p>
+
+<h2 id="nested">Nested loops</h2>
+<p>A loop inside a loop. The inner loop completes <em>all</em> of its turns for every single turn of the outer loop. Think of a clock: the minute hand goes round fully for each step of the hour hand.</p>
+<pre><code>for (int row = 1; row &lt;= 3; row++)
+{
+    for (int col = 1; col &lt;= 4; col++)
+    {
+        Console.Write("* ");
+    }
+    Console.WriteLine();   // new line after each row
+}</code></pre>
+<div class="out">* * * * 
+* * * * 
+* * * * </div>
+<p>The body runs 3 × 4 = 12 times. Use different counter names (<code>row</code>, <code>col</code>, or <code>i</code>, <code>j</code>) so they don’t clash. When the inner loop’s limit depends on the outer counter, you get shapes:</p>
+<pre><code>for (int i = 1; i &lt;= 4; i++)
+{
+    for (int j = 1; j &lt;= i; j++) Console.Write("#");
+    Console.WriteLine();
+}</code></pre>
+<div class="out">#
+##
+###
+####</div>
+<p>Multiplication tables are the classic use: <code>Console.Write($"{a * b,4}")</code> inside two nested loops from 1 to 12 prints a neat grid. Be careful with big numbers: two nested loops of 10,000 each run 100 million times.</p>
+<div class="note"><code>break</code> only exits the <em>innermost</em> loop it sits in. To escape both, set a flag variable or move the loops into a method and use <code>return</code>.</div>
+
+<h2 id="mistakes">Common mistakes</h2>
+<h3>1. The infinite loop</h3>
+<p>The condition never becomes false, usually because the change step is missing or goes the wrong way.</p>
+<pre><code>int x = 1;
+while (x &lt;= 5)
+{
+    Console.WriteLine(x);
+    // forgot x++  → prints 1 forever
+}</code></pre>
+<p>If your program hangs or floods the console, stop it with <strong>Ctrl + C</strong>, then check: does something inside the loop move it toward the exit?</p>
+<h3>2. Off-by-one errors</h3>
+<p>Using <code>&lt;=</code> where you meant <code>&lt;</code>, or starting at 1 instead of 0. Looping an array with <code>i &lt;= fruits.Length</code> reaches an index that doesn’t exist and throws <code>IndexOutOfRangeException</code>. Test the first and last turn by hand.</p>
+<h3>3. A stray semicolon</h3>
+<pre><code>for (int i = 0; i &lt; 3; i++);      // this ; is the entire body!
+{
+    Console.WriteLine("hi");      // runs once, after the loop
+}</code></pre>
+<h3>4. Using the counter outside the loop</h3>
+<p>A variable declared in <code>for (int i ...)</code> disappears when the loop ends. If you need its final value, declare it before the loop.</p>
+<h3>5. Changing a collection inside foreach</h3>
+<p>Adding or removing items mid-loop throws <code>InvalidOperationException</code>. Collect the changes and apply them after, or loop backwards with <code>for</code>.</p>
+
+<h2 id="choose">Which loop should I use?</h2>
+<table>
+<tr><th>Situation</th><th>Best loop</th></tr>
+<tr><td>I know how many times, or I need the index</td><td><code>for</code></td></tr>
+<tr><td>I want every item in a collection</td><td><code>foreach</code></td></tr>
+<tr><td>Repeat until something changes; might need zero runs</td><td><code>while</code></td></tr>
+<tr><td>Must run at least once, then repeat on a condition</td><td><code>do-while</code></td></tr>
 </table>
-<p>852 ÷ 6 = <b>142</b>. Check: 142 × 6 = 852 ✔</p>
-<div class="opts">
-<div class="opt">F &nbsp;846</div><div class="opt">G &nbsp;136</div>
-<div class="opt">H &nbsp;154</div><div class="opt right">J &nbsp;142</div>
-</div>
-<div class="answer">Answer: J (142 books)</div>
-</div>
+<p>When two loops would work, pick the one a stranger could understand fastest. <code>foreach</code> is usually the clearest for collections, and it removes a whole class of off-by-one bugs.</p>
 
-<div class="card" id="b3">
-<h3>Problem 8: Expanded form of 91,633,458</h3>
-<div class="q">91,633,458 people watched a championship football game. How is this number written in expanded form?</div>
-<table class="t">
-<tr><td>9</td><td>ten-millions</td><td>90,000,000</td></tr>
-<tr><td>1</td><td>millions</td><td>1,000,000</td></tr>
-<tr><td>6</td><td>hundred-thousands</td><td>600,000</td></tr>
-<tr><td>3</td><td>ten-thousands</td><td>30,000</td></tr>
-<tr><td>3</td><td>thousands</td><td>3,000</td></tr>
-<tr><td>4</td><td>hundreds</td><td>400</td></tr>
-<tr><td>5</td><td>tens</td><td>50</td></tr>
-<tr><td>8</td><td>ones</td><td>8</td></tr>
-</table>
-<div class="opts one">
-<div class="opt">A &nbsp;9,000,000 + 1,000,000 + 600,000 + 30,000 + 3,000 + 400 + 50 + 8</div>
-<div class="opt">B &nbsp;900,000,000 + 10,000,000 + 600,000 + 30,000 + 3,000 + 400 + 50 + 8</div>
-<div class="opt right">C &nbsp;90,000,000 + 1,000,000 + 600,000 + 30,000 + 3,000 + 400 + 50 + 8</div>
-<div class="opt">D &nbsp;90,000,000 + 1,000,000 + 60,000 + 30,000 + 3,000 + 400 + 50 + 8</div>
-</div>
-<div class="answer">Answer: C</div>
-<p class="why"><b>A</b> makes the 9 worth only 9 million. <b>B</b> makes the 9 worth 900 million and the 1 worth 10 million. <b>D</b> writes the first 6 as 60,000 instead of 600,000.</p>
-</div>
-
-<div class="card" id="b4">
-<h3>Problem 9: Which equation does the model show?</h3>
-<div class="q">The model shows dots grouped in boxes of 6, with a few dots left over. Which equation does it represent?</div>
-<p>Counting the model: <b>7 full boxes</b> of 6 dots, and <b>5 dots</b> left outside any box.</p>
-<div class="dots">
-<span class="grp">6</span><span class="grp">6</span><span class="grp">6</span><span class="grp">6</span><span class="grp">6</span><span class="grp">6</span><span class="grp">6</span><span class="grp rem">5 left</span>
-</div>
-<ol class="steps">
-<li>7 × 6 = 42 dots in the boxes.</li>
-<li>42 + 5 = <b>47</b> dots in total.</li>
-<li>So the equation is 47 ÷ 6 = <b>7 r 5</b>.</li>
-</ol>
-<div class="opts">
-<div class="opt">A &nbsp;47 ÷ 6 = 6 r 3</div><div class="opt right">B &nbsp;47 ÷ 6 = 7 r 5</div>
-<div class="opt">C &nbsp;47 ÷ 6 = 6 r 11</div><div class="opt">D &nbsp;47 ÷ 6 = 7 r 11</div>
-</div>
-<p class="why">A remainder can never be 6 or more when dividing by 6, so <b>C</b> and <b>D</b> (remainder 11) are impossible. <b>A</b> gives 6 × 6 + 3 = 39, not 47. Check B: 7 × 6 + 5 = 47 ✔</p>
-<div class="answer">Answer: B (47 ÷ 6 = 7 r 5)</div>
-</div>
-
-<div class="card" id="b5">
-<h3>Problem 10: Electric scooters (grid-in)</h3>
-<div class="q">Jakira's scooter runs 5.75 hours when fully charged. Renato's runs 4.9 hours. What is the difference?</div>
-<p>Line up the decimal points and add a zero so both have two decimal places:</p>
-<table class="t">
-<tr><td></td><td>5.75</td></tr>
-<tr><td>−</td><td>4.90</td></tr>
-<tr><td></td><td><b>0.85</b></td></tr>
-</table>
-<p>Grid entry:</p>
-<div class="grid"><span>0</span><span class="dot">.</span><span>8</span><span>5</span></div>
-<div class="answer">Answer: 0.85 hours</div>
-</div>
-
-<h2 class="sec" id="summary">Answer Key</h2>
-<div class="card">
-<table class="sum">
-<tr><th>Sheet</th><th>Problem</th><th>Answer</th></tr>
-<tr><td>1</td><td>1. Ulric's strip diagram</td><td><b>G</b> (d = $5)</td></tr>
-<tr><td>1</td><td>2. Quotient of about 9</td><td><b>F</b> (46 ÷ 5)</td></tr>
-<tr><td>1</td><td>3. Tens = 10 × ones</td><td><b>B</b> (766)</td></tr>
-<tr><td>1</td><td>4. Watermelon slices</td><td><b>J</b> (16)</td></tr>
-<tr><td>1</td><td>5. Salvador's jogging</td><td><b>372</b> km</td></tr>
-<tr><td>2</td><td>6. Tyshon's money</td><td><b>F</b> ($8.65)</td></tr>
-<tr><td>2</td><td>7. Librarian's books</td><td><b>J</b> (142)</td></tr>
-<tr><td>2</td><td>8. Expanded form</td><td><b>C</b></td></tr>
-<tr><td>2</td><td>9. Model equation</td><td><b>B</b> (47 ÷ 6 = 7 r 5)</td></tr>
-<tr><td>2</td><td>10. Scooter hours</td><td><b>0.85</b> hours</td></tr>
-</table>
-</div>
+<h2 id="practice">Practice</h2>
+<p>Try each one in a console project (<code>dotnet new console</code>) before opening the answer. Typing the code yourself is where the learning happens.</p>
+<details><summary>1. Print the even numbers from 2 to 20</summary>
+<pre><code>for (int i = 2; i &lt;= 20; i += 2)
+    Console.WriteLine(i);</code></pre></details>
+<details><summary>2. Count down from 10 to 1, then print “Go!”</summary>
+<pre><code>for (int i = 10; i &gt;= 1; i--)
+    Console.WriteLine(i);
+Console.WriteLine("Go!");</code></pre></details>
+<details><summary>3. Find the largest number in an array</summary>
+<pre><code>int[] nums = { 12, 99, 4, 57 };
+int max = nums[0];
+foreach (int n in nums)
+    if (n &gt; max) max = n;
+Console.WriteLine(max);   // 99</code></pre>
+<p>Start <code>max</code> from the first item, not from 0, so the code also works when every number is negative.</p></details>
+<details><summary>4. FizzBuzz: 1 to 30, “Fizz” for multiples of 3, “Buzz” for 5, “FizzBuzz” for both</summary>
+<pre><code>for (int i = 1; i &lt;= 30; i++)
+{
+    if (i % 15 == 0) Console.WriteLine("FizzBuzz");
+    else if (i % 3 == 0) Console.WriteLine("Fizz");
+    else if (i % 5 == 0) Console.WriteLine("Buzz");
+    else Console.WriteLine(i);
+}</code></pre>
+<p>Check the “both” case first, otherwise multiples of 15 would match the Fizz test and stop there.</p></details>
+<details><summary>5. Guessing game: keep asking until the player guesses 7</summary>
+<pre><code>int guess;
+do
+{
+    Console.Write("Guess the number: ");
+    guess = int.Parse(Console.ReadLine());
+}
+while (guess != 7);
+Console.WriteLine("Correct!");</code></pre></details>
+<details><summary>6. Print a triangle of stars with 5 rows</summary>
+<pre><code>for (int i = 1; i &lt;= 5; i++)
+    Console.WriteLine(new string('*', i));</code></pre>
+<p>Bonus: rewrite it with a nested loop instead of <code>new string</code>.</p></details>
+<p style="margin-top:2.5rem;color:var(--mute)">Next topics to explore: LINQ (loops written as queries), recursion, and <code>Parallel.For</code> for running iterations at the same time.</p>
 </main>
-<footer>Math Homework Solutions</footer>
+</div>
+<script>
+// syntax colouring
+(function(){
+const kw=/\b(int|string|double|var|bool|for|foreach|while|do|if|else|in|break|continue|new|true|false|static|void|return)\b/;
+document.querySelectorAll('pre code').forEach(el=>{
+ if(el.id)return;
+ const t=el.textContent.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+ el.innerHTML=t.replace(/(\/\/.*$)|("(?:[^"\\\n]|\\.)*"|'[^'\n]*')|\b(\d+)\b|\b(List|Console|Parallel)\b|\b(int|string|double|var|bool|for|foreach|while|do|if|else|in|break|continue|new|true|false)\b/gm,
+ (m,c,s,n,ty,k)=>c?'<span class="c">'+c+'</span>':s?'<span class="s">'+s+'</span>':n?'<span class="n">'+n+'</span>':ty?'<span class="t">'+ty+'</span>':'<span class="k">'+k+'</span>');
+});
+})();
+// live loop lab
+(function(){
+const $=id=>document.getElementById(id);
+let idx,out,done,seq;
+function vals(){return{s:+$('st').value,l:+$('li').value,p:+$('sp').value,o:$('op').value}}
+function codeText(v){return 'for (int i = '+v.s+'; i '+v.o+' '+v.l+'; i += '+v.p+')\n{\n    Console.WriteLine("i = " + i);\n}'}
+function hl(){$('lcode').textContent=codeText(vals())}
+function build(){
+ const v=vals();seq=[];
+ if(!(v.p>0))return false;
+ for(let i=v.s;v.o==='<'?i<v.l:i<=v.l;i+=v.p){seq.push(i);if(seq.length>40)break}
+ return true;
+}
+function reset(){idx=-1;out=[];done=false;hl();$('vi').textContent='–';$('vn').textContent=0;$('lout').textContent='';$('bi').classList.remove('hot');$('msg').textContent='Press Step to begin.'}
+function step(){
+ const v=vals();
+ if(idx===-1){hl();if(!build()){$('msg').textContent='Step must be greater than 0, or this loop would never reach the limit and would run forever. Try a positive step.';return}}
+ if(done)return;
+ idx++;
+ if(idx<seq.length){
+  const i=seq[idx];
+  $('vi').textContent=i;$('vn').textContent=idx+1;$('bi').classList.add('hot');
+  out.push('i = '+i);$('lout').textContent=out.join('\n');
+  $('msg').textContent='Check: '+i+' '+v.o+' '+v.l+' is true, so the body runs. Then i becomes '+(i+v.p)+'.';
+ }else{
+  const nx=(seq.length?seq[seq.length-1]+v.p:v.s);
+  $('vi').textContent=nx;$('bi').classList.remove('hot');
+  $('msg').textContent='Check: '+nx+' '+v.o+' '+v.l+' is false, so the loop ends after '+seq.length+' iteration'+(seq.length===1?'':'s')+(seq.length>40?' (display capped at 40)':'')+'.';
+  done=true;
+ }
+}
+$('go').onclick=step;
+$('all').onclick=()=>{if(idx===-1)step();let g=0;while(!done&&g++<60&&seq)step()};
+$('rs').onclick=reset;
+['st','li','sp','op'].forEach(id=>$(id).addEventListener('change',reset));
+reset();
+})();
+</script>
 </body>
 </html>
