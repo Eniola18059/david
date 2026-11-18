@@ -1,366 +1,212 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Loops in C#: a hands-on guide</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Serif+4:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<title>David's Programming Solutions</title>
 <style>
-:root{--bg:#f1f4f2;--panel:#fff;--ink:#17262b;--mute:#52656b;--line:#d3dcd8;--acc:#5b3fd0;--acc-soft:#e7e2fb;--hot:#e8a317;--code:#1b2230;--ok:#1f7a4d;--bad:#b3362b;
---h:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;--b:"Source Serif 4",Georgia,serif;--m:"JetBrains Mono",ui-monospace,Consolas,monospace}
-@media(prefers-color-scheme:dark){:root{--bg:#10181b;--panel:#172226;--ink:#e6eeeb;--mute:#9db0b0;--line:#2b3b3f;--acc:#a592ff;--acc-soft:#2a2650;--code:#0b1014;--ok:#5fcf98;--bad:#ff8f84}}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:1rem}
-body{margin:0;background:var(--bg);color:var(--ink);font:1.08rem/1.7 var(--b)}
-a{color:var(--acc)}
-.wrap{display:grid;grid-template-columns:230px minmax(0,1fr);max-width:1120px;margin:0 auto}
-nav{position:sticky;top:0;align-self:start;height:100vh;padding:2rem 1.2rem;border-right:1px solid var(--line);overflow:auto}
-nav b{font:800 1.1rem var(--h);display:block;margin-bottom:1rem}
-nav a{display:block;padding:.3rem .6rem;margin:.1rem 0;border-radius:6px;text-decoration:none;color:var(--mute);font:600 .92rem var(--h)}
-nav a:hover,nav a:focus-visible{background:var(--acc-soft);color:var(--ink);outline:none}
-main{padding:2.5rem clamp(1rem,4vw,3rem) 5rem;max-width:820px}
-h1{font:800 clamp(2.2rem,6vw,3.6rem)/1.05 var(--h);margin:0 0 1rem;letter-spacing:-.02em}
-h2{font:800 1.9rem/1.15 var(--h);margin:3.5rem 0 .8rem;letter-spacing:-.01em}
-h3{font:600 1.2rem var(--h);margin:2rem 0 .4rem}
-p,li{max-width:68ch}.lead{font-size:1.25rem;color:var(--mute)}
-code{font:.88em var(--m);background:var(--acc-soft);padding:.1em .35em;border-radius:4px}
-pre{background:var(--code);color:#e3e8f3;padding:1rem 1.2rem;border-radius:8px;overflow-x:auto;font:.9rem/1.6 var(--m);margin:1rem 0}
-pre code{background:none;padding:0;font:inherit}
-.k{color:#c4a8ff}.s{color:#9be3a8}.c{color:#7d8aa5;font-style:italic}.n{color:#ffcb6b}.t{color:#7fd6ff}
-.out{border-left:4px solid var(--hot);background:var(--panel);padding:.6rem 1rem;font:.88rem/1.5 var(--m);border-radius:0 8px 8px 0;white-space:pre}
-.out::before{content:"Output";display:block;font:600 .8rem var(--h);color:var(--mute);margin-bottom:.2rem}
-.note{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--acc);padding:.8rem 1.1rem;border-radius:8px;margin:1.2rem 0}
-.warn{border-left-color:var(--bad)}
-.lab{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1.2rem;margin:1.5rem 0 2.5rem}
-.lab pre{margin-top:.2rem}
-.ctl{display:flex;flex-wrap:wrap;gap:.8rem;align-items:end;margin-bottom:.8rem}
-.ctl label{font:600 .85rem var(--h);display:grid;gap:.2rem}
-input,select{font:1rem var(--m);padding:.35rem .5rem;width:5.2rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
-button{font:600 .95rem var(--h);padding:.5rem 1rem;border:0;border-radius:8px;background:var(--acc);color:#fff;cursor:pointer}
-button.alt{background:var(--acc-soft);color:var(--ink)}
-button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--hot);outline-offset:2px}
-.state{display:flex;gap:1rem;flex-wrap:wrap;margin:.8rem 0}
-.box{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.5rem .9rem;min-width:8rem}
-.box small{display:block;font:600 .75rem var(--h);color:var(--mute)}
-.box strong{font:600 1.4rem var(--m)}
-.hot{border-color:var(--hot);box-shadow:0 0 0 2px var(--hot) inset}
-#msg{min-height:3.2rem;margin:.4rem 0}
-table{border-collapse:collapse;width:100%;font-size:.95rem;margin:1rem 0;display:block;overflow-x:auto}
-th,td{border:1px solid var(--line);padding:.5rem .7rem;text-align:left;vertical-align:top}th{background:var(--acc-soft);font-family:var(--h)}
-details{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:.6rem 1rem;margin:.8rem 0}
-summary{cursor:pointer;font:600 1rem var(--h)}
-.flow{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;font:600 .85rem var(--h);margin:1rem 0}
-.flow span{background:var(--panel);border:1px solid var(--line);padding:.35rem .7rem;border-radius:999px}
-.flow i{font-style:normal;color:var(--mute)}
-@media(max-width:820px){.wrap{display:block}nav{position:static;height:auto;border:0;border-bottom:1px solid var(--line);padding:1rem}nav a{display:inline-block}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+:root{--bg:#f5f6fa;--card:#fff;--ink:#1d2433;--muted:#5d6678;--accent:#4f46e5;--accent2:#e0e7ff;--line:#e3e6ee;--ok:#15803d;--bad:#b91c1c;--con:#0f1420;--conink:#d7e0f5}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+header{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;padding:32px 20px}
+header .w,main{max-width:900px;margin:0 auto}
+header h1{margin:0 0 6px;font-size:1.7rem}
+header p{margin:0;opacity:.9}
+nav{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);z-index:5}
+nav .w{max-width:900px;margin:0 auto;display:flex;gap:6px;padding:10px 20px;overflow-x:auto}
+nav button{border:0;background:transparent;padding:9px 16px;border-radius:999px;font:inherit;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap}
+nav button.on{background:var(--accent2);color:var(--accent)}
+main{padding:24px 20px 60px}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:18px}
+h2{margin:0 0 10px;font-size:1.3rem}
+h3{margin:0 0 10px;font-size:1.02rem}
+.ex{display:inline-block;background:var(--bg);border-radius:8px;padding:3px 10px;margin:2px 4px 2px 0;font-family:ui-monospace,Consolas,monospace;font-size:.9rem}
+details{border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0;background:#fafbff}
+summary{cursor:pointer;font-weight:600;color:var(--accent)}
+.tabs{display:flex;gap:6px;margin-bottom:10px}
+.tabs button{border:1px solid var(--line);background:#fff;padding:6px 14px;border-radius:8px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+pre{margin:0;background:var(--con);color:var(--conink);padding:16px;border-radius:10px;overflow-x:auto;font-family:ui-monospace,Consolas,monospace;font-size:.88rem;line-height:1.5}
+.copy{margin-top:8px;border:1px solid var(--line);background:#fff;padding:6px 12px;border-radius:8px;cursor:pointer;font:inherit}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+input[type=text]{flex:1;min-width:200px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font:inherit}
+.run{background:var(--accent);color:#fff;border:0;padding:10px 18px;border-radius:8px;font:inherit;font-weight:600;cursor:pointer}
+.alt{background:#fff;color:var(--accent);border:1px solid var(--accent)}
+.console{background:var(--con);color:var(--conink);border-radius:10px;padding:16px;font-family:ui-monospace,Consolas,monospace;font-size:.95rem;white-space:pre-wrap;margin-top:10px}
+.console .in{color:#7dd3fc}.console .out{color:#86efac}
+.console .t{color:#8b97b5;display:block;margin-bottom:8px;font-size:.8rem}
+.note{color:var(--muted);font-size:.9rem}
+.steps li{margin:4px 0}
+.hint{color:#b45309}
 </style>
 </head>
 <body>
-<div class="wrap">
-<nav aria-label="Lessons">
-<b>C# Loops</b>
-<a href="#why">Why loops?</a>
-<a href="#for">The for loop</a>
-<a href="#while">The while loop</a>
-<a href="#dowhile">The do-while loop</a>
-<a href="#foreach">The foreach loop</a>
-<a href="#control">break and continue</a>
-<a href="#nested">Nested loops</a>
-<a href="#mistakes">Common mistakes</a>
-<a href="#choose">Which loop?</a>
-<a href="#practice">Practice</a>
-</nav>
-<main>
-<h1>Make the computer repeat itself, so you don’t have to.</h1>
-<p class="lead">A complete walk through C# loops. Each lesson explains the idea in plain words, shows the code, shows what it prints, and warns you about the traps. Start with the live loop below: press <strong>Step</strong> and watch a loop run one turn at a time.</p>
+<header><div class="w"><h1>Programming Solutions for David</h1><p>Questions 1 to 3: code, explanations, hints and a live tester for each test value.</p></div></header>
+<nav><div class="w" id="nav"></div></nav>
+<main id="main"></main>
 
-<div class="lab" id="lab">
-<div class="ctl">
-<label>start<input id="st" type="number" value="0"></label>
-<label>condition<select id="op" style="width:4.5rem"><option>&lt;</option><option>&lt;=</option></select></label>
-<label>limit<input id="li" type="number" value="5"></label>
-<label>step<input id="sp" type="number" value="1"></label>
-<button id="go">Step</button><button class="alt" id="all">Run all</button><button class="alt" id="rs">Reset</button>
-</div>
-<pre><code id="lcode"></code></pre>
-<div class="state"><div class="box" id="bi"><small>variable i</small><strong id="vi">–</strong></div><div class="box"><small>iterations done</small><strong id="vn">0</strong></div></div>
-<div id="msg" aria-live="polite">Press Step to begin.</div>
-<div class="out" id="lout"></div>
-</div>
-
-<h2 id="why">Why loops?</h2>
-<p>Imagine printing the numbers 1 to 100. You could write <code>Console.WriteLine</code> one hundred times, but that is slow to write, hard to change, and easy to get wrong. A <strong>loop</strong> lets you write the instruction once and tell C# how many times, or for how long, to repeat it.</p>
-<p>Every loop has the same three ingredients, whatever its syntax:</p>
-<ul>
-<li><strong>A starting point</strong>: where counting or checking begins.</li>
-<li><strong>A condition</strong>: a true/false question asked before (or after) each turn. While the answer is <code>true</code>, the loop continues.</li>
-<li><strong>A change</strong>: something that moves the loop toward finishing, usually adding 1 to a counter. Without it, the loop never ends.</li>
-</ul>
-<div class="flow"><span>Start</span><i>→</i><span>Check condition</span><i>→ true →</i><span>Run body</span><i>→</i><span>Update</span><i>→ back to check</i></div>
-<p>When the check says <code>false</code>, C# skips the body and carries on with the code after the loop. One run through the body is called an <strong>iteration</strong>.</p>
-<p>C# gives you four loops: <code>for</code>, <code>while</code>, <code>do-while</code> and <code>foreach</code>. They can often do the same job, so the real skill is choosing the one that reads most clearly.</p>
-
-<h2 id="for">The for loop</h2>
-<p>Use <code>for</code> when you know how many times to repeat, or you need a counter. It puts all three ingredients on one line, separated by semicolons.</p>
-<pre><code>for (int i = 1; i &lt;= 5; i++)
-{
-    Console.WriteLine("Round " + i);
-}</code></pre>
-<div class="out">Round 1
-Round 2
-Round 3
-Round 4
-Round 5</div>
-<h3>Reading the three parts</h3>
-<table>
-<tr><th>Part</th><th>Example</th><th>When it runs</th></tr>
-<tr><td>Initializer</td><td><code>int i = 1</code></td><td>Once, before the first check. Declares the counter. The name <code>i</code> is a convention for “index”, and the counter exists only inside the loop.</td></tr>
-<tr><td>Condition</td><td><code>i &lt;= 5</code></td><td>Before every iteration. If false, the loop stops.</td></tr>
-<tr><td>Iterator</td><td><code>i++</code></td><td>After every iteration. <code>i++</code> means “add 1 to i”.</td></tr>
-</table>
-<p>The order matters: initialize, check, run body, iterate, check again, and so on. You can see this order in the live loop at the top of the page.</p>
-<h3>Counting in other ways</h3>
-<p>The iterator can be anything. Count by twos, or count down:</p>
-<pre><code>for (int i = 0; i &lt;= 10; i += 2) Console.Write(i + " ");   // 0 2 4 6 8 10
-for (int i = 5; i &gt; 0; i--)       Console.Write(i + " ");   // 5 4 3 2 1</code></pre>
-<h3>Looping through an array by index</h3>
-<p>Arrays start counting at <strong>0</strong>, and <code>Length</code> tells you how many items there are. So the last valid index is <code>Length - 1</code>, which is why the condition is <code>&lt;</code> and not <code>&lt;=</code>.</p>
-<pre><code>string[] fruits = { "mango", "pawpaw", "orange" };
-for (int i = 0; i &lt; fruits.Length; i++)
-{
-    Console.WriteLine($"{i}: {fruits[i]}");
-}</code></pre>
-<div class="out">0: mango
-1: pawpaw
-2: orange</div>
-<div class="note"><strong>Worked example: sum 1 to 100.</strong> Create a variable to hold the running total outside the loop, then add to it on each turn.
-<pre><code>int total = 0;
-for (int n = 1; n &lt;= 100; n++)
-{
-    total += n;      // same as total = total + n
-}
-Console.WriteLine(total);   // 5050</code></pre></div>
-
-<h2 id="while">The while loop</h2>
-<p>Use <code>while</code> when you don’t know in advance how many turns you need. You only know the condition that keeps the loop going. It checks first, so if the condition is false at the start, the body never runs at all.</p>
-<pre><code>int money = 1000;
-int days = 0;
-while (money &gt; 0)
-{
-    money -= 300;     // spend 300 each day
-    days++;
-}
-Console.WriteLine($"Money lasted {days} days");</code></pre>
-<div class="out">Money lasted 4 days</div>
-<p>Here you did not decide “4” anywhere. The loop worked it out. Notice that <em>you</em> are responsible for the change step: <code>money -= 300</code> is what eventually makes the condition false.</p>
-<h3>Typical use: keep asking until the input is valid</h3>
-<pre><code>string input = "";
-while (input != "yes")
-{
-    Console.Write("Type yes to continue: ");
-    input = Console.ReadLine();
-}</code></pre>
-
-<h2 id="dowhile">The do-while loop</h2>
-<p>This is <code>while</code> with the check moved to the <strong>end</strong>. The body always runs at least once, then the condition decides whether to go again. Note the semicolon after the closing parenthesis.</p>
-<pre><code>int pin;
-do
-{
-    Console.Write("Enter a 4-digit PIN: ");
-    pin = int.Parse(Console.ReadLine());
-}
-while (pin &lt; 1000 || pin &gt; 9999);</code></pre>
-<p>A menu or a PIN prompt fits perfectly: you must ask at least once before you can judge the answer. A plain <code>while</code> would force you to invent a fake starting value first.</p>
-<table>
-<tr><th></th><th>while</th><th>do-while</th></tr>
-<tr><td>Checks condition</td><td>Before the body</td><td>After the body</td></tr>
-<tr><td>Minimum runs</td><td>0</td><td>1</td></tr>
-</table>
-
-<h2 id="foreach">The foreach loop</h2>
-<p>When you just want every item in a collection and don’t care about positions, use <code>foreach</code>. There is no counter, no condition, no iterator to get wrong. C# hands you each item in turn.</p>
-<pre><code>string[] students = { "Ada", "Tunde", "Ngozi" };
-foreach (string name in students)
-{
-    Console.WriteLine("Hello, " + name);
-}</code></pre>
-<div class="out">Hello, Ada
-Hello, Tunde
-Hello, Ngozi</div>
-<p>Read it aloud: “for each <em>name</em> in <em>students</em>”. It works on arrays, <code>List&lt;T&gt;</code>, strings (character by character) and anything else enumerable.</p>
-<pre><code>var scores = new List&lt;int&gt; { 70, 85, 92 };
-int sum = 0;
-foreach (int s in scores) sum += s;
-Console.WriteLine(sum / (double)scores.Count);   // 82.33...</code></pre>
-<div class="note warn"><strong>Read-only variable.</strong> You cannot assign to the loop variable (<code>name = "x"</code> is a compile error), and you must not add or remove items from the collection while looping over it, or C# throws an exception. If you need to change items or know their position, use <code>for</code>.</div>
-
-<h2 id="control">Steering a loop: break and continue</h2>
-<p><code>break</code> leaves the loop immediately. <code>continue</code> abandons the current iteration and jumps to the next one.</p>
-<pre><code>for (int i = 1; i &lt;= 10; i++)
-{
-    if (i == 3) continue;   // skip 3
-    if (i == 6) break;      // stop completely at 6
-    Console.Write(i + " ");
-}</code></pre>
-<div class="out">1 2 4 5</div>
-<p>A common real use of <code>break</code> is searching: stop as soon as you find what you want, rather than checking the rest.</p>
-<pre><code>int[] ids = { 14, 27, 31, 42 };
-int foundAt = -1;
-for (int i = 0; i &lt; ids.Length; i++)
-{
-    if (ids[i] == 31) { foundAt = i; break; }
-}
-Console.WriteLine(foundAt);   // 2</code></pre>
-<p>Inside a loop that must run until you say stop, <code>while (true)</code> plus a <code>break</code> is a legitimate pattern, provided there is a reachable <code>break</code>.</p>
-
-<h2 id="nested">Nested loops</h2>
-<p>A loop inside a loop. The inner loop completes <em>all</em> of its turns for every single turn of the outer loop. Think of a clock: the minute hand goes round fully for each step of the hour hand.</p>
-<pre><code>for (int row = 1; row &lt;= 3; row++)
-{
-    for (int col = 1; col &lt;= 4; col++)
-    {
-        Console.Write("* ");
-    }
-    Console.WriteLine();   // new line after each row
-}</code></pre>
-<div class="out">* * * * 
-* * * * 
-* * * * </div>
-<p>The body runs 3 × 4 = 12 times. Use different counter names (<code>row</code>, <code>col</code>, or <code>i</code>, <code>j</code>) so they don’t clash. When the inner loop’s limit depends on the outer counter, you get shapes:</p>
-<pre><code>for (int i = 1; i &lt;= 4; i++)
-{
-    for (int j = 1; j &lt;= i; j++) Console.Write("#");
-    Console.WriteLine();
-}</code></pre>
-<div class="out">#
-##
-###
-####</div>
-<p>Multiplication tables are the classic use: <code>Console.Write($"{a * b,4}")</code> inside two nested loops from 1 to 12 prints a neat grid. Be careful with big numbers: two nested loops of 10,000 each run 100 million times.</p>
-<div class="note"><code>break</code> only exits the <em>innermost</em> loop it sits in. To escape both, set a flag variable or move the loops into a method and use <code>return</code>.</div>
-
-<h2 id="mistakes">Common mistakes</h2>
-<h3>1. The infinite loop</h3>
-<p>The condition never becomes false, usually because the change step is missing or goes the wrong way.</p>
-<pre><code>int x = 1;
-while (x &lt;= 5)
-{
-    Console.WriteLine(x);
-    // forgot x++  → prints 1 forever
-}</code></pre>
-<p>If your program hangs or floods the console, stop it with <strong>Ctrl + C</strong>, then check: does something inside the loop move it toward the exit?</p>
-<h3>2. Off-by-one errors</h3>
-<p>Using <code>&lt;=</code> where you meant <code>&lt;</code>, or starting at 1 instead of 0. Looping an array with <code>i &lt;= fruits.Length</code> reaches an index that doesn’t exist and throws <code>IndexOutOfRangeException</code>. Test the first and last turn by hand.</p>
-<h3>3. A stray semicolon</h3>
-<pre><code>for (int i = 0; i &lt; 3; i++);      // this ; is the entire body!
-{
-    Console.WriteLine("hi");      // runs once, after the loop
-}</code></pre>
-<h3>4. Using the counter outside the loop</h3>
-<p>A variable declared in <code>for (int i ...)</code> disappears when the loop ends. If you need its final value, declare it before the loop.</p>
-<h3>5. Changing a collection inside foreach</h3>
-<p>Adding or removing items mid-loop throws <code>InvalidOperationException</code>. Collect the changes and apply them after, or loop backwards with <code>for</code>.</p>
-
-<h2 id="choose">Which loop should I use?</h2>
-<table>
-<tr><th>Situation</th><th>Best loop</th></tr>
-<tr><td>I know how many times, or I need the index</td><td><code>for</code></td></tr>
-<tr><td>I want every item in a collection</td><td><code>foreach</code></td></tr>
-<tr><td>Repeat until something changes; might need zero runs</td><td><code>while</code></td></tr>
-<tr><td>Must run at least once, then repeat on a condition</td><td><code>do-while</code></td></tr>
-</table>
-<p>When two loops would work, pick the one a stranger could understand fastest. <code>foreach</code> is usually the clearest for collections, and it removes a whole class of off-by-one bugs.</p>
-
-<h2 id="practice">Practice</h2>
-<p>Try each one in a console project (<code>dotnet new console</code>) before opening the answer. Typing the code yourself is where the learning happens.</p>
-<details><summary>1. Print the even numbers from 2 to 20</summary>
-<pre><code>for (int i = 2; i &lt;= 20; i += 2)
-    Console.WriteLine(i);</code></pre></details>
-<details><summary>2. Count down from 10 to 1, then print “Go!”</summary>
-<pre><code>for (int i = 10; i &gt;= 1; i--)
-    Console.WriteLine(i);
-Console.WriteLine("Go!");</code></pre></details>
-<details><summary>3. Find the largest number in an array</summary>
-<pre><code>int[] nums = { 12, 99, 4, 57 };
-int max = nums[0];
-foreach (int n in nums)
-    if (n &gt; max) max = n;
-Console.WriteLine(max);   // 99</code></pre>
-<p>Start <code>max</code> from the first item, not from 0, so the code also works when every number is negative.</p></details>
-<details><summary>4. FizzBuzz: 1 to 30, “Fizz” for multiples of 3, “Buzz” for 5, “FizzBuzz” for both</summary>
-<pre><code>for (int i = 1; i &lt;= 30; i++)
-{
-    if (i % 15 == 0) Console.WriteLine("FizzBuzz");
-    else if (i % 3 == 0) Console.WriteLine("Fizz");
-    else if (i % 5 == 0) Console.WriteLine("Buzz");
-    else Console.WriteLine(i);
-}</code></pre>
-<p>Check the “both” case first, otherwise multiples of 15 would match the Fizz test and stop there.</p></details>
-<details><summary>5. Guessing game: keep asking until the player guesses 7</summary>
-<pre><code>int guess;
-do
-{
-    Console.Write("Guess the number: ");
-    guess = int.Parse(Console.ReadLine());
-}
-while (guess != 7);
-Console.WriteLine("Correct!");</code></pre></details>
-<details><summary>6. Print a triangle of stars with 5 rows</summary>
-<pre><code>for (int i = 1; i &lt;= 5; i++)
-    Console.WriteLine(new string('*', i));</code></pre>
-<p>Bonus: rewrite it with a nested loop instead of <code>new string</code>.</p></details>
-<p style="margin-top:2.5rem;color:var(--mute)">Next topics to explore: LINQ (loops written as queries), recursion, and <code>Parallel.For</code> for running iterations at the same time.</p>
-</main>
-</div>
 <script>
-// syntax colouring
-(function(){
-const kw=/\b(int|string|double|var|bool|for|foreach|while|do|if|else|in|break|continue|new|true|false|static|void|return)\b/;
-document.querySelectorAll('pre code').forEach(el=>{
- if(el.id)return;
- const t=el.textContent.replace(/&/g,'&amp;').replace(/</g,'&lt;');
- el.innerHTML=t.replace(/(\/\/.*$)|("(?:[^"\\\n]|\\.)*"|'[^'\n]*')|\b(\d+)\b|\b(List|Console|Parallel)\b|\b(int|string|double|var|bool|for|foreach|while|do|if|else|in|break|continue|new|true|false)\b/gm,
- (m,c,s,n,ty,k)=>c?'<span class="c">'+c+'</span>':s?'<span class="s">'+s+'</span>':n?'<span class="n">'+n+'</span>':ty?'<span class="t">'+ty+'</span>':'<span class="k">'+k+'</span>');
+const Q=[
+{
+ id:1,title:"Question 1: Summing a number's digits",
+ task:"Write a program which asks the user for a number, then returns the sum of the absolute value of each of the number's decimal digits.",
+ examples:["10 → 1","99 → 18","-32 → 5"],
+ tests:["123","-54"],
+ hints:[
+  ["Hint 1: Absolute","The absolute value ignores the sign, so -32 becomes 32. In C# use Math.Abs(number). In Python use abs(number). Do this first, before touching the digits."],
+  ["Hint 2: Remainder and division","number % 10 gives the last digit (123 % 10 = 3). number / 10 (integer division) removes it (123 → 12). Repeat in a while loop until the number reaches 0, adding each last digit to a running total."]
+ ],
+ how:["Read the number from the user.","Take its absolute value so negatives become positive.","While the number is greater than 0: add number % 10 to the sum, then do number = number / 10.","Print the sum."],
+ cs:`using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("Enter a number: ");
+        int number = int.Parse(Console.ReadLine());
+
+        number = Math.Abs(number);   // ignore the sign
+        int sum = 0;
+
+        while (number > 0)
+        {
+            sum += number % 10;      // add the last digit
+            number /= 10;            // remove the last digit
+        }
+
+        Console.WriteLine("Sum of digits: " + sum);
+    }
+}`,
+ py:`number = int(input("Enter a number: "))
+
+number = abs(number)   # ignore the sign
+total = 0
+
+while number > 0:
+    total += number % 10   # add the last digit
+    number //= 10          # remove the last digit
+
+print("Sum of digits:", total)`,
+ prompt:"Enter a number: ",
+ run:s=>{const n=parseInt(s,10);if(isNaN(n))return null;let a=Math.abs(n),t=0;while(a>0){t+=a%10;a=Math.floor(a/10)}return "Sum of digits: "+t}
+},
+{
+ id:2,title:"Question 2: Check if a number is a palindrome",
+ task:"A number is a palindrome if it stays the same when its digits are reversed (5, 44, 171, 4884 are; 43, 194, 4773 are not). Write a program which takes a positive integer and returns whether or not it is a palindrome.",
+ examples:["44 → palindrome","171 → palindrome","194 → not a palindrome"],
+ tests:["12321","123421"],
+ hints:[
+  ["Hint: Remainder and division","Build the reversed number digit by digit: reversed = reversed * 10 + number % 10, then number = number / 10. Keep a copy of the original number so you can compare at the end."]
+ ],
+ how:["Read the positive integer and store a copy in original.","Start reversed at 0.","While number is greater than 0: reversed = reversed * 10 + number % 10, then number = number / 10.","If original equals reversed, it is a palindrome. Otherwise it is not."],
+ cs:`using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("Enter a positive integer: ");
+        int number = int.Parse(Console.ReadLine());
+
+        int original = number;       // keep a copy to compare later
+        int reversed = 0;
+
+        while (number > 0)
+        {
+            reversed = reversed * 10 + number % 10;
+            number /= 10;
+        }
+
+        if (original == reversed)
+            Console.WriteLine(original + " is a palindrome");
+        else
+            Console.WriteLine(original + " is not a palindrome");
+    }
+}`,
+ py:`number = int(input("Enter a positive integer: "))
+
+original = number      # keep a copy to compare later
+reversed_num = 0
+
+while number > 0:
+    reversed_num = reversed_num * 10 + number % 10
+    number //= 10
+
+if original == reversed_num:
+    print(original, "is a palindrome")
+else:
+    print(original, "is not a palindrome")`,
+ prompt:"Enter a positive integer: ",
+ run:s=>{const n=parseInt(s,10);if(isNaN(n)||n<0)return null;let a=n,r=0;while(a>0){r=r*10+a%10;a=Math.floor(a/10)}return n+(n===r?" is a palindrome":" is not a palindrome")}
+},
+{
+ id:3,title:"Question 3: Reverse the words in a sentence",
+ task:"Write a program that asks the user for a sentence, then returns the sentence with the words in reverse order.",
+ examples:["you're just as sane as I am → am I as sane as just you're"],
+ tests:["fame is a fickle friend","are you as clever as I am"],
+ hints:[
+  ["Hint: Splitting the sentence","Split the sentence at each space to get an array of words, reverse the array, then join the words back together with a space between them."]
+ ],
+ how:["Read the sentence from the user.","Split it into words at the spaces (ignoring empty entries from double spaces).","Reverse the order of the words.","Join them back into one string with single spaces and print it."],
+ cs:`using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("Enter a sentence: ");
+        string sentence = Console.ReadLine();
+
+        string[] words = sentence.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        Array.Reverse(words);
+
+        Console.WriteLine("Reversed: " + string.Join(" ", words));
+    }
+}`,
+ py:`sentence = input("Enter a sentence: ")
+
+words = sentence.split()      # split on spaces
+words.reverse()               # reverse the order
+
+print("Reversed:", " ".join(words))`,
+ prompt:"Enter a sentence: ",
+ run:s=>{const w=s.split(" ").filter(x=>x);if(!w.length)return null;return "Reversed: "+w.reverse().join(" ")}
+}
+];
+
+const nav=document.getElementById("nav"),main=document.getElementById("main");
+const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function consoleBlock(q,val){
+ const r=q.run(val);
+ return `<span class="t">Console output</span>${esc(q.prompt)}<span class="in">${esc(val)}</span>\n<span class="out">${r===null?"Invalid input. Please try again.":esc(r)}</span>`;
+}
+Q.forEach((q,i)=>{
+ const b=document.createElement("button");b.textContent="Question "+q.id;b.onclick=()=>show(i);nav.appendChild(b);
+ const s=document.createElement("section");s.id="s"+i;
+ s.innerHTML=`
+ <div class="card"><h2>${q.title}</h2><p>${q.task}</p><div>${q.examples.map(e=>`<span class="ex">${esc(e)}</span>`).join("")}</div></div>
+ <div class="card"><h3>Hints</h3>${q.hints.map(h=>`<details><summary class="hint">${h[0]}</summary><p>${h[1]}</p></details>`).join("")}</div>
+ <div class="card"><h3>How it works</h3><ol class="steps">${q.how.map(x=>`<li>${x}</li>`).join("")}</ol></div>
+ <div class="card"><h3>Solution code</h3>
+  <div class="tabs"><button class="on" data-l="cs">C#</button><button data-l="py">Python</button></div>
+  <pre></pre><button class="copy">Copy code</button></div>
+ <div class="card"><h3>Test results (for your screenshot)</h3>
+  <p class="note">These are the exact test values from the question. Use the same code in your own editor and screenshot your own program running, as the task asks.</p>
+  ${q.tests.map(t=>`<div class="console">${consoleBlock(q,t)}</div>`).join("")}</div>
+ <div class="card"><h3>Try your own input</h3><div class="row"><input type="text" placeholder="Type an input"><button class="run">Run</button></div><div class="console" style="display:none"></div></div>`;
+ main.appendChild(s);
+ let lang="cs";const pre=s.querySelector("pre");
+ const draw=()=>pre.textContent=q[lang];draw();
+ s.querySelectorAll(".tabs button").forEach(bt=>bt.onclick=()=>{lang=bt.dataset.l;s.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===bt));draw()});
+ s.querySelector(".copy").onclick=e=>{navigator.clipboard&&navigator.clipboard.writeText(q[lang]);e.target.textContent="Copied";setTimeout(()=>e.target.textContent="Copy code",1200)};
+ const inp=s.querySelector("input"),out=s.querySelectorAll(".console");const last=out[out.length-1];
+ const go=()=>{last.style.display="block";last.innerHTML=consoleBlock(q,inp.value)};
+ s.querySelector(".run").onclick=go;inp.onkeydown=e=>{if(e.key==="Enter")go()};
 });
-})();
-// live loop lab
-(function(){
-const $=id=>document.getElementById(id);
-let idx,out,done,seq;
-function vals(){return{s:+$('st').value,l:+$('li').value,p:+$('sp').value,o:$('op').value}}
-function codeText(v){return 'for (int i = '+v.s+'; i '+v.o+' '+v.l+'; i += '+v.p+')\n{\n    Console.WriteLine("i = " + i);\n}'}
-function hl(){$('lcode').textContent=codeText(vals())}
-function build(){
- const v=vals();seq=[];
- if(!(v.p>0))return false;
- for(let i=v.s;v.o==='<'?i<v.l:i<=v.l;i+=v.p){seq.push(i);if(seq.length>40)break}
- return true;
-}
-function reset(){idx=-1;out=[];done=false;hl();$('vi').textContent='–';$('vn').textContent=0;$('lout').textContent='';$('bi').classList.remove('hot');$('msg').textContent='Press Step to begin.'}
-function step(){
- const v=vals();
- if(idx===-1){hl();if(!build()){$('msg').textContent='Step must be greater than 0, or this loop would never reach the limit and would run forever. Try a positive step.';return}}
- if(done)return;
- idx++;
- if(idx<seq.length){
-  const i=seq[idx];
-  $('vi').textContent=i;$('vn').textContent=idx+1;$('bi').classList.add('hot');
-  out.push('i = '+i);$('lout').textContent=out.join('\n');
-  $('msg').textContent='Check: '+i+' '+v.o+' '+v.l+' is true, so the body runs. Then i becomes '+(i+v.p)+'.';
- }else{
-  const nx=(seq.length?seq[seq.length-1]+v.p:v.s);
-  $('vi').textContent=nx;$('bi').classList.remove('hot');
-  $('msg').textContent='Check: '+nx+' '+v.o+' '+v.l+' is false, so the loop ends after '+seq.length+' iteration'+(seq.length===1?'':'s')+(seq.length>40?' (display capped at 40)':'')+'.';
-  done=true;
- }
-}
-$('go').onclick=step;
-$('all').onclick=()=>{if(idx===-1)step();let g=0;while(!done&&g++<60&&seq)step()};
-$('rs').onclick=reset;
-['st','li','sp','op'].forEach(id=>$(id).addEventListener('change',reset));
-reset();
-})();
+function show(i){document.querySelectorAll("section").forEach((x,j)=>x.classList.toggle("on",i===j));[...nav.children].forEach((x,j)=>x.classList.toggle("on",i===j));window.scrollTo(0,0)}
+show(0);
 </script>
 </body>
 </html>
